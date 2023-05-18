@@ -1,0 +1,9 @@
+.container{
+
+    @apply shadow-xl w-fit;
+
+    .menu{
+        @apply w-96 text-base text-gray_main font-normal;
+        border-right: 4px solid rgba(0, 0, 0, 0.04);
+    }
+}

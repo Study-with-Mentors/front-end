@@ -43,8 +43,11 @@ module.exports = {
         blue: "rgba(12,154,246,255)",
         blue_400: "rgba(12,154,246,0.8)",
         gray_400: "rgba(19,70,118,255)",
+        gray_main: "#8C8888",
+        gray_secondary: "#504E4E",
         red: "rgb(255, 48, 64)",
-        primary_text: "rgb(250, 250, 250)"
+        primary_text: "rgb(250, 250, 250)",
+        black_main: "#000000"
       },
 
       colors: {

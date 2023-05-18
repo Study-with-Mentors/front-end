@@ -1,0 +1,7 @@
+.container{
+    @apply shadow-xl;
+
+    .description{
+        @apply text-base text-gray_secondary font-medium;
+    }
+}
