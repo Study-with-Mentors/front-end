@@ -1,0 +1,12 @@
+.container{
+    @apply py-7 pl-8 w-full shadow-xl z-0;
+    
+
+    span{
+        @apply text-xl font-medium text-gray_main;
+    }
+
+    span:last-child{
+        @apply text-black;
+    }
+}

@@ -1,0 +1,72 @@
+.container{
+    @apply flex w-full h-full;
+    .left-wrapper{
+        // @apply bg-gray_secondary;
+        background-color: #f7f7f7;
+        .header{
+            .title{
+                @apply ml-36 font-black text-purple_golden mb-4;
+                width: 280px;
+                font-size: 40px;
+            }
+        }
+
+        .body{
+            .title{
+                @apply text-black font-bold ml-36 mt-0 mb-5;
+                font-size: 32px;
+            }
+
+            .content{
+                @apply text-gray_main text-xl ml-36 mt-0;
+                max-width: 420px;
+            }
+
+            .image{
+                @apply ml-10 ;
+                // width: 700px;
+                height: 572px;
+                background-color: white;
+            }
+        }
+
+        .footer{
+            ul{
+                @apply flex p-0;
+                list-style-type: none;
+                text-decoration: none;
+
+                li{
+                    @apply mx-11 text-sm text-gray_main font-medium;
+                }
+            }
+        }
+    }
+
+    .right-wrapper{
+        @apply flex flex-col  items-center;
+
+        .footer{
+            @apply w-full;
+        
+            .divider{
+                @apply text-gray_main text-base font-medium;
+            }
+        
+            .button-wrapper{
+                @apply flex justify-center mt-10;
+                .btn{
+                    @apply w-56 h-16 flex justify-center items-center mx-7 text-gray_third;
+                    border-radius: 40px;
+        
+                    .icon{
+                        margin-right: 10px;
+                    }
+                }
+        
+        
+            }
+        }
+    }
+}
+

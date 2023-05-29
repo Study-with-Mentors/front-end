@@ -1,0 +1,23 @@
+.ant-checkbox-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-right: 40px;
+    align-items: center;
+    line-height: 28px;
+    height: 28px;
+}
+
+.ant-checkbox-wrapper > span:nth-child(2){
+    margin-top: 4px;
+}
+
+.ant-checkbox .ant-checkbox-inner{
+    width: 28px;
+    height: 28px;
+}
+
+.ant-checkbox .ant-checkbox-inner:after{
+    width: 7.714286px;
+    height: 13.142857px;
+}
+

@@ -1,9 +1,24 @@
 .container{
 
-    @apply shadow-xl w-fit;
+    @apply shadow-xl w-fit overflow-hidden h-screen;
+
+    .logo-wrapper{
+        @apply flex items-center mt-7 mb-10 ml-4;
+        .logo{
+            @apply w-20 h-auto;
+            filter: brightness(0) saturate(100%) invert(18%) sepia(22%) saturate(6647%) hue-rotate(248deg) brightness(83%) contrast(120%);
+        }
+
+        .title{
+            @apply text-xl text-purple_golden font-bold;
+        }
+    }
+
+   
 
     .menu{
-        @apply w-96 text-base text-gray_main font-normal;
+        @apply  text-base text-gray_main font-normal overflow-hidden;
         border-right: 4px solid rgba(0, 0, 0, 0.04);
+        width: 400px;
     }
 }

@@ -9,61 +9,36 @@ import {
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import styled from "./LeftSideBar.module.scss";
+import LogoIcon from "../../assets/main-logo.svg";
+import "./LeftSideBar.css";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PersonIcon from "@mui/icons-material/Person";
+import BookIcon from "@mui/icons-material/Book";
 
 const items: MenuProps["items"] = [
   {
     label: "Dashboard",
     key: "dashboard",
-    icon: <DashboardFilled style={{ fontSize: "16px" }} />,
+    icon: <DashboardIcon style={{ fontSize: "26px" }} />,
   },
   {
-    label: "Message",
-    key: "message",
-    icon: <MessageFilled style={{ fontSize: "16px" }} />,
+    label: "User",
+    key: "user",
+    icon: <PersonIcon style={{ fontSize: "26px" }} />,
   },
   {
-    label: "Calender",
-    key: "calender",
-    icon: <CalendarOutlined style={{ fontSize: "16px" }} />,
-    children: [
-      {
-        type: "group",
-        label: "Item 1",
-        children: [
-          {
-            label: "Option 1",
-            key: "setting:1",
-          },
-          {
-            label: "Option 2",
-            key: "setting:2",
-          },
-        ],
-      },
-      {
-        type: "group",
-        label: "Item 2",
-        children: [
-          {
-            label: "Option 3",
-            key: "setting:3",
-          },
-          {
-            label: "Option 4",
-            key: "setting:4",
-          },
-        ],
-      },
-    ],
+    label: "Course",
+    key: "course",
+    icon: <BookIcon style={{ fontSize: "26px" }} />,
   },
-  {
-    label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-    ),
-    key: "alipay",
-  },
+  // {
+  //   label: (
+  //     <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+  //       Navigation Four - Link
+  //     </a>
+  //   ),
+  //   key: "alipay",
+  // },
 ];
 
 const LeftSideBar = () => {
@@ -76,11 +51,19 @@ const LeftSideBar = () => {
 
   return (
     <div className={styled["container"]}>
+      <div className={styled["logo-wrapper"]}>
+        <img className={styled["logo"]} src={LogoIcon} alt="" />
+        <span className={styled["title"]}>Study with mentors</span>
+      </div>
       <Menu
         className={styled["menu"]}
         onClick={onClick}
         selectedKeys={[current]}
         mode="inline"
+        style={{
+          fontSize: "18px",
+          fontWeight: 400,
+        }}
         items={items}
       />
     </div>

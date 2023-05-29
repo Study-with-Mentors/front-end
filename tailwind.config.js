@@ -42,12 +42,17 @@ module.exports = {
         primary: "rgb(142,142,142)",
         blue: "rgba(12,154,246,255)",
         blue_400: "rgba(12,154,246,0.8)",
+        blue_geek: "#10239E",
         gray_400: "rgba(19,70,118,255)",
         gray_main: "#8C8888",
         gray_secondary: "#504E4E",
+        gray_third: "#898686",
+        gray_fourth: "#464444",
         red: "rgb(255, 48, 64)",
         primary_text: "rgb(250, 250, 250)",
-        black_main: "#000000"
+        black_main: "#000000",
+        purple_main: "#D3ADF7",
+        purple_golden: "#391085",
       },
 
       colors: {
@@ -114,7 +119,10 @@ module.exports = {
       backgroundColor: {
         'primary': '#FFFFFF',
         'gray_primary': "#EEEEEE",
+        'gray_secondary' : "#DEF2F3",
         'white_secondary': "#F5F5F5",
+        'cyan_primary': "#6CF9F9",
+
       },
       minWidth: {
         6: '1.5rem',

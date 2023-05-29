@@ -15,3 +15,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.swiper-button-next,
+.swiper-button-prev {
+    background-color: #cccccc !important;
+    padding: 20px;
+    border-radius: 50%;
+    max-width: 12px !important;
+    max-height: 12px !important;
+    color: rgba(0,0,0,0.5);
+    fill: black !important;
+    stroke: black !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+font-size: 13px !important;
+  
+}
