@@ -1,0 +1,67 @@
+.container{
+    @apply flex flex-row justify-between items-center text-white;
+    background-color: #391085;
+    background-image: linear-gradient(135deg, #391085 0%,#4d16b3 33%, #611de0 67%,#c8b1f3 100%);
+
+    .logo-wrapper{
+        @apply mx-32 flex flex-row items-center cursor-pointer;
+        .logo{
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(210deg) brightness(103%) contrast(101%);
+            width: 142px;
+            height: auto;
+        }
+
+        .body{
+            @apply font-semibold text-lg text-center ;
+            width: 120px;
+        }
+    }
+
+    .body-wrapper{
+        @apply flex-1 mr-48;
+
+        .list-item{
+            @apply mx-6 mb-0 ;
+            border:  solid transparent 2px;
+            .link{
+                @apply text-white font-medium ;
+            }
+        }
+        
+        .list-item:hover{
+            border-bottom: solid #00ABBD 2px;
+        }
+
+        .list-item:hover > .link{
+            @apply text-gray_main;
+        }
+    }
+
+    
+
+    .action-wrapper{
+        @apply mx-32 flex items-center ;
+
+
+        .button{
+            width: 112px;
+            height: 48px;
+            border-radius: 24px;
+            font-weight: 500;
+            color: white;
+            background-color: inherit;
+            border: none;
+        }
+
+        .button-signUp{
+            border: solid #391085 2px;
+        }
+
+        .button:hover{
+            @apply text-purple_golden;
+
+        }
+
+    }
+}
+

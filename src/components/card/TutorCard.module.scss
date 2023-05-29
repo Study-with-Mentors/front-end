@@ -1,0 +1,9 @@
+.container{
+    @apply flex flex-col justify-center items-center pb-6;
+    width: 360px;
+
+    span{
+        margin-top: 12px;
+    }    
+}
+

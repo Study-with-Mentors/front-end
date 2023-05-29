@@ -1,0 +1,18 @@
+.container{
+    cursor: pointer;
+    border-radius: 60px;
+    width: 100%;
+    background-color: #FAFBFE;
+    .input{
+        @apply leading-5 ;
+        .search-container{
+            @apply bg-white p-2 rounded-full w-9 h-7 flex items-center justify-center mr-5 ;
+            box-shadow: 1px 1px 1px 0px gray;
+
+            
+            .search-icon{
+                @apply w-5 h-5  ;
+            }
+        }
+    }
+}

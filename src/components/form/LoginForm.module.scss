@@ -1,0 +1,48 @@
+.container{
+    @apply flex flex-col items-center shadow-xl  overflow-hidden;
+    border: 1px solid;
+    border-image-source: linear-gradient(133.86deg, #FFFFFF 2.14%, rgba(0, 0, 0, 0.2) 134.84%);
+    border-radius: 50px;
+    background-color: linear-gradient(rgba(255,255,255,1), rgba(0,0,0,0.2));
+    width: 800px;
+    height: 728px;
+
+
+    .header{
+
+        @apply flex items-center justify-center flex-col mt-12 mb-8;
+
+        .image{
+            @apply w-52 h-auto;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(97%) saturate(0%) hue-rotate(48deg) brightness(98%) contrast(103%);
+        }
+
+        .text{
+            @apply text-xl font-medium text-gray_fourth;
+        }
+    }
+
+    .footer{
+        @apply w-full;
+
+        .divider{
+            @apply text-gray_main text-base font-medium;
+        }
+
+        .button-wrapper{
+            @apply flex justify-center mt-10;
+            .btn{
+                @apply w-56 h-16 flex justify-center items-center mx-7 text-gray_third;
+                border-radius: 40px;
+
+                .icon{
+                    margin-right: 10px;
+                }
+            }
+
+
+        }
+    }
+}
+
+
