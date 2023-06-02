@@ -1,0 +1,30 @@
+.container{
+    @apply px-32 pt-20;
+    .header{
+        @apply pb-16;
+        .title{
+            @apply font-bold ;
+            color: #5F6368;
+            font-size: 32px;
+
+            span{
+                @apply text-blue_geek;
+            }
+        }
+
+        .sub-title{
+            @apply font-light;
+            color: #464444;
+            font-size: 14px;
+        }
+
+        .filter-wrapper{
+            @apply pb-14;
+        }
+    }
+
+    .course-container{
+        @apply grid grid-cols-3 gap-x-10 gap-y-9 mt-16 mb-28;
+        justify-items: center;        
+    }
+}

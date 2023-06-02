@@ -1,0 +1,85 @@
+.container{
+
+    .get_started{
+        @apply flex justify-between items-center rounded-2xl m-auto;
+        transform: translateY(132px);
+        height: 292px;
+        width: 1232px;
+        background-color: #F3EFFE;
+        .title{
+            @apply ml-20;
+            p{
+                @apply font-medium mt-0;
+                font-size: 32px;
+                margin-bottom: 6px;
+                color: #A285E4;
+            }
+
+            p:nth-child(2){
+                color: #6D49F5;
+            }
+        }
+
+        .button-wrapper{
+            @apply mr-28;
+            .button{
+                background-color: #6D49F5;
+                color: #ffffff;
+                font-size: 18px;
+                font-weight: 500;
+                border-radius: 11px;
+                width: 200px;
+                height: 60px;
+           }
+        }
+    }
+
+    .footer{
+        @apply bg-blue_main text-white pl-64 flex items-center;
+        height: 548px;
+        width: 100%;
+        // background-color: #192136;
+        .section{
+            @apply  flex items-center flex-col;
+            img{
+                width: 160px;
+                // height: 60px;
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7499%) hue-rotate(323deg) brightness(100%) contrast(101%);
+            }
+
+            .wrapper{
+                
+                @apply font-medium  ;
+                font-size: 16px;
+                .title{
+                   @apply mb-9 text-purple_main font-semibold text-lg;
+                }
+
+                .item{
+                    @apply mb-7;
+                }
+
+                .combobox{
+                    @apply flex;
+                    .input{
+                        color: #867C7C;
+                        background-color: #D9D9D9;
+                        width: 245px;
+                        height: 52px;
+                        margin-right: 20px;
+                    }
+
+                    .button{
+                        background-color: #6D49F5;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 500;
+                        border: none;
+                        width: 113px;
+                        height: 52px;
+                    }
+                }
+            }
+        }
+    }
+}

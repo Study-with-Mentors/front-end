@@ -9,8 +9,8 @@ const DashboardHeader = ({ navigationLink }: DashBoardHeaderProps) => {
   return (
     <div className={styled["container"]}>
       <span>Home</span>
-      {navigationLink.map((item) => (
-        <span> &gt; {item}</span>
+      {navigationLink.map((item, index) => (
+        <span key={index}> &gt; {item}</span>
       ))}
     </div>
   );

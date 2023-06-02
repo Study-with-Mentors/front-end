@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-  AppstoreOutlined,
-  SettingOutlined,
-  DashboardFilled,
-  MessageFilled,
-  CalendarOutlined,
-} from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import { Menu, Divider } from "antd";
 import styled from "./LeftSideBar.module.scss";
 import LogoIcon from "../../assets/main-logo.svg";
 import "./LeftSideBar.css";
@@ -42,7 +35,7 @@ const items: MenuProps["items"] = [
 ];
 
 const LeftSideBar = () => {
-  const [current, setCurrent] = useState("mail");
+  const [current, setCurrent] = useState("dashboard");
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
@@ -55,6 +48,13 @@ const LeftSideBar = () => {
         <img className={styled["logo"]} src={LogoIcon} alt="" />
         <span className={styled["title"]}>Study with mentors</span>
       </div>
+      <Divider
+        style={{
+          marginTop: 0,
+          color: "black",
+          height: "2px",
+        }}
+      />
       <Menu
         className={styled["menu"]}
         onClick={onClick}

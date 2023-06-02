@@ -8,6 +8,7 @@ import AppTable from "./components/table/AppTable";
 import AppRoute from "./routes/AppRoute";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ConfigProvider } from "antd";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,11 +21,19 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AppRoute />
-      </QueryClientProvider>
-    </BrowserRouter>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontFamily: "Poppins",
+        },
+      }}
+    >
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <AppRoute />
+        </QueryClientProvider>
+      </BrowserRouter>
+    </ConfigProvider>
   );
 }
 

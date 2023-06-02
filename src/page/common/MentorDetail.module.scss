@@ -1,0 +1,120 @@
+.container{
+    @apply  p-9 overflow-hidden flex justify-center bg-white mb-80;
+    .profile-container{
+        width: 440px;
+        .avatar-wrapper{
+            @apply px-9 py-7 rounded-2xl mb-8;
+            border: 1px solid #ccc;
+            .image-wrapper{
+                @apply m-auto w-full text-center bg-taupe_light rounded-xl;
+                .image{
+                    @apply  w-full;
+                    max-height: 200px; 
+                }
+            }
+
+            .name{
+                @apply font-extrabold mb-1;
+                font-size: 20px;
+            }
+
+            .desctiption{
+                @apply text-gray_main mt-0 font-medium;
+            }
+        }
+
+        .about-wrapper{
+            @apply px-9 py-7 rounded-2xl mb-8;
+            border: 1px solid #ccc;
+
+            .title{
+                @apply font-extrabold mb-1 mt-0;
+                font-size: 20px;
+            }
+
+            .description{
+                @apply text-gray_main mt-3 font-medium  leading-6 mb-6;
+                font-size: 14px;
+            }
+            .skill-wrapper{
+                @apply flex;
+                width: 100%;
+                flex-wrap: wrap;
+                .skill{
+                    @apply text-sm bg-green_light text-green_main font-semibold px-3 py-2 rounded-2xl mr-3 mt-2;
+                    flex-shrink: 0;
+                }
+            }
+        }
+
+        .contact-info{
+            @apply px-9 py-7 rounded-2xl;
+            border: 1px solid #ccc;
+            .title{
+                @apply font-extrabold mb-4 mt-0;
+                font-size: 20px;
+            }
+
+            .sub-title{
+                @apply text-gray_main font-medium m-0 text-sm mb-2 mt-2;
+            }
+
+            .content{
+                @apply flex  items-center font-medium text-sm;
+                
+                .icon{
+                    @apply mr-3 text-green_main;
+                }
+            }
+        }
+    }
+
+    .course-container{
+        @apply ml-9;
+        width: 880px;
+
+        .certificate-container{
+            @apply px-7  mb-9 ;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            .title{
+                @apply font-bold mb-8 mt-6;
+                font-size: 20px;
+            }
+
+            .certificate-wrapper{
+                @apply flex justify-between mb-6;
+                .content{
+                    @apply flex-grow ml-9 font-medium text-gray_main;
+
+                    .name{
+                        @apply font-semibold text-black mb-1;
+                    }
+
+                    .position{
+                        @apply text-sm mb-3;
+                    }
+
+                    .time{
+                        @apply text-sm ;
+                    }
+                }
+
+                .link{
+                    @apply flex items-center text-green_main font-semibold text-sm cursor-pointer;
+
+                    .icon{
+                        @apply ml-2;
+                    }
+                }
+            }
+        }
+
+        .course-wrapper{
+            border-radius: 16px;
+            border: "1px solid #ccc",
+        }
+    }
+
+
+}

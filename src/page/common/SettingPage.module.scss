@@ -16,7 +16,11 @@
 
         .img-wrapper{
             @apply flex justify-center;
+            span {
             cursor: pointer;
+
+            }
+
           .img{
           }
 

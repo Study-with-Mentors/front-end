@@ -43,8 +43,10 @@ module.exports = {
         blue: "rgba(12,154,246,255)",
         blue_400: "rgba(12,154,246,0.8)",
         blue_geek: "#10239E",
+        blue_title: "#102844",
         gray_400: "rgba(19,70,118,255)",
         gray_main: "#8C8888",
+        gray_bg: "#F8F8F8",
         gray_secondary: "#504E4E",
         gray_third: "#898686",
         gray_fourth: "#464444",
@@ -53,6 +55,8 @@ module.exports = {
         black_main: "#000000",
         purple_main: "#D3ADF7",
         purple_golden: "#391085",
+        green_main: "#01555b"
+
       },
 
       colors: {
@@ -122,6 +126,12 @@ module.exports = {
         'gray_secondary' : "#DEF2F3",
         'white_secondary': "#F5F5F5",
         'cyan_primary': "#6CF9F9",
+        'gray_third': "#F8F8F8",
+        'blue_main': "#061178",
+        'taupe_main': "#B38B6D",
+        'taupe_light': "#b19d8d",
+        'green_light': "#daf2f3",
+        'green_main': "#4e6f71"
 
       },
       minWidth: {
