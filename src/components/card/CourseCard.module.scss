@@ -2,7 +2,8 @@
     @apply shadow-xl;
 
     .description{
-        @apply text-base text-gray_secondary font-medium;
+        @apply text-base font-medium mt-4 mx-3;
+        color: #504E4E;
     }
 
     img{

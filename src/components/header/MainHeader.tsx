@@ -6,15 +6,18 @@ import SearchCard from "../card/SearchCard";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import "./MainHeader.css";
+import { useNavigate } from "react-router-dom";
 
 export type MainHeaderProps = {
   isLogined?: boolean;
 };
 
 const MainHeader = ({ isLogined }: MainHeaderProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styled["container"]}>
-      <div className={styled["logo-wrapper"]}>
+      <div onClick={() => navigate("/home")} className={styled["logo-wrapper"]}>
         <img className={styled["logo"]} src={MainLogo} alt="" />
         <p className={styled["body"]}>
           STUDY WITH

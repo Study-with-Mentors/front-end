@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "./CourseCard.module.scss";
-import { Avatar, Card, Rate } from "antd";
-import Image from "../../assets/310876606_2194096234108406_8917809045783773918_n.jpg";
+import { Avatar, Card, Rate, Image } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
@@ -16,17 +15,21 @@ const CourseCard = ({ avatar, image, description }: CourseCardProps) => {
     <Card
       className={styled["container"]}
       hoverable
-      style={{ width: 450 }}
-      cover={<img alt="example" src={image} />}
+      style={{ width: 420 }}
+      cover={<Image height={260} preview={false} src={image} />}
     >
       <Meta
         style={{ display: "flex", alignItems: "center", fontWeight: "500" }}
-        avatar={<Avatar src={avatar} />}
+        avatar={<Avatar size={42} src={avatar} />}
         description="Hello_its_me"
       />
 
       <p className={styled["description"]}>{description}</p>
-      <Rate />
+      <Rate
+        style={{
+          fontSize: "12px",
+        }}
+      />
     </Card>
   );
 };

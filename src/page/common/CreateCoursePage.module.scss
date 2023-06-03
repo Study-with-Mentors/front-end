@@ -1,0 +1,52 @@
+.container{
+    @apply bg-gray_third flex justify-center pt-14;
+    padding-bottom: 80px;
+    .background-container{
+        width: 720px;
+        .title{
+            @apply font-extrabold mb-7 mt-9;
+            letter-spacing: 1px;
+            font-size: 26px;
+            line-height: 28px;
+
+        }
+
+        .description{
+            @apply font-medium mb-16 mt-0;
+            color: #423f3f;
+            max-width: 360px;
+            line-height: 26px;
+            font-size: 18px;
+        }
+
+        .quote{
+            @apply font-medium text-gray_third mt-0;
+            max-width: 420px;
+            font-size: 16px;
+        }
+
+        .author{
+            @apply font-medium text-gray_third mt-0;
+            max-width: 420px;
+            font-size: 16px;
+        }
+
+        .img-wrapper{
+            .image{
+                width: 712px;
+                transform: translateX(-32px) translateY(-100px);
+            }
+        }
+    }
+
+    .form-container{
+        @apply bg-white pt-4 rounded-2xl shadow-2xl;    
+        width: 600px;
+
+        .title-container{
+            @apply ml-12 font-bold;
+            font-size: 22px;
+            margin-bottom: 32px;
+        }
+    }
+}
