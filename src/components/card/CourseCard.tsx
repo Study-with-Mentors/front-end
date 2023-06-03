@@ -15,8 +15,7 @@ const CourseCard = ({ avatar, image, description }: CourseCardProps) => {
     <Card
       className={styled["container"]}
       hoverable
-      style={{ width: 420 }}
-      cover={<Image height={260} preview={false} src={image} />}
+      cover={<Image preview={false} src={image} />}
     >
       <Meta
         style={{ display: "flex", alignItems: "center", fontWeight: "500" }}
