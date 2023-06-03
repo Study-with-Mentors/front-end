@@ -116,11 +116,15 @@ const CommonRoute = () => {
       path: "footer",
       element: <MainFooter />,
     },
-
     {
       path: "*",
-      element: <>Xin cho vo iu 1 follow ins/tran_nhi_yen &lt; 3</>,
+      element: <>vo / home pls</>,
     },
+
+    // {
+    //   path: "*",
+    //   element: <>Xin cho vo iu 1 follow ins/tran_nhi_yen &lt; 3</>,
+    // },
   ]);
 
   return element;
