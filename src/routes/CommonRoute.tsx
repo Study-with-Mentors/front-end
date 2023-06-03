@@ -118,7 +118,7 @@ const CommonRoute = () => {
     },
     {
       path: "*",
-      element: <>vo / home pls</>,
+      element: <>vo / sthing pls</>,
     },
 
     // {
