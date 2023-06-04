@@ -52,11 +52,13 @@ const MainHeader = ({ isLogined }: MainHeaderProps) => {
           <>
             <Button
               className={styled["button-signIn"] + " " + styled["button"]}
+              onClick={() => navigate("/signin")}
             >
               Sign in
             </Button>
             <Button
               className={styled["button-signUp"] + " " + styled["button"]}
+              onClick={() => navigate("/signup")}
             >
               Sign up
             </Button>
@@ -80,6 +82,7 @@ const MainHeader = ({ isLogined }: MainHeaderProps) => {
             />
             <Avatar
               size={48}
+              onClick={() => navigate("/home/profile")}
               style={{
                 marginLeft: "10px",
                 cursor: "pointer",

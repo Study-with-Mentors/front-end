@@ -2,25 +2,27 @@
     // @apply mx-20;
     @apply flex flex-col ;
     .header{
-        @apply mt-16 mx-36;
+        @apply pt-16 px-60;
+        background-color: #FAFEFF;
         .title{
             @apply text-blue_geek text-xl font-medium;
 
         }
         .body{
-            @apply text-gray_main font-bold m-0 flex ;
-            font-size: 40px;
+            @apply text-gray_title font-bold m-0 flex ;
+            font-size: 38px;
         }
     }
     .course-container{
-        @apply grid grid-cols-3  gap-x-10 gap-y-9 mt-16 mx-36;
+        @apply grid grid-cols-3 gap-x-20 gap-y-9 pt-16 px-60 pb-24;
+        background-color: #FAFEFF
     }
 
     .tutor-container{
-        @apply mt-24;
 
         .header{
-            @apply mx-36 mb-24;
+            @apply px-60 pb-24 bg-white;
+
             .title{
                 @apply p-0;
             }
@@ -33,7 +35,7 @@
         }
 
         .slider{
-            @apply mx-24;
+            @apply px-28 mx-20 pb-32;
         }
     }
 }

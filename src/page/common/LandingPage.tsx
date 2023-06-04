@@ -18,40 +18,35 @@ const fakeCourseData: CourseCardProps[] = [
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible, but I do nothing every day.",
+    description: "I am so clever that sometimes I don’t understand. ",
+  },
+  {
+    image:
+      "https://cdn.dribbble.com/userupload/7522025/file/original-ecb7fe958aaf754b142b62c958942a89.jpg?compress=1",
+    avatar:
+      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
+    description: "I am so clever that sometimes I don’t understand. ",
   },
   {
     image:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible, but I do nothing every day.",
+    description: "I am so clever that sometimes I don’t understand. ",
+  },
+  {
+    image:
+      "https://cdn.dribbble.com/userupload/7522025/file/original-ecb7fe958aaf754b142b62c958942a89.jpg?compress=1&resize=1024x768",
+    avatar:
+      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
+    description: "I am so clever that sometimes I don’t understand. ",
   },
   {
     image:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible, but I do nothing every day.",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible, but I do nothing every day.",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible, but I do nothing every day.",
+    description: "I am so clever that sometimes I don’t understand. ",
   },
 ];
 
@@ -116,7 +111,7 @@ const LandingPage = () => {
 
         <Swiper
           slidesPerView={4}
-          spaceBetween={0}
+          spaceBetween={120}
           navigation={true}
           modules={[Navigation]}
           className={styled["slider"] + " " + "mySwiper"}
@@ -129,7 +124,6 @@ const LandingPage = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "320px",
               }}
             >
               <TutorCard {...tutor} />

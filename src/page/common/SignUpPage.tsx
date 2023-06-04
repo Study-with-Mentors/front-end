@@ -11,7 +11,10 @@ const SignUpPage = () => {
     <div className={styled["container"]}>
       <div className={styled["left-wrapper"]}>
         <div className={styled["header"]}>
-          <p className={styled["title"]}>STUDY WITH MENTORS</p>
+          <p className={styled["title"]}>
+            Study With
+            <span style={{ color: "gray" }}> Mentor</span>
+          </p>
         </div>
 
         <div className={styled["body"]}>

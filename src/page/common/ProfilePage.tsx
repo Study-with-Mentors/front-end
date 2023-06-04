@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "./SettingPage.module.scss";
+import styled from "./ProfilePage.module.scss";
 import { Divider, Image, Upload, UploadProps, Avatar, Form } from "antd";
 import VoIu from "../../assets/310876606_2194096234108406_8917809045783773918_n.jpg";
 import EditAndUpdateForm, {
@@ -143,7 +143,7 @@ const personal_detail_fields = [
   },
 ];
 
-const SettingPage = () => {
+const ProfilePage = () => {
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
@@ -236,4 +236,4 @@ const SettingPage = () => {
   );
 };
 
-export default SettingPage;
+export default ProfilePage;

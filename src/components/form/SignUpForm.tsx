@@ -2,6 +2,7 @@ import React from "react";
 import { Divider, Form, Button, Image, Typography } from "antd";
 import AuthenticateForm, { FIELD_TYPES } from "./AuthenticateForm";
 import styled from "./SignUpForm.module.scss";
+import { useNavigate } from "react-router-dom";
 const { Text } = Typography;
 
 const onFinish = async (values: any) => {};
@@ -113,6 +114,8 @@ const fields = [
 ];
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
@@ -120,7 +123,8 @@ const SignUpForm = () => {
           Sign <span>Up</span>
         </p>
         <p className={styled["header-body"]}>
-          Already have an account? <span>Log in</span>
+          Already have an account?{" "}
+          <span onClick={() => navigate("/signin")}>Log in</span>
         </p>
       </div>
       <Form

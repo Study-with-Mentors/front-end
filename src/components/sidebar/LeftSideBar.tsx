@@ -61,7 +61,7 @@ const LeftSideBar = () => {
         selectedKeys={[current]}
         mode="inline"
         style={{
-          fontSize: "18px",
+          fontSize: "15px",
           fontWeight: 400,
         }}
         items={items}

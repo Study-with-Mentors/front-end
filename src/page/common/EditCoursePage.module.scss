@@ -1,0 +1,15 @@
+.container{
+    @apply mx-36 mb-32 mt-16;
+
+    .header{
+        .title{
+            @apply font-bold;
+            font-size: 32px;
+            color : #2E2C2C;
+        }
+    }
+
+    .body{
+        @apply mt-16;
+    }
+}

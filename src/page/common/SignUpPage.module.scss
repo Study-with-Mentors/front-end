@@ -1,38 +1,42 @@
 .container{
     @apply flex w-full h-full;
     .left-wrapper{
+        @apply flex flex-col ;
+        height: 100vh;
         // @apply bg-gray_secondary;
         background-color: #f7f7f7;
         .header{
+            @apply mt-7;
             .title{
-                @apply ml-36 font-black text-purple_golden mb-4;
-                width: 280px;
-                font-size: 40px;
+                @apply ml-36 font-extrabold text-purple_golden mb-10 ;
+                font-size: 52px;
+                line-height: 64px;
             }
         }
 
         .body{
+            flex: 1;
             .title{
                 @apply text-black font-bold ml-36 mt-0 mb-5;
                 font-size: 32px;
             }
 
             .content{
-                @apply text-gray_main text-xl ml-36 mt-0;
+                @apply text-gray_main text-lg ml-36 mt-0;
                 max-width: 420px;
             }
 
             .image{
                 @apply ml-10 ;
                 // width: 700px;
-                height: 572px;
+                height: 540px;
                 background-color: white;
             }
         }
 
         .footer{
             ul{
-                @apply flex p-0;
+                @apply flex ;
                 list-style-type: none;
                 text-decoration: none;
 

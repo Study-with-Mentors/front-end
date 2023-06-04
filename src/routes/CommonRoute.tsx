@@ -9,12 +9,14 @@ import LandingLayout from "../layout/common/LandingLayout";
 import SearchCard from "../components/card/SearchCard";
 import LandingPage from "../page/common/LandingPage";
 import LoginedLayout from "../layout/common/LoginedLayout";
-import SettingPage from "../page/common/SettingPage";
 import CoursePage from "../page/common/CoursePage";
 import MainFooter from "../components/footer/MainFooter";
 import MentorDetail from "../page/common/MentorDetail";
 import CreateCoursePage from "../page/common/CreateCoursePage";
 import SearchCourseResult from "../page/common/SearchCourseResult";
+import EditCoursePage from "../page/common/EditCoursePage";
+import ProfilePage from "../page/common/ProfilePage";
+import LoginPage from "../page/common/LoginPage";
 const CommonRoute = () => {
   const navigate = useNavigate();
 
@@ -31,8 +33,8 @@ const CommonRoute = () => {
           index: true,
         },
         {
-          path: "setting",
-          element: <SettingPage />,
+          path: "profile",
+          element: <ProfilePage />,
         },
         {
           path: "mentor/:id",
@@ -91,6 +93,10 @@ const CommonRoute = () => {
           path: "search/course",
           element: <SearchCourseResult />,
         },
+        {
+          path: "edit/course",
+          element: <EditCoursePage />,
+        },
       ],
     },
     {
@@ -105,8 +111,12 @@ const CommonRoute = () => {
       ],
     },
     {
-      path: "SignUp",
+      path: "signup",
       element: <SignUpPage />,
+    },
+    {
+      path: "signin",
+      element: <LoginPage />,
     },
     {
       path: "search",
@@ -116,6 +126,7 @@ const CommonRoute = () => {
       path: "footer",
       element: <MainFooter />,
     },
+
     {
       path: "*",
       element: <>vo / sthing pls</>,

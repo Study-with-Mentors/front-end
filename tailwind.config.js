@@ -50,6 +50,7 @@ module.exports = {
         gray_secondary: "#504E4E",
         gray_third: "#898686",
         gray_fourth: "#464444",
+        gray_title: "#5F6368",
         red: "rgb(255, 48, 64)",
         primary_text: "rgb(250, 250, 250)",
         black_main: "#000000",
