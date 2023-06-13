@@ -1,9 +1,7 @@
 .container{
-    @apply flex flex-col items-center shadow-xl  overflow-hidden;
-    border: 1px solid;
-    border-image-source: linear-gradient(133.86deg, #FFFFFF 2.14%, rgba(0, 0, 0, 0.2) 134.84%);
-    border-radius: 50px;
-    background-color: linear-gradient(rgba(255,255,255,1), rgba(0,0,0,0.2));
+    @apply flex flex-col items-center shadow-2xl;
+    border-radius: 36px;
+    background-color: white;
     width: 800px;
     height: 728px;
 
@@ -14,11 +12,11 @@
 
         .image{
             @apply w-52 h-auto;
-            filter: brightness(0) saturate(100%) invert(0%) sepia(97%) saturate(0%) hue-rotate(48deg) brightness(98%) contrast(103%);
+            filter: brightness(0) saturate(100%) invert(15%) sepia(60%) saturate(3007%) hue-rotate(250deg) brightness(86%) contrast(118%);
         }
 
         .text{
-            @apply text-xl font-medium text-gray_fourth;
+            @apply text-3xl font-semibold text-purple_golden mt-0;
         }
     }
 

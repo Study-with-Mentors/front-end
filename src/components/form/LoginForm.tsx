@@ -1,23 +1,20 @@
 import { Divider, Form, Button, Image, Typography } from "antd";
-import { useMemo } from "react";
 import AuthenticateForm, { FIELD_TYPES } from "./AuthenticateForm";
 import styled from "./LoginForm.module.scss";
 import FacebookIcon from "../../assets/facebook_icon.png";
 import GoogleIcon from "../../assets/google_icon.png";
-import { type } from "os";
+import MainIcon from "../../assets/main-logo.svg";
+import { LoginProps, UserAPI } from "../../api/UserAPI";
+import { useNavigate } from "react-router-dom";
+import { useLoginUser } from "../../hooks/useLoginHook";
 
 const { Text } = Typography;
-
-const onFinish = async (values: any) => {};
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
-export type LoginFormProps = {
-  icon: string;
-  headerName: string;
-};
+export type LoginFormProps = {};
 
 const fields = [
   {
@@ -61,12 +58,31 @@ const fields = [
   },
 ];
 
-const LoginForm = ({ icon, headerName }: LoginFormProps) => {
+const LoginForm = ({}: LoginFormProps) => {
+  const navigate = useNavigate();
+  const { mutate: loginUser, isLoading, error, data } = useLoginUser();
+
+  const onFinish = async (loginProps: LoginProps) => {
+    await loginUser(loginProps, {
+      onSuccess(data, variables, context) {
+        localStorage.setItem("access_token", data);
+        navigate("/home");
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
+    // todo: add jwt, role, userid to cookie
+    // todo: check role --> navigate
+  };
+
+  if (isLoading) return <>Loading skeleton ma` lam` bieng code qua _-_ </>;
+
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
-        <Image className={styled["image"]} src={icon} preview={false} />
-        <p className={styled["text"]}>{headerName}</p>
+        <Image className={styled["image"]} src={MainIcon} preview={false} />
+        <p className={styled["text"]}>Study with Mentor</p>
       </div>
       <Form
         name="basic"

@@ -29,10 +29,10 @@ const renderButton = ({ fieldProps, formProps }: any) => {
         style={{
           width: "212px",
           height: "64px",
-          borderRadius: "30px",
+          borderRadius: "48px",
           color: "#fffff",
           fontWeight: 600,
-          fontSize: "24px",
+          fontSize: "18px",
           backgroundColor: "#391085",
           marginTop: "32px",
         }}
@@ -59,7 +59,6 @@ const renderPassword = ({ fieldProps }: any) => {
 
 const renderSelect = ({ fieldProps }: any) => {
   const { options, name, rules, style, label } = fieldProps;
-  console.log(options);
 
   return (
     <Form.Item

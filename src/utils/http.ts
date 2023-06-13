@@ -32,7 +32,7 @@ http.interceptors.response.use(
   },
   (err) => {
     if (err.response.status == 401) {
-      window.location.href = "http://localhost:3000";
+      // window.location.href = "http://localhost:3000";
     }
     throw err;
   }

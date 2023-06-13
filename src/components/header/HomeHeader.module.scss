@@ -1,0 +1,33 @@
+.container{
+    @apply flex justify-between items-center text-white  sticky bg-white pl-14 py-3;
+    border-radius: 4px;
+    border: 1px solid #dadcdf;
+    .body-wrapper{
+        @apply flex-1;
+    }
+
+    .action-wrapper{
+        @apply mr-32 ml-10 flex items-center ;
+
+
+        .button{
+            width: 112px;
+            height: 48px;
+            border-radius: 24px;
+            font-weight: 500;
+            background-color: inherit;
+            border: none;
+        }
+
+        .button-signUp{
+            border: solid #391085 2px;
+        }
+
+        .button:hover{
+            @apply text-purple_golden;
+
+        }
+
+    }
+}
+

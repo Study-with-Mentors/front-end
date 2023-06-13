@@ -1,24 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "./CreateCoursePage.module.scss";
-import { Col, Image, Row, Form, SelectProps } from "antd";
+import { Col, Image, Row, Form, SelectProps, Button } from "antd";
 import ArtistPainting from "../../assets/ArtistPaintor.png";
 import EditAndUpdateForm, {
   EDIT_FIELD_TYPES,
 } from "../../components/form/EditAndUpdateFrom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { UseQueryResult, useQuery } from "react-query";
+import { FieldAPI, GetField } from "../../api/FieldAPI";
+import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
+import { useCreateCourse } from "../../hooks/useCreateCourseHook";
+import { CreateCourseParams } from "../../api/CourseAPI";
+import { useNavigate } from "react-router-dom";
 
-const options: SelectProps["options"] = [
-  {
-    value: "UI/UX",
-    label: "UI/UX",
-  },
-  {
-    value: "ComputerScience",
-    label: "science",
-  },
-  {
-    value: "Fundamental serviec",
-    label: "??",
-  },
+const fieldOptions: SelectProps["options"] = [
+  // {
+  //   value: "UI/UX",
+  //   label: "UI/UX",
+  // },
+  // {
+  //   value: "ComputerScience",
+  //   label: "science",
+  // },
+  // {
+  //   value: "Fundamental serviec",
+  //   label: "??",
+  // },
 ];
 
 const profile_fields = [
@@ -32,7 +39,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -48,7 +55,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -64,7 +71,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -80,7 +87,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -93,11 +100,11 @@ const profile_fields = [
       name: "fields",
       label: "Fields",
       rules: { required: true, message: "This field must not empty!" },
-      options: options,
+      options: fieldOptions,
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -114,14 +121,14 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
     cols: 12,
   },
   {
-    type: EDIT_FIELD_TYPES.SELECT,
+    type: EDIT_FIELD_TYPES.RADIO,
     fieldProps: {
       name: "level",
       rules: { required: true, message: "This field must be select!" },
@@ -129,11 +136,11 @@ const profile_fields = [
       options: [
         {
           label: "Advanced",
-          value: "advanced",
+          value: "ADVANCE",
         },
         {
           label: "Fundamental",
-          value: "fundamental",
+          value: "FUNDAMENTAL",
         },
       ],
       cols: 12,
@@ -155,9 +162,54 @@ const profile_fields = [
 ];
 
 const CreateCoursePage = () => {
+  const navigate = useNavigate();
+
+  const {
+    mutate: createCourse,
+    isLoading: isCreateCourseLoading,
+    error,
+    data,
+  } = useCreateCourse();
+
+  const onFinish = async (values: any) => {
+    const createCourseParams: CreateCourseParams = {
+      field: { id: values.fields },
+      CourseStatus: "ENABLE",
+      courseLevel: values.level,
+      description: values.description,
+      fullName: values.fullname,
+      shortName: values.shortname,
+      intendedLearner: values.intendedLearner,
+      learningOutcome: values.learningOutcome,
+    };
+    console.log(createCourseParams);
+
+    await createCourse(createCourseParams, {
+      onSuccess(data, variables, context) {
+        console.log(data);
+        navigate(`/home/course/edit/${data.data.id}`);
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
+  };
+
+  const { data: fields, isLoading }: UseQueryResult<GetField[], Error> =
+    useQuery(["fields"], async () => await FieldAPI.getAll());
+
+  fields?.forEach((item) => {
+    fieldOptions.push({ value: item.id, label: item.name });
+  });
+
+  if (isLoading) return <LoadingSkeleton />;
+
   return (
     <div className={styled["container"]}>
       <div className={styled["background-container"]}>
+        <Button className={styled["button"]}>
+          <ArrowBackIcon />
+        </Button>
         <p className={styled["title"]}>
           Great! Your students
           <br /> are waiting
@@ -189,7 +241,7 @@ const CreateCoursePage = () => {
           initialValues={{ remember: true }}
           layout="vertical"
           requiredMark="optional"
-          // onFinish={onFinish}
+          onFinish={onFinish}
           // onFinishFailed={onFinishFailed}
           autoComplete="off"
           style={{

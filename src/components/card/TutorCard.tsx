@@ -3,6 +3,7 @@ import styled from "./TutorCard.module.scss";
 import { Avatar } from "antd";
 import { Card } from "antd";
 
+import "./TutorCard.css";
 const { Meta } = Card;
 
 export type TutorCardProps = {
@@ -15,7 +16,25 @@ const TutorCard = ({ avatar, description, name }: TutorCardProps) => {
   return (
     <Card
       className={styled["container"]}
-      cover={<Avatar size={272} icon={<img src={avatar} />} />}
+      cover={
+        <Avatar
+          style={{
+            width: "100%",
+            height: "100%",
+            aspectRatio: "1/1",
+          }}
+          src={avatar}
+        />
+      }
+      bordered={false}
+      style={{
+        width: "90%",
+        boxShadow: "none",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <Meta
         style={{
@@ -35,10 +54,10 @@ const TutorCard = ({ avatar, description, name }: TutorCardProps) => {
         description={
           <p
             style={{
-              fontSize: "18px",
+              fontSize: "16px",
               fontWeight: 300,
               color: "#2E2C2C",
-              lineHeight: "30px",
+              lineHeight: "36px",
             }}
           >
             {description}

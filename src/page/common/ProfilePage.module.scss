@@ -1,0 +1,35 @@
+.container{
+    margin-right: 260px;
+    .header{
+        @apply mt-10;
+        p{
+            @apply mb-13 font-semibold;
+            font-size: 32px;
+        }
+    }
+
+    .body{
+        .title{
+            @apply text-xl font-semibold pl-10;
+        }
+
+        .wrapper{
+            @apply flex justify-between mx-52;
+            
+            .img-wrapper{
+                        @apply flex ;
+                        span {
+                        cursor: pointer;
+            
+                        }
+            
+                      .img{
+                      }
+            
+                      .description{
+                        @apply text-center text-lg text-purple_golden font-medium;
+                      }
+            }
+        }
+    }
+}

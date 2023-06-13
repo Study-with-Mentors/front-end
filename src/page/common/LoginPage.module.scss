@@ -1,0 +1,27 @@
+.container{
+    @apply flex justify-center items-center relative;
+    // background-color: #f2f4f7;
+    background-image: url(../../assets/bg-login3.jpg);
+    width: 100vw;
+    height: 100vh;
+
+    // .top{
+    //     position: absolute;
+    //    width: 338px;
+    //     height: 414px;
+    //     left: 880px;
+    //     top: 0px;
+    //     background: radial-gradient(50% 50% at 50% 50%, rgba(241, 84, 178, 0.3) 0%, rgba(17, 106, 141, 0.3) 100%);
+    //     filter: blur(82px);
+    // }
+
+    // .bot{
+    //     position: absolute;
+    // width: 382px;
+    // height: 467px;
+    // left: 200px;
+    // top: 400;
+    // background: radial-gradient(50% 50% at 50% 50%, rgba(209, 89, 161, 0.3) 0%, rgba(17, 106, 141, 0.3) 100%);
+    // filter: blur(82px);
+    // }
+}

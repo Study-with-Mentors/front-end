@@ -58,7 +58,7 @@
         .price{
             @apply mr-0 bg-gray_third font-medium w-64 h-20 items-center justify-center flex text-blue_title rounded-2xl;
             width: 100%;
-            border: 1px dashed gray;
+            border: 1px dashed rgba(0, 0, 0, 0.1);
             font-size: 22px;
 
             span{

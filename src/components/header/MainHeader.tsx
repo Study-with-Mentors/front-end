@@ -27,23 +27,6 @@ const MainHeader = ({ isLogined }: MainHeaderProps) => {
       </div>
 
       <div className={styled["body-wrapper"]}>
-        {/* <List
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 4,
-            lg: 4,
-            xl: 6,
-            xxl: 3,
-          }}
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item className={styled["list-item"]}>
-              <a className={styled["link"]}>{item.title}</a>
-            </List.Item>
-          )}
-        /> */}
         <SearchCard />
       </div>
 
@@ -52,11 +35,13 @@ const MainHeader = ({ isLogined }: MainHeaderProps) => {
           <>
             <Button
               className={styled["button-signIn"] + " " + styled["button"]}
+              onClick={() => navigate("/signin")}
             >
               Sign in
             </Button>
             <Button
               className={styled["button-signUp"] + " " + styled["button"]}
+              onClick={() => navigate("/signup")}
             >
               Sign up
             </Button>
@@ -80,6 +65,7 @@ const MainHeader = ({ isLogined }: MainHeaderProps) => {
             />
             <Avatar
               size={48}
+              onClick={() => navigate("/home/profile")}
               style={{
                 marginLeft: "10px",
                 cursor: "pointer",

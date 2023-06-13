@@ -7,7 +7,7 @@
         @apply mx-32 flex flex-row items-center cursor-pointer;
         .logo{
             filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(210deg) brightness(103%) contrast(101%);
-            width: 142px;
+            width: 120px;
             height: auto;
         }
 
@@ -18,7 +18,7 @@
     }
 
     .body-wrapper{
-        @apply flex-1 mr-48;
+        @apply flex-1;
 
         .list-item{
             @apply mx-6 mb-0 ;
