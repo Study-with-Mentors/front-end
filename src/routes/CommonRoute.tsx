@@ -17,6 +17,11 @@ import SearchCourseResult from "../page/common/SearchCourseResult";
 import EditCoursePage from "../page/common/EditCoursePage";
 import ProfilePage from "../page/common/ProfilePage";
 import LoginPage from "../page/common/LoginPage";
+import HomeSideBar from "../components/sidebar/HomeSideBar";
+import HomeHeader from "../components/header/HomeHeader";
+import HomeLayout from "../layout/common/HomeLayout";
+import LessonCalendar from "../components/calendar/LessonCalendar";
+import LessonCalendarPage from "../page/common/LessonCalendarPage";
 const CommonRoute = () => {
   const navigate = useNavigate();
 
@@ -24,8 +29,32 @@ const CommonRoute = () => {
 
   let element = useRoutes([
     {
+      path: "landing",
+      element: <LandingLayout />,
+      children: [
+        {
+          path: "",
+          element: <LandingPage />,
+          index: true,
+        },
+      ],
+    },
+    {
+      path: "signup",
+      element: <SignUpPage />,
+    },
+    {
+      path: "signin",
+      element: <LoginPage />,
+    },
+    {
+      path: "search",
+      element: <SearchCard />,
+    },
+
+    {
       path: "home",
-      element: <LoginedLayout />,
+      element: <HomeLayout />,
       children: [
         {
           path: "",
@@ -35,6 +64,10 @@ const CommonRoute = () => {
         {
           path: "profile",
           element: <ProfilePage />,
+        },
+        {
+          path: "calendar",
+          element: <LessonCalendarPage />,
         },
         {
           path: "mentor/:id",
@@ -74,62 +107,37 @@ const CommonRoute = () => {
             />
           ),
         },
+
         {
-          path: "course/:id",
-          element: (
-            <CoursePage
-              courseName="Artificial Intelligence & Machine Learning"
-              createBy="Loser2Lover"
-              courseFee="200"
-              discount="220"
-            />
-          ),
-        },
-        {
-          path: "course/create",
-          element: <CreateCoursePage />,
-        },
-        {
-          path: "search/course",
-          element: <SearchCourseResult />,
-        },
-        {
-          path: "edit/course",
+          path: "course/edit/:id",
           element: <EditCoursePage />,
         },
       ],
     },
     {
-      path: "landing",
-      element: <LandingLayout />,
-      children: [
-        {
-          path: "",
-          element: <LandingPage />,
-          index: true,
-        },
-      ],
+      path: "course/search",
+      element: <SearchCourseResult />,
     },
     {
-      path: "signup",
-      element: <SignUpPage />,
-    },
-    {
-      path: "signin",
-      element: <LoginPage />,
-    },
-    {
-      path: "search",
-      element: <SearchCard />,
-    },
-    {
-      path: "footer",
-      element: <MainFooter />,
+      path: "course/create",
+      element: <CreateCoursePage />,
     },
 
     {
       path: "*",
       element: <>vo / sthing pls</>,
+    },
+
+    {
+      path: "course/:id",
+      element: (
+        <CoursePage
+          courseName="Artificial Intelligence & Machine Learning"
+          createBy="Loser2Lover"
+          courseFee="200"
+          discount="220"
+        />
+      ),
     },
 
     // {

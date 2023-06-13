@@ -1,8 +1,7 @@
 .container{
-    margin-left: 360px;
     margin-right: 260px;
     .header{
-        @apply mt-20;
+        @apply mt-10;
         p{
             @apply mb-13 font-semibold;
             font-size: 32px;
@@ -14,19 +13,23 @@
             @apply text-xl font-semibold pl-10;
         }
 
-        .img-wrapper{
-            @apply flex justify-center;
-            span {
-            cursor: pointer;
-
+        .wrapper{
+            @apply flex justify-between mx-52;
+            
+            .img-wrapper{
+                        @apply flex ;
+                        span {
+                        cursor: pointer;
+            
+                        }
+            
+                      .img{
+                      }
+            
+                      .description{
+                        @apply text-center text-lg text-purple_golden font-medium;
+                      }
             }
-
-          .img{
-          }
-
-          .description{
-            @apply text-center text-lg text-purple_golden font-medium;
-          }
         }
     }
 }

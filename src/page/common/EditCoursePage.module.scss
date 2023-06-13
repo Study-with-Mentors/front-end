@@ -1,15 +1,16 @@
 .container{
-    @apply mx-36 mb-32 mt-16;
+    @apply pr-20 pb-32 pt-10 pl-20;
+    background-color: #f2f4f7;
 
     .header{
         .title{
-            @apply font-bold;
+            @apply font-bold m-0;
             font-size: 32px;
             color : #2E2C2C;
         }
     }
 
     .body{
-        @apply mt-16;
+        @apply mt-10;
     }
 }

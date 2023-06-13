@@ -1,8 +1,8 @@
 import { Avatar, Input } from "antd";
 import React, { useEffect, useState } from "react";
-import SearchIcon from "../../assets/icon-search.svg";
 import styled from "./SearchCard.module.scss";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 
 const SearchCard = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const SearchCard = () => {
   const _handleKeyDown = (e: any) => {
     const searchInput = e.target.value;
     if (searchInput == "") return;
-    navigate("/home/search/course", {
+    navigate("/course/search", {
       state: { searchInput },
     });
   };
@@ -29,7 +29,7 @@ const SearchCard = () => {
         size="large"
         prefix={
           <div className={styled["search-container"]}>
-            <img className={styled["search-icon"]} src={SearchIcon} />
+            <SearchIcon className={styled["search-icon"]} />
           </div>
         }
         value={inputData}

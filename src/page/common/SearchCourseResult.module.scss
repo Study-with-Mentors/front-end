@@ -1,7 +1,8 @@
 .container{
-    @apply px-32 pt-20;
+    @apply px-48 pt-20 flex flex-col ;
+    background-color: #fcfafa;
     .header{
-        @apply pb-16;
+        @apply pb-6 flex items-center ;
         .title{
             @apply font-bold ;
             color: #5F6368;
@@ -13,18 +14,52 @@
         }
 
         .sub-title{
-            @apply font-light;
-            color: #464444;
-            font-size: 14px;
+            @apply font-light text-purple_golden m-0;
+            font-weight: 700;
+            font-size: 20px;
+            min-width: 320px;
+
         }
 
+        .sort-container{
+            @apply flex items-center;
+            .title{
+                @apply font-light text-purple_golden m-0 pr-12;
+                font-weight: 700;
+                font-size: 20px;
+            }
+
+            .button{
+                @apply shadow-sm mr-6;
+
+                width: 165px;
+                height: 52px;
+                background: #ffffff;
+                border: none;
+                color: rgba(0, 0, 0, .8);
+                border-radius: 37px;
+            }
+
+            .active{
+                @apply text-blue_geek font-semibold tracking-wide;
+                border : 1px solid #10239E;
+            }
+        }
+
+
+    }
+    
+    .body-container{
+        @apply flex mt-2;
         .filter-wrapper{
             @apply pb-14;
+            min-width: 320px;
+        }
+        .course-container{
+            @apply grid grid-cols-1 gap-x-10 gap-y-14  mb-12;
+            width: 70%;
+            justify-items: center;        
         }
     }
 
-    .course-container{
-        @apply grid grid-cols-3 gap-x-10 gap-y-9 mt-16 mb-28;
-        justify-items: center;        
-    }
 }

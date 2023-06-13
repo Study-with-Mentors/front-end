@@ -3,6 +3,13 @@
     padding-bottom: 80px;
     .background-container{
         width: 720px;
+
+        .button{
+            @apply flex justify-center items-center; 
+            width: 3rem;
+            height: 3rem;
+        }
+
         .title{
             @apply font-extrabold mb-7 mt-9;
             letter-spacing: 1px;
@@ -12,7 +19,7 @@
         }
 
         .description{
-            @apply font-medium mb-16 mt-0;
+            @apply font-medium mb-12 mt-0;
             color: #423f3f;
             max-width: 360px;
             line-height: 26px;
@@ -33,15 +40,16 @@
 
         .img-wrapper{
             .image{
-                width: 712px;
-                transform: translateX(-32px) translateY(-100px);
+                width: 640px;
+                transform: translateX(-32px) translateY(-60px);
             }
         }
     }
 
     .form-container{
-        @apply bg-white pt-4 rounded-2xl shadow-2xl;    
+        @apply bg-white pt-4 rounded-xl shadow-2xl pb-8;    
         width: 600px;
+        height: 90%;
 
         .title-container{
             @apply ml-12 font-bold;

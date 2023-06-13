@@ -1,6 +1,15 @@
 import React from "react";
 import LoginIcon from "../../assets/login_icon.png";
-import { Button, Checkbox, Form, Image, Input, DatePicker, Select } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Image,
+  Input,
+  DatePicker,
+  Select,
+  Radio,
+} from "antd";
 
 const renderText = ({ fieldProps }: any) => {
   const { placeholder, name, rules, style, label } = fieldProps;
@@ -70,9 +79,23 @@ const renderSelect = ({ fieldProps }: any) => {
       label={label}
       rules={[rules]}
       wrapperCol={{ span: 24 }}
-      // style={style}
     >
-      <Checkbox.Group options={options} />
+      <Checkbox.Group options={options} style={style} />
+    </Form.Item>
+  );
+};
+
+const renderRadio = ({ fieldProps }: any) => {
+  const { options, name, rules, style, label } = fieldProps;
+
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      rules={[rules]}
+      wrapperCol={{ span: 24 }}
+    >
+      <Radio.Group options={options} style={style} />
     </Form.Item>
   );
 };
@@ -107,7 +130,7 @@ const renderSelectMultiOption = ({ fieldProps }: any) => {
       }}
     >
       <Select
-        mode="tags"
+        // mode="tags"
         style={{ width: "100%" }}
         size="large"
         placeholder={placeholder}
@@ -125,6 +148,7 @@ export const EDIT_FIELD_TYPES = {
   SELECT: "select",
   SELECTDATE: "selectDate",
   SELECTMULTIOPTION: "selectMultiOption",
+  RADIO: "selectRadio",
 };
 
 const FORM_MAPPING = {
@@ -134,6 +158,7 @@ const FORM_MAPPING = {
   [EDIT_FIELD_TYPES.SELECT]: renderSelect,
   [EDIT_FIELD_TYPES.SELECTDATE]: renderSelectDate,
   [EDIT_FIELD_TYPES.SELECTMULTIOPTION]: renderSelectMultiOption,
+  [EDIT_FIELD_TYPES.RADIO]: renderRadio,
 };
 
 const EditAndUpdateForm = ({ fields }: any) => {

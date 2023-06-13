@@ -159,7 +159,6 @@ const EditCoursePage = () => {
     {
       title: "name",
       dataIndex: "name",
-      width: "30%",
       editable: true,
       key: "name",
     },
@@ -171,6 +170,7 @@ const EditCoursePage = () => {
     {
       title: "description",
       dataIndex: "description",
+      width: "40%",
       key: "description",
     },
     {
@@ -323,7 +323,7 @@ const EditCoursePage = () => {
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
-        <p className={styled["title"]}>Edit course's data</p>
+        <p className={styled["title"]}>Edit course</p>
       </div>
       <Divider />
       <div className={styled["body"]}>

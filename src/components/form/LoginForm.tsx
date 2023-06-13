@@ -1,15 +1,14 @@
 import { Divider, Form, Button, Image, Typography } from "antd";
-import { useMemo } from "react";
 import AuthenticateForm, { FIELD_TYPES } from "./AuthenticateForm";
 import styled from "./LoginForm.module.scss";
 import FacebookIcon from "../../assets/facebook_icon.png";
 import GoogleIcon from "../../assets/google_icon.png";
 import MainIcon from "../../assets/main-logo.svg";
-import { type } from "os";
+import { LoginProps, UserAPI } from "../../api/UserAPI";
+import { useNavigate } from "react-router-dom";
+import { useLoginUser } from "../../hooks/useLoginHook";
 
 const { Text } = Typography;
-
-const onFinish = async (values: any) => {};
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -60,6 +59,25 @@ const fields = [
 ];
 
 const LoginForm = ({}: LoginFormProps) => {
+  const navigate = useNavigate();
+  const { mutate: loginUser, isLoading, error, data } = useLoginUser();
+
+  const onFinish = async (loginProps: LoginProps) => {
+    await loginUser(loginProps, {
+      onSuccess(data, variables, context) {
+        localStorage.setItem("access_token", data);
+        navigate("/home");
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
+    // todo: add jwt, role, userid to cookie
+    // todo: check role --> navigate
+  };
+
+  if (isLoading) return <>Loading skeleton ma` lam` bieng code qua _-_ </>;
+
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>

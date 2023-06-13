@@ -45,7 +45,7 @@ const LeftSideBar = () => {
   return (
     <div className={styled["container"]}>
       <div className={styled["logo-wrapper"]}>
-        <img className={styled["logo"]} src={LogoIcon} alt="" />
+        {/* <img className={styled["logo"]} src={LogoIcon} alt="" /> */}
         <span className={styled["title"]}>Study with mentors</span>
       </div>
       <Divider

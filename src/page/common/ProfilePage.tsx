@@ -52,7 +52,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -68,7 +68,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -83,7 +83,7 @@ const profile_fields = [
       style: {
         width: "500px",
         height: "50px",
-        marginBottom: "80px",
+        marginBottom: "60px",
       },
       onChange: (value: any) => {},
     },
@@ -152,19 +152,20 @@ const ProfilePage = () => {
       </div>
       <div className={styled["body"]}>
         <p className={styled["title"]}>Profile</p>
-        <div className={styled["img-wrapper"]}>
-          <Upload
-            {...props}
-            onChange={async ({ fileList }) => {
-              // setloadingAvatar(true);
-              // var url = await uploadImage(fileList[0].originFileObj);
-              // setloadingAvatar(false);
-              // if (url) {
-              // mutate({ avatar: url });
-              // }
-            }}
-          >
-            {/* {updateUserLoading || loadingAvatar ? (
+        <div className={styled["wrapper"]}>
+          <div className={styled["img-wrapper"]}>
+            <Upload
+              {...props}
+              onChange={async ({ fileList }) => {
+                // setloadingAvatar(true);
+                // var url = await uploadImage(fileList[0].originFileObj);
+                // setloadingAvatar(false);
+                // if (url) {
+                // mutate({ avatar: url });
+                // }
+              }}
+            >
+              {/* {updateUserLoading || loadingAvatar ? (
               <Skeleton.Avatar
                 active={true}
                 size={"default"}
@@ -174,42 +175,43 @@ const ProfilePage = () => {
                 }}
               />
             ) : ( */}
-            <Avatar
-              size={156}
-              className={styled["img"]}
-              src={VoIu}
-              alt="avatar"
-            />
-            <p className={styled["description"]}>Edit</p>
-            {/* ) */}
-          </Upload>
-        </div>
-        <Form
-          name="profile"
-          wrapperCol={{ span: 16 }}
-          initialValues={{
-            remember: true,
-            ["firstname"]: "Hello_its_me",
-            ["lastname"]: "Hello_its_me",
-            ["role"]: "Male",
-            ["birthday"]: dayjs("2015-06-06", dateFormat),
-          }}
-          layout="vertical"
-          requiredMark="optional"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div>
-            <EditAndUpdateForm fields={profile_fields} />
+              <Avatar
+                size={200}
+                className={styled["img"]}
+                src={VoIu}
+                alt="avatar"
+              />
+              <p className={styled["description"]}>Edit</p>
+              {/* ) */}
+            </Upload>
           </div>
-        </Form>
+          <Form
+            name="profile"
+            wrapperCol={{ span: 16 }}
+            initialValues={{
+              remember: true,
+              ["firstname"]: "Hello_its_me",
+              ["lastname"]: "Hello_its_me",
+              ["role"]: "Male",
+              ["birthday"]: dayjs("2015-06-06", dateFormat),
+            }}
+            layout="vertical"
+            requiredMark="optional"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <EditAndUpdateForm fields={profile_fields} />
+            </div>
+          </Form>
+        </div>
 
         <Divider />
         <p className={styled["title"]}>Personal Detail</p>

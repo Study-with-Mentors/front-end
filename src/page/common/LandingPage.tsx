@@ -19,6 +19,8 @@ const fakeCourseData: CourseCardProps[] = [
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     description: "I am so clever that sometimes I don’t understand. ",
+    courseName: "Material UI/UX",
+    mentorName: "Tom_And_Jerry",
   },
   {
     image:
@@ -26,6 +28,8 @@ const fakeCourseData: CourseCardProps[] = [
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     description: "I am so clever that sometimes I don’t understand. ",
+    courseName: "Material UI/UX",
+    mentorName: "Tom_And_Jerry",
   },
   {
     image:
@@ -33,6 +37,8 @@ const fakeCourseData: CourseCardProps[] = [
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     description: "I am so clever that sometimes I don’t understand. ",
+    courseName: "Material UI/UX",
+    mentorName: "Tom_And_Jerry",
   },
   {
     image:
@@ -40,6 +46,8 @@ const fakeCourseData: CourseCardProps[] = [
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     description: "I am so clever that sometimes I don’t understand. ",
+    courseName: "Material UI/UX",
+    mentorName: "Tom_And_Jerry",
   },
   {
     image:
@@ -47,6 +55,8 @@ const fakeCourseData: CourseCardProps[] = [
     avatar:
       "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
     description: "I am so clever that sometimes I don’t understand. ",
+    courseName: "Material UI/UX",
+    mentorName: "Tom_And_Jerry",
   },
 ];
 
