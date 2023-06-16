@@ -38,7 +38,7 @@ module.exports = {
       borderColor: {
         primary: "rgb(239,239,239)"
       },
-      textColor:{
+      textColor: {
         primary: "rgb(142,142,142)",
         blue: "rgba(12,154,246,255)",
         blue_400: "rgba(12,154,246,0.8)",
@@ -62,44 +62,45 @@ module.exports = {
 
       colors: {
         'bms-primary': '#7254E9',
-        'bms-primary-600':'#4E41BB',
+        'bms-primary-600': '#4E41BB',
         'bms-hover-primary': '#9783EE',
         'bms-press-primary': '#4E41BB',
-        'bms-text-primary':'#262626',
-        'bms-primary-50':'#FBFAFE',
+        'bms-text-primary': '#262626',
+        'bms-primary-50': '#FBFAFE',
         //Gray 500
-        'bms-text-secondary':'#8C8C8C',
-        'bms-gray-500':'#8C8C8C',
-        'bms-gray-100':'#F5F5F5',
-        'bms-gray-300':'#D9D9D9',
-        'bms-gray-800':'#262626',
-        'bms-gray-200':'#F0F0F0',
+        'bms-text-secondary': '#8C8C8C',
+        'bms-gray-500': '#8C8C8C',
+        'bms-gray-100': '#F5F5F5',
+        'bms-gray-300': '#D9D9D9',
+        'bms-gray-800': '#262626',
+        'bms-gray-200': '#F0F0F0',
 
         //Gray 600
-        'bms-gray-600':'#595959',
+        'bms-gray-600': '#595959',
         //Secondary
-        'bms-secondary-200':'#EBFEF1',
-        'bms-secondary-700':'#4E926B',
-        'bms-secondary-400':'#A2EBBC',
+        'bms-secondary-200': '#EBFEF1',
+        'bms-secondary-700': '#4E926B',
+        'bms-secondary-400': '#A2EBBC',
         //Warning
-        'bms-warning':'#FFA23A',
-        'bms-warning200':'rgba(255, 162, 58, 0.2)',
-        'bms-warning500':'rgba(255, 162, 58, 0.5)',
+        'bms-warning': '#FFA23A',
+        'bms-warning200': 'rgba(255, 162, 58, 0.2)',
+        'bms-warning500': 'rgba(255, 162, 58, 0.5)',
         //Error
-        'bms-error':'#EE5564',
-
+        'bms-error': '#EE5564',
+        //Violet
+        'stuff-violet-8': '#391085',
 
 
       },
-      fontFamily:{
-        'montserrat':'Montserrat, sans-serif',
-        'lexend':'Lexend,sans-serif'
+      fontFamily: {
+        'montserrat': 'Montserrat, sans-serif',
+        'lexend': 'Lexend,sans-serif'
       },
       outline: {
         primary: ['1px solid #9783EE'],
       },
       backgroundOpacity: { 6: '0.06' },
-      
+
       borderWidth: {
         3: '3px',
         6: '6px',
@@ -109,22 +110,22 @@ module.exports = {
       fontSize: {
         xxs: '10px',
       },
-      fontWeight:{
-        thinest:100,
-        thin:200,
-        seminormal:300,
-        normal:400,
-        medium:500,
-        semibold:600,
-        bold:700,
-        bolder:800,
-        extrabold:900,
+      fontWeight: {
+        thinest: 100,
+        thin: 200,
+        seminormal: 300,
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        bolder: 800,
+        extrabold: 900,
       },
-      
+
       backgroundColor: {
         'primary': '#FFFFFF',
         'gray_primary': "#EEEEEE",
-        'gray_secondary' : "#DEF2F3",
+        'gray_secondary': "#DEF2F3",
         'white_secondary': "#F5F5F5",
         'cyan_primary': "#6CF9F9",
         'gray_third': "#F8F8F8",
@@ -272,7 +273,7 @@ module.exports = {
 
       '3xl': screenUp(SCREENS['3xl']),
     },
-   
+
   },
   variants: {
     extend: {},
@@ -304,64 +305,64 @@ module.exports = {
           '@apply bg-primary w-[32px] h-[32px] ml-[9px] rounded-full mt-0': {},
         },
         // New Typo
-      
+
         '.bms-text-h4': {
-          '@apply font-montserrat font-normal':{},
+          '@apply font-montserrat font-normal': {},
           lineHeight: '42px',
           fontSize: '34px',
           letterSpacing: '0.0025em',
         },
         '.bms-text-h6': {
-          '@apply font-montserrat font-medium':{},
+          '@apply font-montserrat font-medium': {},
           letterSpacing: '0.0015em',
           fontSize: '20px',
-          lineHeight:'25px',
-       
-        },
-        '.bms-subtitle1':{
-          '@apply font-montserrat font-medium':{},
-          fontSize:'16px',
-          lineHeight:'20px',
-        },
-        '.bms-subtitle2':{
-          '@apply font-montserrat font-medium':{},
-          fontSize:'14px',
-          lineHeight:'17px',
-          letterSpacing:'0.001em',
-        },
-        '.bms-text-body1':{
-          '@apply font-montserrat font-normal':{},
-          fontSize:'15px',
-          lineHeight:'18px',
-          letterSpacing:'0.005em',
-        },
-        '.bms-text-body2':{
-          '@apply font-montserrat font-normal':{},
-          fontSize:'13px',
-          lineHeight:'16px',
-          letterSpacing:'0.0025em',
-        },
-        '.bms-caption':{
-          '@apply font-montserrat font-normal':{},
-          fontSize:'12px',
-          lineHeight:'15px',
-          letterSpacing:'0.004em',
-        },
-        '.bms-link':{
-          '@apply font-montserrat bms-text-body1':{},
-          letterSpacing:'0.0025em',
-        },
-
-       //Tag
-        '.bms-tag-primary':{
+          lineHeight: '25px',
 
         },
-        '.bms-text-button':{
-          '@apply font-montserrat':{},
-          fontWeight:500,
-          lineHeight:'19px',
-          fontSize:'15px',
-          letterSpacing:'0.0125em'
+        '.bms-subtitle1': {
+          '@apply font-montserrat font-medium': {},
+          fontSize: '16px',
+          lineHeight: '20px',
+        },
+        '.bms-subtitle2': {
+          '@apply font-montserrat font-medium': {},
+          fontSize: '14px',
+          lineHeight: '17px',
+          letterSpacing: '0.001em',
+        },
+        '.bms-text-body1': {
+          '@apply font-montserrat font-normal': {},
+          fontSize: '15px',
+          lineHeight: '18px',
+          letterSpacing: '0.005em',
+        },
+        '.bms-text-body2': {
+          '@apply font-montserrat font-normal': {},
+          fontSize: '13px',
+          lineHeight: '16px',
+          letterSpacing: '0.0025em',
+        },
+        '.bms-caption': {
+          '@apply font-montserrat font-normal': {},
+          fontSize: '12px',
+          lineHeight: '15px',
+          letterSpacing: '0.004em',
+        },
+        '.bms-link': {
+          '@apply font-montserrat bms-text-body1': {},
+          letterSpacing: '0.0025em',
+        },
+
+        //Tag
+        '.bms-tag-primary': {
+
+        },
+        '.bms-text-button': {
+          '@apply font-montserrat': {},
+          fontWeight: 500,
+          lineHeight: '19px',
+          fontSize: '15px',
+          letterSpacing: '0.0125em'
         },
 
 

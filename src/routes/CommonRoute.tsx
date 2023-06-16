@@ -22,6 +22,7 @@ import HomeHeader from "../components/header/HomeHeader";
 import HomeLayout from "../layout/common/HomeLayout";
 import LessonCalendar from "../components/calendar/LessonCalendar";
 import LessonCalendarPage from "../page/common/LessonCalendarPage";
+import NotFoundPage from "../page/common/404Page";
 const CommonRoute = () => {
   const navigate = useNavigate();
 
@@ -125,7 +126,7 @@ const CommonRoute = () => {
 
     {
       path: "*",
-      element: <>vo / sthing pls</>,
+      element: <NotFoundPage />,
     },
 
     {
