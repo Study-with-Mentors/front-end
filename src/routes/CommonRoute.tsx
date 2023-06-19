@@ -24,6 +24,7 @@ import LessonCalendar from "../components/calendar/LessonCalendar";
 import LessonCalendarPage from "../page/common/LessonCalendarPage";
 import DashBoardPage from "../page/common/DashBoardPage";
 import CourListPage from "../page/common/CourListPage";
+import NotFoundPage from "../page/common/404Page";
 const CommonRoute = () => {
   const navigate = useNavigate();
 
@@ -130,7 +131,7 @@ const CommonRoute = () => {
     },
     {
       path: "*",
-      element: <>vo / sthing pls</>,
+      element: <NotFoundPage />,
     },
 
     // {
