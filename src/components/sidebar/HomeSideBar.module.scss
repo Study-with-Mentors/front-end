@@ -10,12 +10,7 @@
 
 
     .logo-wrapper{
-        @apply flex items-center pt-8 pb-16 ml-6 ;
-        // .logo{
-        //     @apply w-24 h-auto mr-4;
-        //     filter: brightness(0) saturate(100%) invert(18%) sepia(22%) saturate(6647%) hue-rotate(248deg) brightness(83%) contrast(120%);
-        //     // filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
-        // }
+        @apply flex justify-center pt-8  ml-6 flex-col;
 
         .title{
             @apply text-xl text-purple_golden font-bold;

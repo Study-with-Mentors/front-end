@@ -18,7 +18,7 @@ const SearchCard = () => {
   const _handleKeyDown = (e: any) => {
     const searchInput = e.target.value;
     if (searchInput == "") return;
-    navigate("/course/search", {
+    navigate("/landing/course/search", {
       state: { searchInput },
     });
   };

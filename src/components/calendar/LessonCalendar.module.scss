@@ -1,3 +1,7 @@
 .detail-container{
-    @apply bg-white;
+    @apply bg-white mb-4 rounded-lg;
+}
+
+.calendar-container{
+    @apply rounded-lg overflow-hidden ;
 }

@@ -1,0 +1,31 @@
+.container{
+    @apply my-8 mx-14;
+    .header{
+        @apply grid gap-12 grid-cols-4;
+        .item-wrapper{
+            @apply bg-white rounded-xl p-6;
+
+            .title{
+                @apply text-base font-normal mb-0;
+                color: #5F6980;
+            }
+
+            .data{
+                @apply font-semibold mt-1 mb-4;
+                font-size: 1.625rem;
+                color: #282828;
+            }
+
+            .extra-data{
+                @apply flex items-center text-xs font-semibold tracking-wider;
+
+                .value{
+                    @apply text-green_success bg-green_success mr-2 py-1 px-3 rounded-full;
+                }
+                .extra{
+                    @apply text-gray-400;
+                }
+            }
+        }
+    }
+}

@@ -21,6 +21,18 @@ export const getAccessToken = (): string => {
   return "";
 };
 
+export const toQueryParams = (data: any): string => {
+  const qs = Object.keys(data)
+    .map((key) =>
+      Array.isArray(data[key])
+        ? data[key].map((v: string) => `${key}=${v}`).join("&")
+        : `${key}=${data[key]}`
+    )
+    .join("&");
+
+  return qs;
+};
+
 const http = new Http().instance;
 
 http.interceptors.response.use(
@@ -32,7 +44,7 @@ http.interceptors.response.use(
   },
   (err) => {
     if (err.response.status == 401) {
-      // window.location.href = "http://localhost:3000";
+      // window.location.href = "http://localhost:3000/signin";
     }
     throw err;
   }

@@ -8,12 +8,11 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import "./MainHeader.css";
 import { useNavigate } from "react-router-dom";
 
-export type MainHeaderProps = {
-  isLogined?: boolean;
-};
+export type MainHeaderProps = {};
 
-const MainHeader = ({ isLogined }: MainHeaderProps) => {
+const MainHeader = ({}: MainHeaderProps) => {
   const navigate = useNavigate();
+  const userID = localStorage.getItem("userID");
 
   return (
     <div className={styled["container"]}>
@@ -31,7 +30,7 @@ const MainHeader = ({ isLogined }: MainHeaderProps) => {
       </div>
 
       <div className={styled["action-wrapper"]}>
-        {!isLogined ? (
+        {!userID ? (
           <>
             <Button
               className={styled["button-signIn"] + " " + styled["button"]}

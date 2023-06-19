@@ -2,7 +2,10 @@ import CommonRoute from "./CommonRoute";
 import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoute = () => {
-  // return <ProtectedRoute />;
+  const role = localStorage.getItem("role");
+  if (role && role == "ADMIN") {
+    return <ProtectedRoute />;
+  }
   return <CommonRoute />;
 };
 

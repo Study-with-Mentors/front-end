@@ -1,156 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "./SearchCourseResult.module.scss";
-import { Form, SelectProps, Divider, Button, Pagination } from "antd";
+import { Form, SelectProps, Divider, Button, Pagination, Empty } from "antd";
 import EditAndUpdateForm from "../../components/form/EditAndUpdateFrom";
 import { EDIT_FIELD_TYPES } from "../../components/form/EditAndUpdateFrom";
-import CourseCard, { CourseCardProps } from "../../components/card/CourseCard";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./SearchCourseResult.css";
 import CourseCardHorizontal from "../../components/card/CourseCardHorizontal";
+import { UseQueryResult, useQuery } from "react-query";
+import { CourseAPI } from "../../api/CourseAPI";
+import { GetCourse } from "../../types/Course.type";
+import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
+import { EnumAPI } from "../../api/EnumAPI";
+import { FieldAPI, GetField } from "../../api/FieldAPI";
 
 export type SearchCourseResultProps = {};
 
-const options: SelectProps["options"] = [
-  {
-    value: "UI/UX",
-    label: "UI/UX",
-    style: {
-      marginBottom: "12px",
-      color: "#5F6980",
-    },
-  },
-  {
-    value: "ComputerScience",
-    label: "science",
-    style: {
-      marginBottom: "12px",
-      color: "#5F6980",
-    },
-  },
-  {
-    value: "Fundamental serviec",
-    label: "fundamental",
-    style: {
-      marginBottom: "12px",
-      color: "#5F6980",
-    },
-  },
-];
-
-const search_filter_fields = [
-  {
-    type: EDIT_FIELD_TYPES.SELECT,
-    fieldProps: {
-      placeholder: "Fields",
-      name: "fields",
-      options: options,
-      label: (
-        <p
-          style={{
-            fontWeight: 700,
-            fontSize: "24px",
-            color: "#262626",
-            margin: 0,
-          }}
-        >
-          Field
-        </p>
-      ),
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "baseline",
-        marginBottom: "20px",
-        fontWeight: 700,
-        fontSize: "20px",
-      },
-      onChange: (value: any) => {},
-    },
-    cols: 12,
-  },
-  {
-    type: EDIT_FIELD_TYPES.SELECT,
-    fieldProps: {
-      name: "level",
-      options: options,
-      label: (
-        <p
-          style={{
-            fontWeight: 700,
-            fontSize: "24px",
-            color: "#262626",
-            margin: 0,
-          }}
-        >
-          Level
-        </p>
-      ),
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "baseline",
-        marginBottom: "20px",
-        fontWeight: 700,
-        fontSize: "20px",
-      },
-      onChange: (value: any) => {},
-    },
-    cols: 12,
-  },
-];
-
-const fakeCourseData: CourseCardProps[] = [
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible.",
-    courseName: "Material UI/UX",
-    mentorName: "hello_its_me",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible.",
-    courseName: "Material UI/UX",
-    mentorName: "hello_its_me",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am do 11 1 1  saying. People say nothing is impossible.",
-    courseName: "Material UI/UX",
-    mentorName: "hello_its_me",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible.",
-    courseName: "Material UI/UX",
-    mentorName: "hello_its_me",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description:
-      "I am so clever that sometimes I don’t understand a single word of what I am saying. People say nothing is impossible.",
-    courseName: "Material UI/UX",
-    mentorName: "hello_its_me",
-  },
-];
+let options: SelectProps["options"] = [];
+let fieldOptions: SelectProps["options"] = [];
 
 const enum ACTIVE_BUTTON_TYPES {
   NEWEST,
@@ -158,12 +24,148 @@ const enum ACTIVE_BUTTON_TYPES {
   POPULAR,
 }
 
+const onFinish = (values: any) => {
+  console.log(values);
+};
+
 const SearchCourseResult = ({}: SearchCourseResultProps) => {
-  const location = useLocation();
+  const { state, pathname } = useLocation();
+  const navigate = useNavigate();
+
   const [activeButton, setActiveButton] = useState<ACTIVE_BUTTON_TYPES>(
     ACTIVE_BUTTON_TYPES.NEWEST
   );
-  // const state = location.state;
+
+  const {
+    data: courses,
+    isLoading: isCoursesLoading,
+    refetch,
+  }: UseQueryResult<GetCourse, Error> = useQuery(
+    ["courses", state?.searchInput],
+    async () =>
+      await CourseAPI.getAll(
+        state?.searchInput != undefined && state?.searchInput != ""
+          ? { name: state?.searchInput }
+          : {}
+      )
+  );
+
+  const {
+    data: levels,
+    isLoading: isLevelLoading,
+  }: UseQueryResult<string[], Error> = useQuery(
+    ["levels"],
+    async () =>
+      await EnumAPI.getCourseLevel()
+        .then((levels) => {
+          levels?.forEach((level: string) => {
+            options?.push({
+              value: level,
+              label: level,
+              style: {
+                marginTop: "12px",
+                color: "#5F6980",
+              },
+            });
+          });
+        })
+        .catch()
+  );
+
+  const {
+    data: fields,
+    isLoading: isFieldsLoading,
+  }: UseQueryResult<GetField[], Error> = useQuery(
+    ["fields"],
+    async () =>
+      await FieldAPI.getAll().then((fields) => {
+        fields?.forEach((field: GetField) => {
+          fieldOptions?.push({
+            value: field.id,
+            label: field.name,
+            style: {
+              marginTop: "12px",
+              color: "#5F6980",
+            },
+          });
+        });
+      })
+  );
+
+  useEffect(() => {
+    return () => {
+      options = [];
+      fieldOptions = [];
+    };
+  }, [options, fieldOptions]);
+
+  const search_filter_fields = useMemo(() => {
+    return [
+      {
+        type: EDIT_FIELD_TYPES.SELECT,
+        fieldProps: {
+          placeholder: "Fields",
+          name: "fields",
+          options: fieldOptions,
+
+          label: (
+            <p
+              style={{
+                fontWeight: 700,
+                fontSize: "24px",
+                color: "#262626",
+                margin: 0,
+              }}
+            >
+              Field
+            </p>
+          ),
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "baseline",
+            marginBottom: "20px",
+            fontWeight: 700,
+            fontSize: "20px",
+          },
+          onChange: (value: any) => {},
+        },
+        cols: 12,
+      },
+      {
+        type: EDIT_FIELD_TYPES.SELECT,
+        fieldProps: {
+          name: "level",
+          options: options,
+          label: (
+            <p
+              style={{
+                fontWeight: 700,
+                fontSize: "24px",
+                color: "#262626",
+                margin: 0,
+              }}
+            >
+              Level
+            </p>
+          ),
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "baseline",
+            marginBottom: "20px",
+            fontWeight: 700,
+            fontSize: "20px",
+          },
+          onChange: (value: any) => {},
+        },
+        cols: 12,
+      },
+    ];
+  }, [options, fieldOptions]);
+
+  if (isCoursesLoading || isFieldsLoading || isLevelLoading)
+    return <LoadingSkeleton />;
 
   return (
     <div className={styled["container"]}>
@@ -214,6 +216,14 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
             Popular
           </Button>
         </div>
+        <Button
+          onClick={() => {
+            state.searchInput = "";
+            refetch();
+          }}
+        >
+          Show all
+        </Button>
       </div>
       <div className={styled["body-container"]}>
         <div className={styled["filter-wrapper"]}>
@@ -222,7 +232,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
             wrapperCol={{ span: 16 }}
             initialValues={{}}
             layout="vertical"
-            //   onFinish={onFinish}
+            onFinish={onFinish}
             //   onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
@@ -231,9 +241,13 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
         </div>
 
         <div className={styled["course-container"]}>
-          {fakeCourseData.map((course) => (
-            <CourseCardHorizontal {...course} />
-          ))}
+          {courses?.result.length == 0 ? (
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          ) : (
+            courses?.result.map((course) => (
+              <CourseCardHorizontal key={course.id} {...course} />
+            ))
+          )}
         </div>
       </div>
       <Pagination

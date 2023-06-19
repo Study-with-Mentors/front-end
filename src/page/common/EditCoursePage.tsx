@@ -4,6 +4,16 @@ import { DownOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType } from "antd";
 import { Form, Input, Popconfirm, Table, Button, Divider } from "antd";
 import type { FormInstance } from "antd/es/form";
+import { useParams } from "react-router-dom";
+import { UseQueryResult, useQuery } from "react-query";
+import { GetSessionResult } from "../../types/Session.type";
+import { CreateSessionParams, SessionAPI } from "../../api/SessionAPI";
+import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
+import { GetActivityResult } from "../../types/Activity.type";
+import { useCreateSession } from "../../hooks/useCreateSessionHook";
+import { CreateCourseParams } from "../../api/CourseAPI";
+import { SessionType } from "../../types/Enum.type";
+import { ColumnsType } from "antd/es/table";
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -42,10 +52,13 @@ interface EditableCellProps {
 
 interface ExpandedDataType {
   key: React.Key;
-  sessionId: string;
   description: string;
   title: string;
 }
+
+type ExpandedDataProps = {
+  activityList: ExpandedDataType[];
+};
 
 const EditableCell: React.FC<EditableCellProps> = ({
   title,
@@ -117,35 +130,59 @@ type EditableTableProps = Parameters<typeof Table>[0];
 interface DataType {
   key: React.Key;
   name: string;
-  sessionNumber: string;
+  sessionNumber: number;
   type: string;
   description: string;
   resourse: string;
+  version: number;
+  activityList: GetActivityResult[];
 }
 
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
 const EditCoursePage = () => {
-  const [dataSource, setDataSource] = useState<DataType[]>([
-    {
-      key: "0",
-      name: "Edward King 0",
-      sessionNumber: "1",
-      description: "this is description",
-      resourse: "resourse",
-      type: "UI",
-    },
-    {
-      key: "1",
-      name: "Edward King 1",
-      sessionNumber: "2",
-      description: "this is description",
-      resourse: "resourse",
-      type: "UI",
-    },
-  ]);
+  const params = useParams();
 
-  const [count, setCount] = useState(2);
+  // const [count, setCount] = useState(2);
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
+
+  const {
+    mutate: createSession,
+    isLoading: isCreateSessionLoading,
+    error,
+    data,
+  } = useCreateSession();
+
+  const {
+    data: sessions,
+    isLoading,
+    refetch,
+  }: UseQueryResult<GetSessionResult[], Error> = useQuery(
+    ["sessions", params?.id],
+    async () => await SessionAPI.getSessionByCourseID(params?.id ?? "0"),
+    {
+      enabled: Boolean(params?.id),
+    }
+  );
+
+  useEffect(() => {
+    var data = sessions?.map((session): DataType => {
+      return {
+        key: session.id,
+        description: session.description,
+        name: session.sessionName,
+        sessionNumber: session.sessionNum,
+        resourse: session.resource,
+        type: session.type,
+        activityList: session.activities,
+        version: session.version,
+      };
+    });
+
+    setDataSource(data ?? []);
+
+    return () => {};
+  }, [sessions]);
 
   const handleDelete = (key: React.Key) => {
     const newData = dataSource.filter((item) => item.key !== key);
@@ -165,11 +202,15 @@ const EditCoursePage = () => {
     {
       title: "session number",
       dataIndex: "sessionNumber",
+      editable: true,
       key: "sessionNumber",
+      defaultSortOrder: "ascend",
+      sorter: (a: any, b: any) => a?.sessionNumber - b?.sessionNumber,
     },
     {
       title: "description",
       dataIndex: "description",
+      editable: true,
       width: "40%",
       key: "description",
     },
@@ -177,6 +218,7 @@ const EditCoursePage = () => {
       title: "resourse",
       dataIndex: "resourse",
       key: "resourse",
+      editable: true,
     },
     {
       title: "type",
@@ -211,20 +253,32 @@ const EditCoursePage = () => {
     },
   ];
 
-  const handleAdd = () => {
-    const newData: DataType = {
-      key: count,
-      name: `Edward King ${count}`,
-      sessionNumber: `${count}`,
-      description: "this is description",
-      resourse: "resourse",
-      type: "UI",
+  const handleAdd = async () => {
+    const newData: CreateSessionParams = {
+      courseId: params?.id!,
+      sessionName: "new session name",
+      activities: [],
+      resource: "new resourse",
+      sessionNum: 0,
+      type: SessionType.NONE,
+      description: "new description",
     };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
+
+    await createSession(newData, {
+      onSuccess(data, variables, context) {
+        refetch();
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
+    // setDataSource([...dataSource, newData]);
+    // setCount(count + 1);
   };
 
   const handleSave = (row: DataType) => {
+    console.log(row);
+
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
@@ -258,23 +312,9 @@ const EditCoursePage = () => {
     };
   });
 
-  const ExpandedRowRender = () => {
-    const [expandedDataSource, setExpandedDataSource] = useState<
-      ExpandedDataType[]
-    >([
-      {
-        key: "0",
-        sessionId: `${1}`,
-        description: "description",
-        title: "title",
-      },
-      {
-        key: "1",
-        sessionId: `${2}`,
-        description: "description",
-        title: "title",
-      },
-    ]);
+  const ExpandedRowRender = ({ activityList }: ExpandedDataProps) => {
+    const [expandedDataSource, setExpandedDataSource] =
+      useState<ExpandedDataType[]>(activityList);
 
     const handleDeleteSub = (key: React.Key) => {
       const newData = expandedDataSource.filter((item) => item.key !== key);
@@ -282,7 +322,6 @@ const EditCoursePage = () => {
     };
 
     const columns: TableColumnsType<ExpandedDataType> = [
-      { title: "session id", dataIndex: "sessionId", key: "sessionId" },
       { title: "description", dataIndex: "description", key: "description" },
       {
         title: "title",
@@ -316,9 +355,21 @@ const EditCoursePage = () => {
     );
   };
 
-  const expandedRowRender = (value: any, object: any) => {
-    return <ExpandedRowRender />;
+  const expandedRowRender = (values: object) => {
+    const list = values as DataType;
+    var data: ExpandedDataType[] = list.activityList.map(
+      (item): ExpandedDataType => {
+        return {
+          description: item.description,
+          key: item.id,
+          title: item.title,
+        };
+      }
+    );
+    return <ExpandedRowRender activityList={data} />;
   };
+
+  if (isLoading) return <LoadingSkeleton />;
 
   return (
     <div className={styled["container"]}>

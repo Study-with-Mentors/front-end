@@ -10,6 +10,7 @@ import {
   Select,
   Radio,
 } from "antd";
+import LoadingSkeleton from "../skeleton/LoadingSkeleton";
 
 const renderText = ({ fieldProps }: any) => {
   const { placeholder, name, rules, style, label } = fieldProps;
@@ -71,7 +72,9 @@ const renderPassword = ({ fieldProps }: any) => {
 };
 
 const renderSelect = ({ fieldProps }: any) => {
-  const { options, name, rules, style, label } = fieldProps;
+  const { options, name, rules, style, label, isLoading } = fieldProps;
+
+  if (isLoading) return <LoadingSkeleton />;
 
   return (
     <Form.Item

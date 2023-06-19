@@ -173,8 +173,8 @@ const CreateCoursePage = () => {
 
   const onFinish = async (values: any) => {
     const createCourseParams: CreateCourseParams = {
-      field: { id: values.fields },
-      CourseStatus: "ENABLE",
+      fieldId: values.fields,
+      status: "ENABLE",
       courseLevel: values.level,
       description: values.description,
       fullName: values.fullname,
@@ -186,7 +186,6 @@ const CreateCoursePage = () => {
 
     await createCourse(createCourseParams, {
       onSuccess(data, variables, context) {
-        console.log(data);
         navigate(`/home/course/edit/${data.data.id}`);
       },
       onError(error, variables, context) {
