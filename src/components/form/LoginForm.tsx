@@ -39,7 +39,11 @@ const LoginForm = ({}: LoginFormProps) => {
         localStorage.setItem("userID", decoded.uid);
         localStorage.setItem("role", decoded.rol);
         localStorage.setItem("expired_time", decoded.exp.toString());
-        navigate("/home");
+        if (decoded.rol == "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/home");
+        }
       },
       onError(error, variables, context) {
         loginError();

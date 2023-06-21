@@ -1,11 +1,11 @@
 import { useMutation } from "react-query";
-import { CreateSessionParams, SessionAPI } from "../api/SessionAPI";
+import { ActivityAPI, CreateActivityParams } from "../api/ActivityAPI";
 
 export const useCreateActivity = () => {
   const { mutate, isLoading, error, data } = useMutation({
     mutationKey: "createActivity",
-    mutationFn: async (createParams: CreateSessionParams) => {
-      return await SessionAPI.createSession(createParams);
+    mutationFn: async (params: CreateActivityParams) => {
+      return await ActivityAPI.createActivity(params);
     },
   });
 

@@ -1,12 +1,15 @@
 import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { Avatar, List, Space, TabsProps, Tabs } from "antd";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { UseQueryResult, useQuery } from "react-query";
 import { CourseAPI } from "../../api/CourseAPI";
 import { GetCourse, GetCourseResult } from "../../types/Course.type";
 import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import styled from "./CourseListPage.module.scss";
-import CourseCardHorizontal from "../../components/card/CourseCardHorizontal";
+import CourseCardHorizontal, {
+  CourseCardHorizontalType,
+} from "../../components/card/CourseCardHorizontal";
+import { useGetCourseByMentorToken } from "../../hooks/useGetCourseByMentorToken";
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
   <Space>
@@ -92,32 +95,48 @@ const renderListCourse = ({ listCourse }: renderListCourseProps) => {
       }}
     >
       {listCourse.map((course) => (
-        <CourseCardHorizontal key={course.id} {...course} type="edit" />
+        <CourseCardHorizontal
+          key={course.id}
+          {...course}
+          type={CourseCardHorizontalType.EDIT}
+        />
       ))}
     </div>
   );
-  // return <CourseCardHorizontal />;
 };
+
+const renderListClass = ({}) => {
+  return <></>;
+};
+
 const CourseListPage: React.FC = () => {
   const mentorID = localStorage.getItem("userID");
 
-  const { data: courses, isLoading }: UseQueryResult<GetCourse, Error> =
+  const { data: courses, isLoading }: UseQueryResult<GetCourseResult[], Error> =
     useQuery(
       ["courses", mentorID],
-      async () => await CourseAPI.getAll({ mentorId: mentorID ?? "" }),
+      async () => await CourseAPI.getCourseByMentorToken(),
       {
         enabled: Boolean(mentorID),
       }
     );
 
-  console.log(courses);
+  // const {
+  //   data: courses,
+  //   error,
+  //   isLoading,
+  //   mutate,
+  // } = useGetCourseByMentorToken();
+
+  // mutate();
+  // console.log(courses);
 
   const TabData: TabsProps["items"] = useMemo(() => {
     return [
       {
         key: "1",
         label: `Your courses`,
-        children: renderListCourse({ listCourse: courses?.result ?? [] }),
+        children: renderListCourse({ listCourse: courses ?? [] }),
       },
       {
         key: "2",

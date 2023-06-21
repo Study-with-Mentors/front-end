@@ -7,6 +7,11 @@ import { Mentor } from "../../types/User.type";
 
 const { Meta } = Card;
 
+export enum CourseCardHorizontalType {
+  EDIT = "EDIT",
+  VIEW = "VIEW",
+}
+
 type CourseCardHorizontalProps = {
   id?: string;
   images: string[];
@@ -14,7 +19,8 @@ type CourseCardHorizontalProps = {
   description: string;
   shortName: string;
   courseLevel: string;
-  type?: string;
+  status?: string;
+  type?: CourseCardHorizontalType;
 };
 
 const CourseCardHorizontal = ({
@@ -24,12 +30,19 @@ const CourseCardHorizontal = ({
   mentor,
   shortName,
   courseLevel,
+  status,
   type,
 }: CourseCardHorizontalProps) => {
   const navigate = useNavigate();
 
   const navigateToCourseDetail = () => {
-    navigate(`/landing/course/${id}`);
+    var url;
+    if (type == CourseCardHorizontalType.EDIT) {
+      url = `/home/course/edit/${id}`;
+    } else {
+      url = `/landing/course/${id}`;
+    }
+    navigate(url);
   };
 
   return (
@@ -49,7 +62,9 @@ const CourseCardHorizontal = ({
           >
             {shortName}
           </p>
-          <div className={styled["tag"]}>{courseLevel.toUpperCase()}</div>
+          <div className={styled["tag"]}>
+            {status ?? courseLevel.toUpperCase()}
+          </div>
         </div>
         <div className={styled["description-wrapper"]}>
           <p className={styled["description"]}>{description}</p>
@@ -60,8 +75,14 @@ const CourseCardHorizontal = ({
             <p className={styled["name"]}>{mentor.lastName}</p>
           </div>
           <div className={styled["action-wrapper"]}>
-            <Button className={styled["button"]} type="primary">
-              {type == "edit" ? "Edit Now" : "Enrol now"}
+            <Button
+              className={styled["button"]}
+              onClick={() => {
+                navigateToCourseDetail();
+              }}
+              type="primary"
+            >
+              {type == CourseCardHorizontalType.EDIT ? "Edit Now" : "Enrol now"}
               <ArrowOutwardIcon
                 style={{
                   marginLeft: ".1rem",

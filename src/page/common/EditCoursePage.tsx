@@ -1,20 +1,46 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  useReducer,
+} from "react";
 import styled from "./EditCoursePage.module.scss";
-import { DownOutlined } from "@ant-design/icons";
-import type { InputRef, TableColumnsType } from "antd";
-import { Form, Input, Popconfirm, Table, Button, Divider } from "antd";
+import type { InputRef, TableColumnsType, TabsProps } from "antd";
+import {
+  Form,
+  Input,
+  Popconfirm,
+  Table,
+  Button,
+  Skeleton,
+  Divider,
+  Tabs,
+} from "antd";
 import type { FormInstance } from "antd/es/form";
 import { useParams } from "react-router-dom";
 import { UseQueryResult, useQuery } from "react-query";
 import { GetSessionResult } from "../../types/Session.type";
-import { CreateSessionParams, SessionAPI } from "../../api/SessionAPI";
+import {
+  CreateSessionParams,
+  SessionAPI,
+  UpdateSessionParams,
+} from "../../api/SessionAPI";
 import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import { GetActivityResult } from "../../types/Activity.type";
 import { useCreateSession } from "../../hooks/useCreateSessionHook";
-import { CreateCourseParams } from "../../api/CourseAPI";
 import { SessionType } from "../../types/Enum.type";
-import { ColumnsType } from "antd/es/table";
+import { useUpdateSession } from "../../hooks/useUpdateSessionHook";
+import { useCreateActivity } from "../../hooks/useCreateActivityHook";
+import { UpdateActivityParams } from "../../api/ActivityAPI";
+import { useUpdateActivity } from "../../hooks/useUpdateActivityHook";
+import { useDeleteActivity } from "../../hooks/useDeleteActivityHook";
+import { useDeleteSession } from "../../hooks/useDeleteSessionHook";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deepEqual } from "../../utils/object";
 
+//main table props
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
 interface Item {
@@ -49,16 +75,6 @@ interface EditableCellProps {
   record: Item;
   handleSave: (record: Item) => void;
 }
-
-interface ExpandedDataType {
-  key: React.Key;
-  description: string;
-  title: string;
-}
-
-type ExpandedDataProps = {
-  activityList: ExpandedDataType[];
-};
 
 const EditableCell: React.FC<EditableCellProps> = ({
   title,
@@ -140,23 +156,124 @@ interface DataType {
 
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
+////////////////////////////////////
+
+//Expanded table props
+
+interface EditableExpandedRowProps {
+  index: number;
+}
+
+interface EditableExpandCellProps {
+  title: React.ReactNode;
+  editable: boolean;
+  children: React.ReactNode;
+  dataIndex: keyof ExpandedDataType;
+  record: ExpandedDataType;
+  handlesavesub: (record: ExpandedDataType) => void;
+}
+
+const EditableExpandedCell: React.FC<EditableExpandCellProps> = ({
+  title,
+  editable,
+  children,
+  dataIndex,
+  record,
+  handlesavesub,
+  ...restProps
+}) => {
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef<InputRef>(null);
+  const form = useContext(EditableContext)!;
+
+  useEffect(() => {
+    if (editing) {
+      inputRef.current!.focus();
+    }
+  }, [editing]);
+
+  const toggleEdit = () => {
+    setEditing(!editing);
+    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+  };
+
+  const save = async () => {
+    try {
+      const values = await form.validateFields();
+
+      toggleEdit();
+      handlesavesub({ ...record, ...values });
+    } catch (errInfo) {
+      console.log("Save failed:", errInfo);
+    }
+  };
+
+  let childNode = children;
+
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{ margin: 0 }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+        ]}
+      >
+        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+      </Form.Item>
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{ paddingRight: 24 }}
+        onClick={toggleEdit}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  return <td {...restProps}>{childNode}</td>;
+};
+
+const EditableExpandedRow: React.FC<EditableExpandedRowProps> = ({
+  index,
+  ...props
+}) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form} component={false}>
+      <EditableContext.Provider value={form}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
+  );
+};
+
+interface ExpandedDataType {
+  key: React.Key;
+  description: string;
+  title: string;
+  sessionId: string;
+}
+
+type ExpandedDataProps = {
+  activityList: ExpandedDataType[];
+  sessionId: string;
+};
+
+///////////////////////////////////
+
 const EditCoursePage = () => {
   const params = useParams();
-
-  // const [count, setCount] = useState(2);
-  const [dataSource, setDataSource] = useState<DataType[]>([]);
-
-  const {
-    mutate: createSession,
-    isLoading: isCreateSessionLoading,
-    error,
-    data,
-  } = useCreateSession();
 
   const {
     data: sessions,
     isLoading,
     refetch,
+    isFetching,
   }: UseQueryResult<GetSessionResult[], Error> = useQuery(
     ["sessions", params?.id],
     async () => await SessionAPI.getSessionByCourseID(params?.id ?? "0"),
@@ -164,6 +281,49 @@ const EditCoursePage = () => {
       enabled: Boolean(params?.id),
     }
   );
+
+  const {
+    mutate: createSession,
+    isLoading: isCreateSessionLoading,
+    error,
+    // data,
+  } = useCreateSession();
+  const {
+    mutate: createActivity,
+    isLoading: isCreateActivityLoading,
+    error: errorCreateActivity,
+    // data,
+  } = useCreateActivity();
+
+  const {
+    mutate: updateSession,
+    isLoading: isUpdateSessionLoading,
+    error: isUpdateSessionError,
+    // data,
+  } = useUpdateSession();
+
+  const {
+    mutate: updateActivity,
+    isLoading: isUpdateActivityLoading,
+    error: isUpdateActivityError,
+    // data,
+  } = useUpdateActivity();
+  const {
+    mutate: deleteActivity,
+    isLoading: isDeletectivityLoading,
+    error: isDeleteActivityError,
+    // data,
+  } = useDeleteActivity();
+
+  const {
+    mutate: deleteSession,
+    isLoading: isDeleteSessionLoading,
+    error: isDeleteSessionError,
+    // data,
+  } = useDeleteSession();
+
+  const [count, setCount] = useState(0);
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
 
   useEffect(() => {
     var data = sessions?.map((session): DataType => {
@@ -185,8 +345,14 @@ const EditCoursePage = () => {
   }, [sessions]);
 
   const handleDelete = (key: React.Key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
+    deleteSession(key.toString(), {
+      onSuccess(data, variables, context) {
+        refetch();
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
   };
 
   const defaultColumns: (ColumnTypes[number] & {
@@ -194,59 +360,88 @@ const EditCoursePage = () => {
     dataIndex: string;
   })[] = [
     {
-      title: "name",
+      title: "Session Name",
       dataIndex: "name",
       editable: true,
       key: "name",
     },
     {
-      title: "session number",
+      title: "Session number",
       dataIndex: "sessionNumber",
       editable: true,
       key: "sessionNumber",
-      defaultSortOrder: "ascend",
+      // defaultSortOrder: "ascend",
       sorter: (a: any, b: any) => a?.sessionNumber - b?.sessionNumber,
     },
     {
-      title: "description",
+      title: "Description",
       dataIndex: "description",
       editable: true,
-      width: "40%",
       key: "description",
     },
     {
-      title: "resourse",
+      title: "Resourse",
       dataIndex: "resourse",
-      key: "resourse",
+      key: "Resourse",
       editable: true,
     },
     {
-      title: "type",
+      title: "Type",
       dataIndex: "type",
       key: "type",
     },
     {
-      title: "operation",
+      title: "Action",
       dataIndex: "operation",
       key: "operation",
       render: (_, record: { key?: React.Key }) =>
         dataSource.length >= 1 ? (
-          <>
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
             <Button
+              loading={isCreateActivityLoading}
               style={{
-                marginRight: "16px",
+                marginRight: "4px",
+                flex: "1",
               }}
               type="primary"
-            >
-              Add activity
-            </Button>
+              icon={<AddIcon />}
+              onClick={() => {
+                createActivity(
+                  {
+                    sessionId: record.key?.toString() ?? "",
+                    description: "description",
+                    title: "title",
+                  },
+                  {
+                    onSuccess(data, variables, context) {
+                      refetch();
+                    },
+                    onError(error, variables, context) {
+                      console.log(error);
+                    },
+                  }
+                );
+              }}
+            ></Button>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => handleDelete(record.key ? record.key : 0)}
+              onConfirm={() => handleDelete(record.key ?? "")}
             >
-              <a style={{ color: "red" }}>Delete</a>
+              <Button
+                style={{
+                  flex: "1",
+                }}
+                type="primary"
+                danger
+                loading={isDeleteSessionLoading}
+                icon={<DeleteIcon />}
+              ></Button>
             </Popconfirm>
-          </>
+          </div>
         ) : (
           <></>
         ),
@@ -277,16 +472,33 @@ const EditCoursePage = () => {
   };
 
   const handleSave = (row: DataType) => {
-    console.log(row);
+    var checkEqual: boolean = deepEqual(
+      row,
+      dataSource.find((x) => x.key == row.key)
+    );
+    if (!checkEqual) {
+      var updateParams: UpdateSessionParams = {
+        id: row.key.toString(),
+        activities: row.activityList,
+        courseId: params?.id!,
+        description: row.description,
+        resource: row.resourse,
+        sessionName: row.name,
+        sessionNum: row.sessionNumber,
+        type: SessionType.NONE,
+        version: row.version,
+      };
 
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setDataSource(newData);
+      updateSession(updateParams, {
+        onSuccess(data, variables, context) {
+          refetch();
+        },
+        onError(error, variables, context) {
+          console.log(error);
+        },
+      });
+    } else {
+    }
   };
 
   const components = {
@@ -312,21 +524,64 @@ const EditCoursePage = () => {
     };
   });
 
-  const ExpandedRowRender = ({ activityList }: ExpandedDataProps) => {
+  const handlesavesub = async (row: ExpandedDataType) => {
+    const params: UpdateActivityParams = {
+      id: row.key.toString(),
+      description: row.description,
+      title: row.title,
+      version: 0,
+      sessionId: row.sessionId,
+    };
+    await updateActivity(params, {
+      onSuccess(data, variables, context) {
+        refetch();
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
+  };
+
+  const ExpandedRowRender = ({
+    activityList,
+    sessionId,
+  }: ExpandedDataProps) => {
     const [expandedDataSource, setExpandedDataSource] =
       useState<ExpandedDataType[]>(activityList);
 
     const handleDeleteSub = (key: React.Key) => {
-      const newData = expandedDataSource.filter((item) => item.key !== key);
-      setExpandedDataSource(newData);
+      deleteActivity(key.toString(), {
+        onSuccess(data, variables, context) {
+          refetch();
+        },
+        onError(error, variables, context) {
+          console.log(error);
+        },
+      });
     };
 
-    const columns: TableColumnsType<ExpandedDataType> = [
-      { title: "description", dataIndex: "description", key: "description" },
+    const expandComponents = {
+      body: {
+        row: EditableExpandedRow,
+        cell: EditableExpandedCell,
+      },
+    };
+
+    const defaultExpandedcolumns: (ColumnTypes[number] & {
+      editable?: boolean;
+      dataIndex: string;
+    })[] = [
       {
-        title: "title",
+        title: "Description",
+        dataIndex: "description",
+        key: "description",
+        editable: true,
+      },
+      {
+        title: "Title",
         key: "title",
         dataIndex: "title",
+        editable: true,
       },
       {
         title: "Action",
@@ -338,7 +593,12 @@ const EditCoursePage = () => {
               title="Sure to delete?"
               onConfirm={() => handleDeleteSub(record.key ? record.key : 0)}
             >
-              <a style={{ color: "red" }}>Delete</a>
+              <Button
+                type="primary"
+                danger
+                loading={isDeletectivityLoading}
+                icon={<DeleteIcon />}
+              ></Button>
             </Popconfirm>
           ) : (
             <></>
@@ -346,9 +606,27 @@ const EditCoursePage = () => {
       },
     ];
 
+    const expandedcolumns = defaultExpandedcolumns.map((col) => {
+      if (!col.editable) {
+        return col;
+      }
+      return {
+        ...col,
+        onCell: (record: ExpandedDataType) => ({
+          record,
+          editable: col.editable,
+          dataIndex: col.dataIndex,
+          title: col.title,
+          handlesavesub,
+        }),
+      };
+    });
+
     return (
       <Table
-        columns={columns}
+        rowClassName={() => "editable-row"}
+        components={expandComponents}
+        columns={expandedcolumns as ColumnTypes}
         dataSource={expandedDataSource}
         pagination={false}
       />
@@ -363,11 +641,57 @@ const EditCoursePage = () => {
           description: item.description,
           key: item.id,
           title: item.title,
+          sessionId: list.key.toString(),
         };
       }
     );
-    return <ExpandedRowRender activityList={data} />;
+    return isUpdateActivityLoading || isFetching ? (
+      <Skeleton active />
+    ) : (
+      <ExpandedRowRender activityList={data} sessionId={list.key.toString()} />
+    );
   };
+
+  // Tab renderer
+  const renderSessionsAndActivities = () => {
+    return (
+      <div className={styled["session-wrapper"]}>
+        <Button
+          onClick={handleAdd}
+          type="primary"
+          style={{ marginBottom: 16 }}
+          loading={isCreateSessionLoading}
+        >
+          Add session
+        </Button>
+
+        <Table
+          components={components}
+          rowClassName={() => "editable-row"}
+          expandable={{ expandedRowRender, defaultExpandedRowKeys: ["0"] }}
+          bordered
+          loading={isFetching || isUpdateSessionLoading}
+          dataSource={dataSource}
+          columns={columns as ColumnTypes}
+        />
+      </div>
+    );
+  };
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: `Sessions and Activities`,
+      children: renderSessionsAndActivities(),
+    },
+    {
+      key: "2",
+      label: `Course detail`,
+      children: `Content of Tab Pane 2`,
+    },
+  ];
+
+  ///////////////////////////////////////////////////////
 
   if (isLoading) return <LoadingSkeleton />;
 
@@ -378,23 +702,7 @@ const EditCoursePage = () => {
       </div>
       <Divider />
       <div className={styled["body"]}>
-        <div className={styled["session-wrapper"]}>
-          <Button
-            onClick={handleAdd}
-            type="primary"
-            style={{ marginBottom: 16 }}
-          >
-            Add session
-          </Button>
-          <Table
-            components={components}
-            rowClassName={() => "editable-row"}
-            expandable={{ expandedRowRender, defaultExpandedRowKeys: ["0"] }}
-            bordered
-            dataSource={dataSource}
-            columns={columns as ColumnTypes}
-          />
-        </div>
+        <Tabs defaultActiveKey="1" items={items} />
       </div>
     </div>
   );

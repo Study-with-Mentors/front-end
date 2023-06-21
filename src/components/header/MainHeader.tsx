@@ -1,18 +1,31 @@
 import React from "react";
 import styled from "./MainHeader.module.scss";
 import MainLogo from "../../assets/main-logo.svg";
-import { Button, Card, Avatar, Badge } from "antd";
+import { Button, Card, Avatar, Badge, Skeleton } from "antd";
 import SearchCard from "../card/SearchCard";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import "./MainHeader.css";
 import { useNavigate } from "react-router-dom";
+import { UseQueryResult, useQuery } from "react-query";
+import { GetUserResult } from "../../types/User.type";
+import { UserAPI } from "../../api/UserAPI";
 
 export type MainHeaderProps = {};
 
 const MainHeader = ({}: MainHeaderProps) => {
   const navigate = useNavigate();
   const userID = localStorage.getItem("userID");
+
+  const {
+    data: user,
+    isLoading,
+    isFetching,
+    refetch,
+  }: UseQueryResult<GetUserResult, Error> = useQuery(
+    ["user"],
+    async () => await UserAPI.getByUserToken()
+  );
 
   return (
     <div className={styled["container"]}>
@@ -62,17 +75,26 @@ const MainHeader = ({}: MainHeaderProps) => {
                 cursor: "pointer",
               }}
             />
-            <Avatar
-              size={48}
-              onClick={() => navigate("/home/profile")}
-              style={{
-                marginLeft: "10px",
-                cursor: "pointer",
-              }}
-              icon={
-                <img src="https://cdn.dribbble.com/userupload/3789040/file/original-67198d4faf8efb85544eb048e3239190.png?compress=1&resize=1024x768" />
-              }
-            />
+            {isLoading ? (
+              <Skeleton.Avatar
+                active={true}
+                size={"default"}
+                style={{
+                  width: 48,
+                  height: 48,
+                }}
+              ></Skeleton.Avatar>
+            ) : (
+              <Avatar
+                size={48}
+                onClick={() => navigate("/home/profile")}
+                style={{
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                }}
+                icon={<img src={user?.profileImage} />}
+              />
+            )}
           </>
         )}
       </div>

@@ -5,13 +5,24 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import "./MainHeader.css";
 import { useNavigate } from "react-router-dom";
 import type { MenuProps } from "antd";
+import { UseQueryResult, useQuery } from "react-query";
+import { GetUserResult } from "../../types/User.type";
+import { UserAPI } from "../../api/UserAPI";
 
 export type HomeHeaderProps = {};
 
 const HomeHeader = ({}: HomeHeaderProps) => {
   const navigate = useNavigate();
 
-  const userID = localStorage.getItem("userID");
+  const {
+    data: user,
+    isLoading,
+    isFetching,
+    refetch,
+  }: UseQueryResult<GetUserResult, Error> = useQuery(
+    ["user"],
+    async () => await UserAPI.getByUserToken()
+  );
 
   const handleLogout = () => {
     localStorage.clear();
@@ -55,11 +66,9 @@ const HomeHeader = ({}: HomeHeaderProps) => {
               style={{
                 marginLeft: "10px",
                 cursor: "pointer",
-                border: "none",
+                // border: "none",
               }}
-              icon={
-                <img src="https://cdn.dribbble.com/userupload/3789040/file/original-67198d4faf8efb85544eb048e3239190.png?compress=1&resize=1024x768" />
-              }
+              icon={<img src={user?.profileImage} />}
             />
           </Dropdown>
         </>

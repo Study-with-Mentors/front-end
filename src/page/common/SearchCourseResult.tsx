@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import styled from "./SearchCourseResult.module.scss";
 import { Form, SelectProps, Divider, Button, Pagination, Empty } from "antd";
 import EditAndUpdateForm from "../../components/form/EditAndUpdateFrom";
@@ -7,16 +7,19 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./SearchCourseResult.css";
 import CourseCardHorizontal from "../../components/card/CourseCardHorizontal";
 import { UseQueryResult, useQuery } from "react-query";
-import { CourseAPI } from "../../api/CourseAPI";
+import { CourseAPI, SearchCourseParams } from "../../api/CourseAPI";
 import { GetCourse } from "../../types/Course.type";
 import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import { EnumAPI } from "../../api/EnumAPI";
 import { FieldAPI, GetField } from "../../api/FieldAPI";
+import { useForm, useWatch } from "antd/lib/form/Form";
+import { ActionEnum, DataContext } from "../../App";
 
 export type SearchCourseResultProps = {};
 
 let options: SelectProps["options"] = [];
 let fieldOptions: SelectProps["options"] = [];
+let coursesData: GetCourse = { totalElements: 0, totalPages: 0, result: [] };
 
 const enum ACTIVE_BUTTON_TYPES {
   NEWEST,
@@ -29,8 +32,10 @@ const onFinish = (values: any) => {
 };
 
 const SearchCourseResult = ({}: SearchCourseResultProps) => {
-  const { state, pathname } = useLocation();
   const navigate = useNavigate();
+  const [form] = useForm();
+  const level: string[] = useWatch("level", form);
+  const field: string[] = useWatch("fields", form);
 
   const [activeButton, setActiveButton] = useState<ACTIVE_BUTTON_TYPES>(
     ACTIVE_BUTTON_TYPES.NEWEST
@@ -41,13 +46,15 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     isLoading: isCoursesLoading,
     refetch,
   }: UseQueryResult<GetCourse, Error> = useQuery(
-    ["courses", state?.searchInput],
-    async () =>
-      await CourseAPI.getAll(
-        state?.searchInput != undefined && state?.searchInput != ""
-          ? { name: state?.searchInput }
-          : {}
-      )
+    ["courses", level, field],
+    async () => {
+      const params: SearchCourseParams = {
+        // ...(state?.searchInput && { name: state?.searchInput! }),
+        ...(level?.[0] && { level: level?.[0]! }),
+        ...(field && { field }),
+      };
+      return await CourseAPI.getAll({});
+    }
   );
 
   const {
@@ -58,15 +65,15 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     async () =>
       await EnumAPI.getCourseLevel()
         .then((levels) => {
-          levels?.forEach((level: string) => {
-            options?.push({
+          options = levels.map((level: string) => {
+            return {
               value: level,
               label: level,
               style: {
                 marginTop: "12px",
                 color: "#5F6980",
               },
-            });
+            };
           });
         })
         .catch()
@@ -79,25 +86,18 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ["fields"],
     async () =>
       await FieldAPI.getAll().then((fields) => {
-        fields?.forEach((field: GetField) => {
-          fieldOptions?.push({
-            value: field.id,
+        fieldOptions = fields.map((field: GetField) => {
+          return {
+            value: field.code,
             label: field.name,
             style: {
               marginTop: "12px",
               color: "#5F6980",
             },
-          });
+          };
         });
       })
   );
-
-  useEffect(() => {
-    return () => {
-      options = [];
-      fieldOptions = [];
-    };
-  }, [options, fieldOptions]);
 
   const search_filter_fields = useMemo(() => {
     return [
@@ -164,18 +164,11 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ];
   }, [options, fieldOptions]);
 
-  if (isCoursesLoading || isFieldsLoading || isLevelLoading)
-    return <LoadingSkeleton />;
+  const { state, dispatch } = useContext(DataContext);
 
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
-        {/* <p className={styled["title"]}>
-          Search Result{" "}
-          <span>
-            “{state?.searchInput ? state.searchInput : "all courses"}”
-          </span>
-        </p> */}
         <p className={styled["sub-title"]}>Filter By</p>
         <div className={styled["sort-container"]}>
           <p className={styled["title"]}>Sort By</p>
@@ -218,8 +211,9 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
         </div>
         <Button
           onClick={() => {
-            state.searchInput = "";
-            refetch();
+            dispatch({ type: ActionEnum.INCREMENT, payload: { value: 1 } });
+            // state.searchInput = "";
+            // refetch();
           }}
         >
           Show all
@@ -234,6 +228,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
             layout="vertical"
             onFinish={onFinish}
             //   onFinishFailed={onFinishFailed}
+            form={form}
             autoComplete="off"
           >
             <EditAndUpdateForm fields={search_filter_fields} />
@@ -241,7 +236,9 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
         </div>
 
         <div className={styled["course-container"]}>
-          {courses?.result.length == 0 ? (
+          {isCoursesLoading ? (
+            <LoadingSkeleton />
+          ) : courses == undefined || courses?.result.length == 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             courses?.result.map((course) => (

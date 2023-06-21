@@ -32,13 +32,14 @@ const renderText = ({ fieldProps }: any) => {
 };
 
 const renderButton = ({ fieldProps, formProps }: any) => {
-  const { type, htmlType, text, style } = fieldProps;
+  const { type, htmlType, text, style, loading } = fieldProps;
 
   return (
     <Form.Item {...formProps}>
       <Button
         type={type}
         htmlType={htmlType}
+        loading={loading}
         style={{
           width: "160px",
           height: "48px",

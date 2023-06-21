@@ -1,11 +1,11 @@
 import { useMutation } from "react-query";
-import { CreateSessionParams, SessionAPI } from "../api/SessionAPI";
+import { SessionAPI, UpdateSessionParams } from "../api/SessionAPI";
 
 export const useUpdateSession = () => {
   const { mutate, isLoading, error, data } = useMutation({
     mutationKey: "updateSession",
-    mutationFn: async (createParams: CreateSessionParams) => {
-      return await SessionAPI.createSession(createParams);
+    mutationFn: async (params: UpdateSessionParams) => {
+      return await SessionAPI.updateSession(params);
     },
   });
 

@@ -29,19 +29,15 @@ export type SearchCourseParams = {
 
 export const CourseAPI = {
   getAll: async (searchCourseParams: SearchCourseParams) => {
-    try {
-      var url;
-      if (Object.keys(searchCourseParams).length == 0) {
-        url = "/course";
-      } else {
-        url = `/course?${toQueryParams(searchCourseParams).toString()}`;
-      }
-
-      const res = await http.get(url);
-      return res.data;
-    } catch (error) {
-      throw error;
+    var url;
+    if (Object.keys(searchCourseParams).length == 0) {
+      url = "/course";
+    } else {
+      url = `/course?${toQueryParams(searchCourseParams).toString()}`;
     }
+
+    const res = await http.get(url);
+    return res.data;
   },
   getById: async (id: string) => {
     try {
@@ -56,16 +52,21 @@ export const CourseAPI = {
     }
   },
   createCourse: async (createCourseParams: CreateCourseParams) => {
-    try {
-      const res = await http.post("/course", createCourseParams, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+    const res = await http.post("/course", createCourseParams, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
 
-      return res;
-    } catch (error) {
-      throw error;
-    }
+    return res.data;
+  },
+  getCourseByMentorToken: async () => {
+    const res = await http.get("/mentor/course", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+
+    return res.data;
   },
 };
