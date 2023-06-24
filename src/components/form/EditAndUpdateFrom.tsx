@@ -9,8 +9,12 @@ import {
   DatePicker,
   Select,
   Radio,
+  InputNumber,
 } from "antd";
 import LoadingSkeleton from "../skeleton/LoadingSkeleton";
+import NumericInput from "../input/NumericInput";
+
+const { TextArea } = Input;
 
 const renderText = ({ fieldProps }: any) => {
   const { placeholder, name, rules, style, label } = fieldProps;
@@ -23,9 +27,49 @@ const renderText = ({ fieldProps }: any) => {
       style={style}
       label={label}
     >
-      <Input
-        style={{ height: "50px", backgroundColor: "#F5F5F5" }}
+      <Input style={{ height: "50px" }} placeholder={placeholder} />
+    </Form.Item>
+  );
+};
+
+const renderNumeric = ({ fieldProps }: any) => {
+  const { placeholder, name, rules, style, label } = fieldProps;
+
+  return (
+    <Form.Item
+      wrapperCol={{ span: 24 }}
+      name={name}
+      rules={[rules]}
+      style={style}
+      label={label}
+    >
+      <InputNumber
+        style={{ height: "50px", width: "800px" }}
         placeholder={placeholder}
+        min={1900}
+        max={2024}
+      />
+    </Form.Item>
+  );
+};
+
+const renderTextArea = ({ fieldProps }: any) => {
+  const { placeholder, name, rules, style, label } = fieldProps;
+
+  return (
+    <Form.Item
+      wrapperCol={{ span: 24 }}
+      name={name}
+      rules={[rules]}
+      style={style}
+      label={label}
+    >
+      <TextArea
+        placeholder={placeholder}
+        rows={6}
+        style={{
+          resize: "none",
+        }}
       />
     </Form.Item>
   );
@@ -147,12 +191,14 @@ const renderSelectMultiOption = ({ fieldProps }: any) => {
 
 export const EDIT_FIELD_TYPES = {
   TEXT: "text",
+  TEXTAREA: "textarea",
   BUTTON: "button",
   PASSWORD: "password",
   SELECT: "select",
   SELECTDATE: "selectDate",
   SELECTMULTIOPTION: "selectMultiOption",
   RADIO: "selectRadio",
+  NUMERIC: "numeric",
 };
 
 const FORM_MAPPING = {
@@ -163,6 +209,8 @@ const FORM_MAPPING = {
   [EDIT_FIELD_TYPES.SELECTDATE]: renderSelectDate,
   [EDIT_FIELD_TYPES.SELECTMULTIOPTION]: renderSelectMultiOption,
   [EDIT_FIELD_TYPES.RADIO]: renderRadio,
+  [EDIT_FIELD_TYPES.TEXTAREA]: renderTextArea,
+  [EDIT_FIELD_TYPES.NUMERIC]: renderNumeric,
 };
 
 const EditAndUpdateForm = ({ fields }: any) => {

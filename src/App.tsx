@@ -20,35 +20,28 @@ const queryClient = new QueryClient({
 });
 
 export enum ActionEnum {
-  INCREMENT = "INCREMENT",
-  DECREMENT = "DECREMENT",
+  SET = "SET",
 }
 
 export type ActionType = {
   type: ActionEnum;
   payload: {
-    value: number;
+    value: string;
   };
 };
 
 type ContextType = {
-  state: { data: number };
+  state: { data: string };
   dispatch: (action: ActionType) => void;
 };
 
-const reducer = (state: { data: number }, action: ActionType) => {
+const reducer = (state: { data: string }, action: ActionType) => {
   const { type, payload } = action;
   switch (type) {
-    case "INCREMENT": {
+    case "SET": {
       return {
         ...state,
-        data: state.data + payload.value,
-      };
-    }
-    case "DECREMENT": {
-      return {
-        ...state,
-        data: state.data - payload.value,
+        data: payload.value,
       };
     }
     default:
@@ -57,13 +50,13 @@ const reducer = (state: { data: number }, action: ActionType) => {
 };
 
 export const DataContext = createContext<ContextType>({
-  state: { data: 0 },
+  state: { data: "" },
   dispatch: (action: {}) => {},
 });
 
 function App() {
   const [state, dispatch] = useReducer(reducer, {
-    data: 0,
+    data: "",
   });
 
   return (

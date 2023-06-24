@@ -1,3 +1,7 @@
 .container{ 
-    @apply mx-16 my-10;
+    @apply ml-16 my-10 mr-32;
+
+    .tab{
+        @apply mx-10;
+    }
 }

@@ -13,20 +13,7 @@ import { useCreateCourse } from "../../hooks/useCreateCourseHook";
 import { CreateCourseParams } from "../../api/CourseAPI";
 import { useNavigate } from "react-router-dom";
 
-const fieldOptions: SelectProps["options"] = [
-  // {
-  //   value: "UI/UX",
-  //   label: "UI/UX",
-  // },
-  // {
-  //   value: "ComputerScience",
-  //   label: "science",
-  // },
-  // {
-  //   value: "Fundamental serviec",
-  //   label: "??",
-  // },
-];
+const fieldOptions: SelectProps["options"] = [];
 
 const profile_fields = [
   {
@@ -112,12 +99,13 @@ const profile_fields = [
   },
 
   {
-    type: EDIT_FIELD_TYPES.TEXT,
+    type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
     fieldProps: {
       placeholder: "Intended learner",
       name: "intendedLearner",
       label: "Intended Learner",
       rules: { required: true, message: "This field must not empty!" },
+      options: fieldOptions,
       style: {
         width: "500px",
         height: "50px",
@@ -128,7 +116,7 @@ const profile_fields = [
     cols: 12,
   },
   {
-    type: EDIT_FIELD_TYPES.RADIO,
+    type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
     fieldProps: {
       name: "level",
       rules: { required: true, message: "This field must be select!" },

@@ -19,6 +19,23 @@ export type UpdateUserParams = {
   gender: GENDER;
 };
 
+export type UpdateUserProfileStudentParams = {
+  id?: string;
+  version?: number;
+  year: number;
+  bio: string;
+  experience: string;
+  education: string;
+};
+
+export type UpdateUserProfileMentorParams = {
+  id?: string;
+  version?: number;
+  bio?: string;
+  degree?: string;
+  fieldId?: string;
+};
+
 export const UserAPI = {
   login: async (loginProps: LoginProps) => {
     try {
@@ -36,6 +53,10 @@ export const UserAPI = {
     });
     return res?.data;
   },
+  getById: async (id: string) => {
+    const res = await http.get(`/user/profile/${id}`);
+    return res?.data;
+  },
   uploadImageProfile: async (params: UploadImageProfileProps) => {
     const res = await http.put("/user/profile", params, {
       headers: {
@@ -46,6 +67,22 @@ export const UserAPI = {
   },
   updateUser: async (params: UpdateUserParams) => {
     const res = await http.put("/user/profile", params, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
+  updateUserProfileStudent: async (params: UpdateUserProfileStudentParams) => {
+    const res = await http.put("/user/profile/student", params, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
+  updateUserProfileMentor: async (params: UpdateUserProfileStudentParams) => {
+    const res = await http.put("/user/profile/student", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

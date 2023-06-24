@@ -8,21 +8,29 @@ import {
   Avatar,
   Form,
   Skeleton,
+  SelectProps,
 } from "antd";
-import VoIu from "../../assets/310876606_2194096234108406_8917809045783773918_n.jpg";
 import EditAndUpdateForm, {
   EDIT_FIELD_TYPES,
 } from "../../components/form/EditAndUpdateFrom";
 import dayjs from "dayjs";
 import { GetUserResult } from "../../types/User.type";
 import { UseQueryResult, useQuery } from "react-query";
-import { UpdateUserParams, UserAPI } from "../../api/UserAPI";
+import {
+  UpdateUserParams,
+  UpdateUserProfileStudentParams,
+  UserAPI,
+} from "../../api/UserAPI";
 import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import { uploadImage } from "../../utils/firebase";
 import { useUpdateImageProfile } from "../../hooks/useUploadImageProfile";
 import { useUpdateUser } from "../../hooks/useUpdateUserHook";
+import { EnumAPI } from "../../api/EnumAPI";
+import { useUpdateUserStudentProfile } from "../../hooks/useUpdateUserProfileStudentHook";
 
 const dateFormat = "YYYY-MM-DD";
+const fieldOptions: SelectProps["options"] = [];
+var educationOptions: SelectProps["options"] = [];
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -52,21 +60,65 @@ const props: UploadProps = {
   showUploadList: false,
 };
 
-const personal_detail_fields = [
+const mentor_detail_fields = [
   {
-    type: EDIT_FIELD_TYPES.TEXT,
+    type: EDIT_FIELD_TYPES.TEXTAREA,
     fieldProps: {
-      placeholder: "Firstname",
-      name: "firstname",
-      label: "Firstname",
-      value: "Hello_its_me",
-      rules: { required: true, message: "Firstname must not empty!" },
+      placeholder: "Degree",
+      name: "degree",
+      label: "Degree",
+      rules: { required: true, message: "This field must not empty!" },
       style: {
-        width: "500px",
-        height: "50px",
-        marginBottom: "80px",
+        width: "800px",
       },
       onChange: (value: any) => {},
+    },
+    cols: 12,
+  },
+
+  {
+    type: EDIT_FIELD_TYPES.TEXTAREA,
+    fieldProps: {
+      placeholder: "Bio",
+      name: "bio",
+      label: "Bio",
+      rules: { required: true, message: "This field must not empty!" },
+      style: {
+        width: "800px",
+      },
+      onChange: (value: any) => {},
+    },
+    cols: 12,
+  },
+
+  {
+    type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
+    fieldProps: {
+      placeholder: "Field",
+      name: "field",
+      label: "Field",
+      rules: { required: true, message: "This field must not empty!" },
+      options: fieldOptions,
+      style: {
+        width: "800px",
+        height: "50px",
+        marginBottom: "3rem",
+      },
+      onChange: (value: any) => {},
+    },
+    cols: 12,
+  },
+  {
+    type: EDIT_FIELD_TYPES.BUTTON,
+    formProps: {
+      // wrapperCol: { span: 24, offset: 9 },
+    },
+    fieldProps: {
+      type: "primary",
+      htmlType: "submit",
+      text: "Save",
+      style: {},
+      // loading: isFetching || isUpdateUserLoading,
     },
     cols: 12,
   },
@@ -85,10 +137,29 @@ const ProfilePage = () => {
   );
 
   const {
+    data: education,
+    isLoading: isEducationLoading,
+  }: UseQueryResult<string[], Error> = useQuery(
+    ["education"],
+    async () =>
+      await EnumAPI.getUserEducation().then((result) => {
+        educationOptions = result.map((item: string) => {
+          return { value: item, label: item };
+        });
+      })
+  );
+
+  const {
     data: updateImageData,
     isLoading: isUpdateImageLoading,
     mutate,
   } = useUpdateImageProfile();
+
+  const {
+    data: updateUserStudentProfile,
+    isLoading: isUpdateUserStudentProfile,
+    mutate: mutateUpdateUserStudentProfile,
+  } = useUpdateUserStudentProfile();
 
   const {
     data: updateUser,
@@ -111,6 +182,27 @@ const ProfilePage = () => {
         console.log(error);
       },
     });
+  };
+  const onFinishStudent = async (values: any) => {
+    console.log(values);
+    const params: UpdateUserProfileStudentParams = {
+      bio: values?.bio,
+      education: values?.education,
+      experience: values?.experience,
+      year: values?.year,
+    };
+
+    mutateUpdateUserStudentProfile(params, {
+      onSuccess(data, variables, context) {
+        refetch();
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
+  };
+  const onFinishMentor = async (values: any) => {
+    console.log(values);
   };
 
   const profile_fields = useMemo(() => {
@@ -198,8 +290,88 @@ const ProfilePage = () => {
     ];
   }, [isFetching, isUpdateUserLoading]);
 
-  if (isLoading) return <LoadingSkeleton />;
-  // console.log(data);
+  const student_detail_fields = useMemo(() => {
+    return [
+      {
+        type: EDIT_FIELD_TYPES.TEXTAREA,
+        fieldProps: {
+          placeholder: "Bio",
+          name: "bio",
+          label: "Bio",
+          rules: { required: true, message: "This field must not empty!" },
+          style: {
+            width: "800px",
+          },
+          onChange: (value: any) => {},
+        },
+        cols: 12,
+      },
+      {
+        type: EDIT_FIELD_TYPES.NUMERIC,
+        fieldProps: {
+          placeholder: "University year",
+          name: "year",
+          label: "University year",
+          rules: { required: true, message: "This field must not empty!" },
+          style: {
+            width: "800px",
+            height: "50px",
+            marginBottom: "60px",
+          },
+          onChange: (value: any): any => {},
+        },
+        cols: 12,
+      },
+      {
+        type: EDIT_FIELD_TYPES.TEXTAREA,
+        fieldProps: {
+          placeholder: "Experience",
+          name: "experience",
+          label: "Experience",
+          rules: { required: true, message: "This field must not empty!" },
+          style: {
+            width: "800px",
+          },
+          onChange: (value: any) => {},
+        },
+        cols: 12,
+      },
+
+      {
+        type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
+        fieldProps: {
+          placeholder: "Education",
+          name: "education",
+          label: "Education",
+          rules: { required: true, message: "This field must not empty!" },
+          options: educationOptions,
+          style: {
+            width: "800px",
+            height: "50px",
+            marginBottom: "3rem",
+          },
+          onChange: (value: any) => {},
+        },
+        cols: 12,
+      },
+      {
+        type: EDIT_FIELD_TYPES.BUTTON,
+        formProps: {
+          // wrapperCol: { span: 24, offset: 9 },
+        },
+        fieldProps: {
+          type: "primary",
+          htmlType: "submit",
+          text: "Save",
+          style: {},
+          loading: isUpdateUserStudentProfile,
+        },
+        cols: 12,
+      },
+    ];
+  }, [educationOptions, isUpdateUserStudentProfile]);
+
+  if (isLoading || isEducationLoading) return <LoadingSkeleton />;
 
   return (
     <div className={styled["container"]}>
@@ -280,24 +452,53 @@ const ProfilePage = () => {
         </div>
 
         <Divider />
-        <p className={styled["title"]}>Personal Detail</p>
+        <p className={styled["title"]}>Mentor Detail</p>
         <Form
-          name="personal_detail"
+          name="mentor_detail"
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
           layout="vertical"
           requiredMark="optional"
-          onFinish={onFinish}
+          onFinish={onFinishMentor}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           style={{
+            marginLeft: "13rem",
+            marginTop: "3rem",
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            alignItems: "center",
           }}
         >
-          <EditAndUpdateForm fields={personal_detail_fields} />
+          <EditAndUpdateForm fields={mentor_detail_fields} />
+        </Form>
+
+        <Divider />
+        <p className={styled["title"]}>Student Detail</p>
+
+        <Form
+          name="student_detail"
+          wrapperCol={{ span: 16 }}
+          initialValues={{
+            ["bio"]: data?.student.bio,
+            ["year"]: data?.student.year,
+            ["experience"]: data?.student.experience,
+            ["education"]: data?.student.education,
+          }}
+          layout="vertical"
+          requiredMark="optional"
+          onFinish={onFinishStudent}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          style={{
+            marginLeft: "13rem",
+            marginTop: "3rem",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <EditAndUpdateForm fields={student_detail_fields} />
         </Form>
       </div>
     </div>

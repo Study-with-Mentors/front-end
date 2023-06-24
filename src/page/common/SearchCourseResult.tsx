@@ -33,6 +33,8 @@ const onFinish = (values: any) => {
 
 const SearchCourseResult = ({}: SearchCourseResultProps) => {
   const navigate = useNavigate();
+  const { state, dispatch } = useContext(DataContext);
+
   const [form] = useForm();
   const level: string[] = useWatch("level", form);
   const field: string[] = useWatch("fields", form);
@@ -45,15 +47,16 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     data: courses,
     isLoading: isCoursesLoading,
     refetch,
+    isFetching,
   }: UseQueryResult<GetCourse, Error> = useQuery(
-    ["courses", level, field],
+    ["courses", state?.data, level, field],
     async () => {
       const params: SearchCourseParams = {
-        // ...(state?.searchInput && { name: state?.searchInput! }),
+        ...(state?.data && { name: state?.data }),
         ...(level?.[0] && { level: level?.[0]! }),
         ...(field && { field }),
       };
-      return await CourseAPI.getAll({});
+      return await CourseAPI.getAll(params);
     }
   );
 
@@ -164,7 +167,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ];
   }, [options, fieldOptions]);
 
-  const { state, dispatch } = useContext(DataContext);
+  console.log(state.data);
 
   return (
     <div className={styled["container"]}>
@@ -210,10 +213,10 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
           </Button>
         </div>
         <Button
+          loading={isFetching}
           onClick={() => {
-            dispatch({ type: ActionEnum.INCREMENT, payload: { value: 1 } });
-            // state.searchInput = "";
-            // refetch();
+            dispatch({ type: ActionEnum.SET, payload: { value: "" } });
+            refetch();
           }}
         >
           Show all
@@ -236,7 +239,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
         </div>
 
         <div className={styled["course-container"]}>
-          {isCoursesLoading ? (
+          {isCoursesLoading || isFetching ? (
             <LoadingSkeleton />
           ) : courses == undefined || courses?.result.length == 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

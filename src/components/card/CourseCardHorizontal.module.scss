@@ -1,5 +1,5 @@
 .container{
-    @apply   grid grid-cols-12 grid-rows-1 mb-14;
+    @apply   grid grid-cols-12 grid-rows-1 mb-10 px-4 py-6 ;
     width: 80%;
     .image-wrapper{
         @apply col-start-1 col-span-3 flex cursor-pointer;

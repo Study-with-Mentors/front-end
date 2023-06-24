@@ -5,14 +5,14 @@ import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import boxStyled from "./BoxLine.module.scss";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 
-type LineBoxProps = {
+export type LineBoxProps = {
   startTime: string;
   endTime: string;
   location: string;
   sessionName: string;
 };
 
-const LineBox = ({
+export const LineBox = ({
   startTime,
   endTime,
   location,

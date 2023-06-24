@@ -10,10 +10,10 @@
 
 
     .logo-wrapper{
-        @apply flex justify-center pt-8  ml-6 flex-col;
+        @apply flex justify-center pt-8   flex-col;
 
         .title{
-            @apply text-xl text-purple_golden font-bold;
+            @apply text-xl text-purple_golden font-bold pl-6;
         }
     }
 

@@ -1,0 +1,8 @@
+.ant-select-single.ant-select-lg .ant-select-selector .ant-select-selection-placeholder{
+     line-height: 50px !important;
+}
+
+.ant-select-selector{
+    height: 50px !important;
+    font-size: .9rem !important;
+}

@@ -1,11 +1,14 @@
 import { Avatar, Input } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "./SearchCard.module.scss";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import { ActionEnum, DataContext } from "../../App";
 
 const SearchCard = () => {
   const navigate = useNavigate();
+
+  const { state, dispatch } = useContext(DataContext);
 
   const [inputData, setInputData] = useState<string>("");
 
@@ -18,9 +21,8 @@ const SearchCard = () => {
   const _handleKeyDown = (e: any) => {
     const searchInput = e.target.value;
     if (searchInput == "") return;
-    navigate("/landing/course/search", {
-      state: { searchInput },
-    });
+    dispatch({ type: ActionEnum.SET, payload: { value: searchInput } });
+    navigate("/landing/course/search");
   };
   return (
     <div className={styled["container"]}>

@@ -39,6 +39,7 @@ import { useDeleteSession } from "../../hooks/useDeleteSessionHook";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deepEqual } from "../../utils/object";
+import CourseDetailPage from "./CourseDetailPage";
 
 //main table props
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
@@ -659,7 +660,7 @@ const EditCoursePage = () => {
         <Button
           onClick={handleAdd}
           type="primary"
-          style={{ marginBottom: 16 }}
+          style={{ margin: 16 }}
           loading={isCreateSessionLoading}
         >
           Add session
@@ -678,6 +679,10 @@ const EditCoursePage = () => {
     );
   };
 
+  const renderCourseDetail = () => {
+    return <CourseDetailPage />;
+  };
+
   const items: TabsProps["items"] = [
     {
       key: "1",
@@ -687,7 +692,7 @@ const EditCoursePage = () => {
     {
       key: "2",
       label: `Course detail`,
-      children: `Content of Tab Pane 2`,
+      children: renderCourseDetail(),
     },
   ];
 
@@ -700,7 +705,7 @@ const EditCoursePage = () => {
       <div className={styled["header"]}>
         <p className={styled["title"]}>Edit course</p>
       </div>
-      <Divider />
+      {/* <Divider /> */}
       <div className={styled["body"]}>
         <Tabs defaultActiveKey="1" items={items} />
       </div>
