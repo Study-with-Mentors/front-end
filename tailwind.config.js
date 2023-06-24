@@ -56,8 +56,9 @@ module.exports = {
         black_main: "#000000",
         purple_main: "#D3ADF7",
         purple_golden: "#391085",
-        green_main: "#01555b"
-
+        green_main: "#01555b",
+        green_success : "#20C997",
+        
       },
 
       colors: {
@@ -133,8 +134,8 @@ module.exports = {
         'taupe_main': "#B38B6D",
         'taupe_light': "#b19d8d",
         'green_light': "#daf2f3",
-        'green_main': "#4e6f71"
-
+        'green_main': "#4e6f71",
+        'green_success' : "#DCFFF5"
       },
       minWidth: {
         6: '1.5rem',

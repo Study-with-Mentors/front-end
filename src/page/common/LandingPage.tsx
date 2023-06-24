@@ -11,54 +11,10 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-const fakeCourseData: CourseCardProps[] = [
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description: "I am so clever that sometimes I don’t understand. ",
-    courseName: "Material UI/UX",
-    mentorName: "Tom_And_Jerry",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/7522025/file/original-ecb7fe958aaf754b142b62c958942a89.jpg?compress=1",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description: "I am so clever that sometimes I don’t understand. ",
-    courseName: "Material UI/UX",
-    mentorName: "Tom_And_Jerry",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description: "I am so clever that sometimes I don’t understand. ",
-    courseName: "Material UI/UX",
-    mentorName: "Tom_And_Jerry",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/7522025/file/original-ecb7fe958aaf754b142b62c958942a89.jpg?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description: "I am so clever that sometimes I don’t understand. ",
-    courseName: "Material UI/UX",
-    mentorName: "Tom_And_Jerry",
-  },
-  {
-    image:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    avatar:
-      "https://cdn.dribbble.com/userupload/4271037/file/original-35e5b8101ff04a5f5f4640a32180b7fa.png?compress=1&resize=1024x768",
-    description: "I am so clever that sometimes I don’t understand. ",
-    courseName: "Material UI/UX",
-    mentorName: "Tom_And_Jerry",
-  },
-];
+import { UseQueryResult, useQuery } from "react-query";
+import { GetCourse } from "../../types/Course.type";
+import { CourseAPI } from "../../api/CourseAPI";
+import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 
 const fakeTutorData: TutorCardProps[] = [
   {
@@ -100,6 +56,18 @@ const fakeTutorData: TutorCardProps[] = [
 ];
 
 const LandingPage = () => {
+  const {
+    data: courses,
+    isLoading: isCoursesLoading,
+  }: UseQueryResult<GetCourse, Error> = useQuery(
+    ["courses"],
+    async () => await CourseAPI.getAll({})
+  );
+
+  if (isCoursesLoading) return <LoadingSkeleton />;
+
+  console.log(courses?.result);
+
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
@@ -108,8 +76,16 @@ const LandingPage = () => {
       </div>
 
       <div className={styled["course-container"]}>
-        {fakeCourseData.map((course) => (
-          <CourseCard {...course} />
+        {courses?.result.map((course, index) => (
+          <CourseCard
+            key={index}
+            id={course.id}
+            description={course.fullName}
+            courseLevel={course.courseLevel}
+            images={course.images}
+            mentor={course.mentor}
+            shortName={course.shortName}
+          />
         ))}
       </div>
 

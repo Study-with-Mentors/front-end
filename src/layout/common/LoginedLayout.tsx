@@ -6,7 +6,7 @@ import MainFooter from "../../components/footer/MainFooter";
 const LoginedLayout = () => {
   return (
     <div>
-      <MainHeader isLogined={true} />
+      <MainHeader />
       <Outlet />
       <MainFooter />
     </div>

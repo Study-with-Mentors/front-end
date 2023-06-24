@@ -1,28 +1,72 @@
-import http from "../utils/http";
+import http, { toQueryParams } from "../utils/http";
 
 export type CreateCourseParams = {
   shortName: string;
   fullName: string;
   description: string;
   learningOutcome: string;
-  CourseStatus: string;
+  status: string;
   courseLevel: string;
   intendedLearner: string;
-  field: { id: string };
+  fieldId: string;
+};
+
+type Direction = {
+  ASC: "ASC";
+  DES: "DES";
+};
+
+export type SearchCourseParams = {
+  orderBy?: string;
+  name?: string;
+  level?: string;
+  mentorId?: string;
+  page?: string;
+  field?: string[];
+  learner?: string;
+  dir?: string;
 };
 
 export const CourseAPI = {
-  createCourse: async (createCourseParams: CreateCourseParams) => {
+  getAll: async (searchCourseParams: SearchCourseParams) => {
+    var url;
+    if (Object.keys(searchCourseParams).length == 0) {
+      url = "/course";
+    } else {
+      url = `/course?${toQueryParams(searchCourseParams).toString()}`;
+    }
+
+    const res = await http.get(url);
+    return res.data;
+  },
+  getById: async (id: string) => {
     try {
-      const res = http.post("/course", createCourseParams, {
+      const res = await http.get(`/course/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
       });
-
-      return res;
+      return res.data;
     } catch (error) {
       throw error;
     }
+  },
+  createCourse: async (createCourseParams: CreateCourseParams) => {
+    const res = await http.post("/course", createCourseParams, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+
+    return res.data;
+  },
+  getCourseByMentorToken: async () => {
+    const res = await http.get("/mentor/course", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+
+    return res.data;
   },
 };

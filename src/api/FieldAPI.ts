@@ -11,11 +11,7 @@ export type GetField = {
 export const FieldAPI = {
   getAll: async () => {
     try {
-      const res = await http.get("/field", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const res = await http.get("/field");
       return res?.data;
     } catch (err: any) {
       throw err;

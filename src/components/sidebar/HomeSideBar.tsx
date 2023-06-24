@@ -19,7 +19,7 @@ const items: MenuProps["items"] = [
   },
   {
     label: "Course",
-    key: "/home/course/edit/1",
+    key: "/home/courses",
     icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
   },
   {
@@ -53,8 +53,13 @@ const HomeSideBar = () => {
   const location = useLocation();
 
   const onClick: MenuProps["onClick"] = (e) => {
-    navigate(`${e.key}`);
-    setCurrent(e.key);
+    if (e.key == "/home/logout") {
+      localStorage.clear();
+      navigate("/signin");
+    } else {
+      navigate(`${e.key}`);
+      setCurrent(e.key);
+    }
   };
 
   return (
@@ -62,6 +67,7 @@ const HomeSideBar = () => {
       <div className={styled["logo-wrapper"]}>
         {/* <img className={styled["logo"]} src={LogoIcon} alt="" /> */}
         <div className={styled["title"]}>STUDY WITH MENTOR</div>
+        <Divider />
       </div>
       <Menu
         className={styled["menu"]}

@@ -1,5 +1,5 @@
 .container{
-    margin-right: 260px;
+    @apply mx-16;
     .header{
         @apply mt-10;
         p{

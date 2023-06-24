@@ -5,16 +5,20 @@ import VoIu from "../../assets/voiu.jpg";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmailIcon from "@mui/icons-material/Email";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+import { UseQueryResult, useQuery } from "react-query";
+import { GetUserResult } from "../../types/User.type";
+import { UserAPI } from "../../api/UserAPI";
+import { useParams } from "react-router-dom";
 
 export type MentorDetailProps = {
-  id: string;
-  mentorName: string;
-  workPosition: string;
-  decription: string;
-  skillList: string[];
-  location: string;
-  email: string;
-  mentorBackgrounds: MentorBackground[];
+  // id: string;
+  // mentorName: string;
+  // workPosition: string;
+  // decription: string;
+  // skillList: string[];
+  // location: string;
+  // email: string;
+  // mentorBackgrounds: MentorBackground[];
 };
 
 export type MentorBackground = {
@@ -106,35 +110,38 @@ const columns = [
   },
 ];
 
-const MentorDetail = ({
-  id,
-  email,
-  decription,
-  location,
-  mentorName,
-  skillList,
-  workPosition,
-  mentorBackgrounds,
-}: MentorDetailProps) => {
+const MentorDetail = ({}: MentorDetailProps) => {
+  const params = useParams();
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    refetch,
+  }: UseQueryResult<GetUserResult, Error> = useQuery(
+    ["user", params?.id],
+    async () => await UserAPI.getById(params?.id ?? "")
+  );
+
   return (
     <div className={styled["container"]}>
       <div className={styled["profile-container"]}>
         <div className={styled["avatar-wrapper"]}>
           <div className={styled["image-wrapper"]}>
-            <Image className={styled["image"]} src={VoIu} />
+            <Image className={styled["image"]} src={data?.profileImage} />
           </div>
-          <p className={styled["name"]}>{mentorName}</p>
-          <p className={styled["desctiption"]}>{workPosition}</p>
+          <p className={styled["name"]}>{data?.lastName}</p>
+          <p className={styled["desctiption"]}>{data?.mentor.degree}</p>
         </div>
         <div className={styled["about-wrapper"]}>
           <p className={styled["title"]}>About me</p>
-          <p className={styled["description"]}>{decription}</p>
+          <p className={styled["description"]}>{data?.mentor.bio}</p>
           <div className={styled["skill-wrapper"]}>
-            {skillList?.map((item, index) => (
+            {/* {skillList?.map((item, index) => (
               <span key={index} className={styled["skill"]}>
                 {item}
               </span>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className={styled["contact-info"]}>
@@ -142,19 +149,20 @@ const MentorDetail = ({
           <p className={styled["sub-title"]}>Location</p>
           <div className={styled["content"]}>
             <LocationOnIcon className={styled["icon"]} />
-            {location}
+            HCM City
+            {/* {data?.gender} */}
           </div>
           <p className={styled["sub-title"]}>Email</p>
           <div className={styled["content"]}>
             <EmailIcon className={styled["icon"]} />
-            {email}
+            {data?.email}
           </div>
         </div>
       </div>
       <div className={styled["course-container"]}>
         <div className={styled["certificate-container"]}>
           <p className={styled["title"]}> Education Background</p>
-          {mentorBackgrounds?.map((item, index) => (
+          {/* {mentorBackgrounds?.map((item, index) => (
             <div key={index} className={styled["certificate-wrapper"]}>
               {" "}
               <Avatar
@@ -175,7 +183,7 @@ const MentorDetail = ({
                 <InsertLinkOutlinedIcon className={styled["icon"]} />
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
         <div className={styled["course-wrapper"]}>
           <Table

@@ -39,11 +39,11 @@
                 }
 
                 .create-by{
-                    @apply text-gray_main;
+                    @apply text-gray_main cursor-pointer;
                     font-size: 14px;
 
                     span{
-                        @apply font-medium;
+                        @apply font-semibold ;
                         color: #102844;
                     }   
                 }
@@ -94,3 +94,4 @@
         }
     }
 }
+
