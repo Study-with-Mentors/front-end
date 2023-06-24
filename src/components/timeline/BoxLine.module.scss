@@ -1,0 +1,40 @@
+.container{
+    @apply grid grid-cols-12 ;
+
+    .header{
+        @apply col-start-1 col-span-3;
+
+        .icon-wrapper{
+            @apply flex items-center mb-2;
+            .icon{
+                @apply text-lg mr-2;
+                color: #868686;
+            }
+        }
+    }
+
+    .body{
+        @apply col-start-4 col-span-6;
+
+        .sessionName{
+            @apply mb-2 text-black font-medium;
+        }
+
+        .avatar{
+            @apply w-6 h-6;
+        }
+    }
+
+    .footer{
+        @apply col-start-10 col-span-3 flex justify-center items-center;
+
+        .button{
+            @apply w-26 h-11 bg-gray-100 border-none;
+        }
+    }
+
+    p{
+        margin: 0;
+    }
+}
+

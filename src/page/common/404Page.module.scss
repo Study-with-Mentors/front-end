@@ -1,0 +1,12 @@
+.container {
+    @apply flex justify-center relative items-center;
+    background-image: url(../../assets/bg-login3.jpg);
+    width: 100vw;
+    height: 100vh;
+
+    .body {
+        @apply flex flex-col items-center;
+        font-size: x-large;
+        width: 1000px;
+    }
+}

@@ -17,7 +17,7 @@ const fields = [
     fieldProps: {
       placeholder: "Full name",
       name: "fullname",
-      rules: { required: true, message: "Fullname must not empty!" },
+      rules: [{ required: true, message: "Fullname must not empty!" }],
       style: {
         width: "500px",
         height: "50px",
@@ -31,7 +31,16 @@ const fields = [
     fieldProps: {
       placeholder: "Email",
       name: "email",
-      rules: { required: true, message: "Email must not empty!" },
+      rules: [
+        {
+          required: true,
+          message: "This field shouldn't be empty!",
+        },
+        {
+          type: "email",
+          message: "Please input valid email! ",
+        },
+      ],
       style: {
         width: "500px",
         height: "50px",
@@ -45,7 +54,7 @@ const fields = [
     fieldProps: {
       placeholder: "Password",
       name: "password",
-      rules: { required: true, message: "Password must not empty!" },
+      rules: [{ required: true, message: "Password must not empty!" }],
       style: {
         width: "500px",
         height: "50px",
@@ -59,7 +68,7 @@ const fields = [
     fieldProps: {
       placeholder: "Confirm password",
       name: "confirm",
-      rules: { required: true, message: "This field must not empty!" },
+      rules: [{ required: true, message: "This field must not empty!" }],
       style: {
         width: "500px",
         height: "50px",
@@ -71,28 +80,21 @@ const fields = [
   {
     type: FIELD_TYPES.SELECT,
     fieldProps: {
-      name: "role",
-      // rules: { required: true, message: "This field must not empty!" },
-      label: (
-        <span
-          style={{
-            color: "#2E2C2C",
-            fontSize: "16px",
-            fontWeight: 400,
-          }}
-        >
-          {" "}
-          I am a
-        </span>
-      ),
+      name: "gender",
+      placeholder: "Gender",
+      rules: [{ required: true, message: "This field must not empty!" }],
+      style: {
+        width: "500px",
+        height: "50px",
+      },
       options: [
         {
-          label: "Tutor",
-          value: "Tutor",
+          label: "Male",
+          value: "Male",
         },
         {
-          label: "Student",
-          value: "Student",
+          label: "Female",
+          value: "Female",
         },
       ],
       cols: 12,

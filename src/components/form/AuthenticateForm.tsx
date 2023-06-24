@@ -1,6 +1,6 @@
 import React from "react";
 import LoginIcon from "../../assets/login_icon.png";
-import { Button, Checkbox, Form, Image, Input } from "antd";
+import { Button, Checkbox, Form, Image, Input, Select } from "antd";
 import "./AuthenticateForm.css";
 
 const renderText = ({ fieldProps }: any) => {
@@ -10,7 +10,7 @@ const renderText = ({ fieldProps }: any) => {
     <Form.Item
       wrapperCol={{ span: 24 }}
       name={name}
-      rules={[rules]}
+      rules={rules}
       style={style}
     >
       <Input style={{ height: "50px" }} placeholder={placeholder} />
@@ -19,7 +19,7 @@ const renderText = ({ fieldProps }: any) => {
 };
 
 const renderButton = ({ fieldProps, formProps }: any) => {
-  const { type, htmlType, text } = fieldProps;
+  const { type, htmlType, text, isLoading } = fieldProps;
 
   return (
     <Form.Item {...formProps}>
@@ -36,6 +36,7 @@ const renderButton = ({ fieldProps, formProps }: any) => {
           backgroundColor: "#391085",
           marginTop: "32px",
         }}
+        loading={isLoading}
       >
         {text}
       </Button>
@@ -48,7 +49,7 @@ const renderPassword = ({ fieldProps }: any) => {
   return (
     <Form.Item
       name={name}
-      rules={[rules]}
+      rules={rules}
       wrapperCol={{ span: 24 }}
       style={style}
     >
@@ -57,14 +58,14 @@ const renderPassword = ({ fieldProps }: any) => {
   );
 };
 
-const renderSelect = ({ fieldProps }: any) => {
+const renderCheckBox = ({ fieldProps }: any) => {
   const { options, name, rules, style, label } = fieldProps;
 
   return (
     <Form.Item
       name={name}
       label={label}
-      rules={[rules]}
+      rules={rules}
       wrapperCol={{ span: 24 }}
       // style={style}
     >
@@ -78,10 +79,31 @@ const renderSelect = ({ fieldProps }: any) => {
   );
 };
 
+const renderSelect = ({ fieldProps }: any) => {
+  const { options, name, rules, label, placeholder } = fieldProps;
+
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      rules={rules}
+      wrapperCol={{ span: 24 }}
+    >
+      <Select
+        placeholder={placeholder}
+        options={options}
+        size="large"
+        listHeight={100}
+      />
+    </Form.Item>
+  );
+};
+
 export const FIELD_TYPES = {
   TEXT: "text",
   BUTTON: "button",
   PASSWORD: "password",
+  CHECKBOX: "checkbox",
   SELECT: "select",
 };
 
@@ -89,6 +111,7 @@ const FORM_MAPPING = {
   [FIELD_TYPES.TEXT]: renderText,
   [FIELD_TYPES.BUTTON]: renderButton,
   [FIELD_TYPES.PASSWORD]: renderPassword,
+  [FIELD_TYPES.CHECKBOX]: renderCheckBox,
   [FIELD_TYPES.SELECT]: renderSelect,
 };
 

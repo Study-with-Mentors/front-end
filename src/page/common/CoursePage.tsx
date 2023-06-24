@@ -1,33 +1,55 @@
 import React from "react";
 import styled from "./CoursePage.module.scss";
-import { Image, Tabs, Divider, Button } from "antd";
+import { Image, Tabs, Divider, Button, Avatar } from "antd";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import AccessibleForwardOutlinedIcon from "@mui/icons-material/AccessibleForwardOutlined";
 import PlayLessonOutlinedIcon from "@mui/icons-material/PlayLessonOutlined";
 import BackupTableOutlinedIcon from "@mui/icons-material/BackupTableOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+import { useParams } from "react-router-dom";
+import { UseQueryResult, useQuery } from "react-query";
+import { GetCourseResult } from "../../types/Course.type";
+import { CourseAPI } from "../../api/CourseAPI";
+import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
+import { GetSessionResult } from "../../types/Session.type";
+import { SessionAPI } from "../../api/SessionAPI";
+import { SessionCard } from "../../components/card/SessionCard";
 
-export type CoursePageProps = {
-  courseName: string;
-  createBy: string;
-  courseFee: string;
-  discount: string;
-};
+export type CoursePageProps = {};
 
-const CoursePage = ({
-  courseName,
-  createBy,
-  courseFee,
-  discount,
-}: CoursePageProps) => {
+const CoursePage = () => {
+  const params = useParams();
+
+  const { data: course, isLoading }: UseQueryResult<GetCourseResult, Error> =
+    useQuery(
+      ["course", params?.id],
+      async () => await CourseAPI.getById(params?.id ?? "0"),
+      {
+        enabled: Boolean(params.id),
+      }
+    );
+
+  const {
+    data: session,
+    isLoading: isLoadingSession,
+  }: UseQueryResult<GetSessionResult[], Error> = useQuery(
+    ["sessions", course?.id],
+    async () => await SessionAPI.getSessionByCourseID(course?.id ?? "0"),
+    {
+      enabled: Boolean(params.id),
+    }
+  );
+
+  if (isLoading && isLoadingSession) return <LoadingSkeleton />;
+
   return (
     <div className={styled["container"]}>
       <div className={styled["body-wrapper"]}>
         <div className={styled["header"]}>
           <p className={styled["title"]}>Discover</p>
           <p className={styled["description"]}>
-            Courses &gt; <span>{courseName}</span>
+            Courses &gt; <span>{course?.shortName}</span>
           </p>
         </div>
         <div className={styled["body"]}>
@@ -42,44 +64,53 @@ const CoursePage = ({
             />
           </div>
           <div className={styled["body_header-wrapper"]}>
-            <p className={styled["title"]}>{courseName}</p>
+            <p className={styled["title"]}>{course?.fullName}</p>
             <p className={styled["create-by"]}>
-              By <span>{createBy}</span>
+              By{" "}
+              <Avatar
+                style={{
+                  border: "1px solid #ccc",
+                  margin: "0 .1rem 0 .2rem",
+                }}
+                src={course?.mentor.profileImage}
+              />{" "}
+              <span>{course?.mentor.lastName}</span>
             </p>
             <Tabs
               defaultActiveKey="2"
-              items={["Information", "Content"].map((item, i) => {
-                return {
-                  label: <span>Tab {item}</span>,
-                  key: item,
-                  children: `Tab ${item}`,
-                };
-              })}
+              items={[
+                {
+                  label: "Information",
+                  key: "Information",
+                  children: course?.description,
+                },
+                {
+                  label: "Lession",
+                  key: "Lession",
+                  children: session?.map((item, index) =>
+                    SessionCard({
+                      key: index,
+                      title: item.sessionName,
+                      sessionNumber: item.sessionNum,
+                      descrition: item.description,
+                    })
+                  ),
+                },
+              ]}
+              // items={["Information", "Content"].map((item, i) => {
+              //   return {
+              //     label: <span>Tab {item}</span>,
+              //     key: item,
+              //     children: `Tab ${item}`,
+              //   };
+              // })}
             />
-            <p className={styled["content"]}>
-              IBM is the second-largest Predictive, consectetur adipiscing elit.
-              Sit turpis egestas aenean amet ac rhoncus vitae tristique. A sed
-              magna vitae nullam. Accumsan ullamcorper amet congue fermentum
-              egestas purus molestie nam. Dolor, dictumst mauris vestibulum
-              vehicula vel cras. Pellentesque nam congue auctor dolor mattis
-              erat. Pharetra feugiat in justo purus dolor feugiat ultrices.
-              <p>&nbsp;</p> Pretium at parturient curabitur eget nunc pharetra.
-              Vitae pharetra adipiscing purus faucibus bibendum. Ultrices mi
-              tristique et enim pretium lacus, vivamus. Augue eget fermentum,
-              mauris viverra. <p>&nbsp;</p> Tristique arcu ipsum risus a arcu
-              pellentesque pharetra velit. Neque, erat tristique volutpat
-              faucibus mattis vulputate faucibus. Ut phasellus nulla at sociis
-              est, turpis purus. Faucibus donec malesuada tristique quam commodo
-              felis nulla.
-            </p>
             <Divider />
           </div>
         </div>
       </div>
       <div className={styled["sidebar"]}>
-        <p className={styled["price"]}>
-          VND {courseFee} <span>{discount}</span>
-        </p>
+        <p className={styled["price"]}>VND 200</p>
         <Button type="primary" className={styled["button"]}>
           <ShoppingCartOutlinedIcon
             style={{
@@ -90,10 +121,7 @@ const CoursePage = ({
         </Button>
         <Divider />
         <p className={styled["title"]}>What you'll learn</p>
-        <p className={styled["description"]}>
-          Access to IBM Cloud modelling what is I was looking for and Aaron got
-          me the solution.
-        </p>
+        <p className={styled["description"]}>{course?.description}</p>
         <Divider />
         <p className={styled["title"]}>This course includes:</p>
         <p className={styled["course-activity"]}>
@@ -106,19 +134,19 @@ const CoursePage = ({
         </p>
         <p className={styled["course-activity"]}>
           <PlayLessonOutlinedIcon className={styled["icon"]} />
-          {" 20 Lessons"}
+          {session?.length + " Lessons"}
         </p>
-        <p className={styled["course-activity"]}>
+        {/* <p className={styled["course-activity"]}>
           <BackupTableOutlinedIcon className={styled["icon"]} />
           {" 5 Courses"}
-        </p>
+        </p> */}
         <p className={styled["course-activity"]}>
           <BarChartOutlinedIcon className={styled["icon"]} />
-          {" Level: Beginner"}
+          {" Level: " + course?.courseLevel}
         </p>
         <Divider />
         <p className={styled["title"]}>Tags:</p>
-        <div className={styled["tag"]}>Web Learning</div>
+        <div className={styled["tag"]}>{course?.learningOutcome}</div>
       </div>
     </div>
   );

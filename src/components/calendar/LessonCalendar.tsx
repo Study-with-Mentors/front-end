@@ -6,6 +6,7 @@ import styled from "./LessonCalendar.module.scss";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import DayTimeLine from "../timeline/DayTimeLine";
+import "./LessonCalendar.css";
 
 const getListData = (value: Dayjs) => {
   let listData;
@@ -70,21 +71,27 @@ const LessonCalendar: React.FC = () => {
   const cellRender = (current: Dayjs, info: CellRenderInfo<Dayjs>) => {
     return dateCellRender(current);
   };
-
+  {
+    console.log(selectedValue);
+  }
   return (
     <>
       <div className={styled["detail-container"]}>
-        <DayTimeLine />
-        {/* {selectedValue?.format("YYYY-MM-DD")} */}
+        <DayTimeLine date={selectedValue?.format("ddd DD-MM-YYYY")} />
       </div>
-      <Calendar
-        cellRender={cellRender}
-        mode="month"
-        value={value}
-        onSelect={onSelect}
-        onPanelChange={onPanelChange}
-      />
-      ;
+
+      <div className={styled["calendar-container"]}>
+        <Calendar
+          cellRender={cellRender}
+          style={{
+            padding: "2rem",
+          }}
+          mode="month"
+          value={value}
+          onSelect={onSelect}
+          onPanelChange={onPanelChange}
+        />
+      </div>
     </>
   );
 };
