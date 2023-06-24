@@ -7,11 +7,13 @@ import "./LeftSideBar.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import BookIcon from "@mui/icons-material/Book";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
 
 const items: MenuProps["items"] = [
   {
     label: "Dashboard",
-    key: "dashboard",
+    key: "",
     icon: <DashboardIcon style={{ fontSize: "26px" }} />,
   },
   {
@@ -23,6 +25,11 @@ const items: MenuProps["items"] = [
     label: "Course",
     key: "course",
     icon: <BookIcon style={{ fontSize: "26px" }} />,
+  },
+  {
+    label: "Logout",
+    key: "logout",
+    icon: <LogoutIcon style={{ fontSize: "26px" }} />,
   },
   // {
   //   label: (
@@ -36,10 +43,16 @@ const items: MenuProps["items"] = [
 
 const LeftSideBar = () => {
   const [current, setCurrent] = useState("dashboard");
+  const navigate = useNavigate();
 
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
+    if (e.key === "logout") {
+      localStorage.clear();
+      navigate("/signin");
+    } else {
+      navigate(`${e.key}`);
+      setCurrent(e.key);
+    }
   };
 
   return (

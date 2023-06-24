@@ -17,8 +17,10 @@ import CourseListPage from "../page/common/CourseListPage";
 import NotFoundPage from "../page/common/404Page";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminLandingLayout from "../layout/admin/AdminLandingLayout";
-import AdminLandingPage from "../page/admin/AdminLandingPage";
+import AdminLandingPageDashboard from "../page/admin/AdminLandingPageDashboard";
 import UserList from "../layout/admin/user/Index";
+import AdminUser from "../page/admin/AdminUser";
+import AdminCourse from "../page/admin/AdminCourse";
 const CommonRoute = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -129,11 +131,20 @@ const CommonRoute = () => {
         path: "/admin",
         element: <AdminLandingLayout />,
         children: [
-          { path: "", element: <AdminLandingPage />, index: true },
+          {
+            path: "",
+            element: <Outlet />,
+            children: [{ path: "", element: <AdminLandingPageDashboard />, index: true }],
+          },
           {
             path: "user",
             element: <Outlet />,
-            children: [{ path: "", element: <UserList />, index: true }],
+            children: [{ path: "", element: <AdminUser />, index: true }],
+          },
+          {
+            path: "course",
+            element: <Outlet />,
+            children: [{ path: "", element: <AdminCourse />, index: true }],
           },
         ],
       }),
