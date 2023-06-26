@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import type { RadioChangeEvent } from "antd";
-import { Avatar, Button, Radio, Timeline } from "antd";
+import { Avatar, Button, Radio, Spin, Timeline } from "antd";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import boxStyled from "./BoxLine.module.scss";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import { GetCourseResult } from "../../types/Course.type";
+import { GetLessonResult } from "../../types/Lesson.type";
+import { UseQueryResult, useQuery } from "react-query";
+import { CourseAPI } from "../../api/CourseAPI";
+import dayjs from "dayjs";
 
 export type LineBoxProps = {
-  startTime: string;
-  endTime: string;
+  courseId: string;
+  startTime: Date;
+  endTime: Date;
   location: string;
-  sessionName: string;
 };
 
 export const LineBox = ({
   startTime,
   endTime,
   location,
-  sessionName,
+  courseId,
 }: LineBoxProps) => {
+  const { data, isLoading }: UseQueryResult<GetCourseResult, Error> = useQuery(
+    ["course", courseId],
+    async () => await CourseAPI.getById(courseId)
+  );
   return (
-    <>
+    <Spin spinning={isLoading}>
       <div className={boxStyled["container"]}>
         <div className={boxStyled["header"]}>
           <div className={boxStyled["icon-wrapper"]}>
-            <AccessTimeFilledIcon className={boxStyled["icon"]} /> {startTime} -{" "}
-            {endTime}
+            <AccessTimeFilledIcon className={boxStyled["icon"]} />{" "}
+            {dayjs(startTime).format("LT")} - {dayjs(endTime).format("LT")}
           </div>
           <div className={boxStyled["icon-wrapper"]}>
             <FmdGoodIcon
@@ -37,7 +46,7 @@ export const LineBox = ({
           </div>
         </div>
         <div className={boxStyled["body"]}>
-          <p className={boxStyled["sessionName"]}>{sessionName}</p>
+          <p className={boxStyled["sessionName"]}>{data?.fullName}</p>
           <Avatar.Group
             maxCount={2}
             maxStyle={{
@@ -67,22 +76,22 @@ export const LineBox = ({
           <Button className={boxStyled["button"]}>Detail</Button>
         </div>
       </div>
-    </>
+    </Spin>
   );
-};
-
-const fakeLineBoxData: LineBoxProps = {
-  endTime: "end time",
-  location: "online",
-  sessionName: "This is course name",
-  startTime: "start time",
 };
 
 type DateTimeLineProps = {
   date: string;
+  lessonList?: GetLessonResult[];
 };
 
-const DayTimeLine = ({ date }: DateTimeLineProps) => {
+const DayTimeLine = ({ date, lessonList }: DateTimeLineProps) => {
+  const timelineItems = lessonList?.map((lesson: GetLessonResult) => {
+    return {
+      // children: <LineBox {...lesson} />,
+    };
+  });
+
   return (
     <div style={{ marginTop: "20px", padding: "2rem 0 .8rem 1rem " }}>
       <h3
@@ -92,23 +101,7 @@ const DayTimeLine = ({ date }: DateTimeLineProps) => {
       >
         {date}
       </h3>
-      <Timeline
-        mode={"left"}
-        items={[
-          {
-            children: <LineBox {...fakeLineBoxData} />,
-          },
-          {
-            children: <LineBox {...fakeLineBoxData} />,
-          },
-          {
-            children: <LineBox {...fakeLineBoxData} />,
-          },
-          {
-            children: <LineBox {...fakeLineBoxData} />,
-          },
-        ]}
-      />
+      <Timeline mode={"left"} items={timelineItems} />
     </div>
   );
 };

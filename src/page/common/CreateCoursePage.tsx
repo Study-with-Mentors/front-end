@@ -119,6 +119,7 @@ const profile_fields = [
     type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
     fieldProps: {
       name: "level",
+      placeholder: "Course level",
       rules: { required: true, message: "This field must be select!" },
       label: "Level",
       options: [
@@ -170,7 +171,6 @@ const CreateCoursePage = () => {
       intendedLearner: values.intendedLearner,
       learningOutcome: values.learningOutcome,
     };
-    console.log(createCourseParams);
 
     await createCourse(createCourseParams, {
       onSuccess(data, variables, context) {
@@ -194,7 +194,10 @@ const CreateCoursePage = () => {
   return (
     <div className={styled["container"]}>
       <div className={styled["background-container"]}>
-        <Button className={styled["button"]}>
+        <Button
+          onClick={() => navigate("/home/courses")}
+          className={styled["button"]}
+        >
           <ArrowBackIcon />
         </Button>
         <p className={styled["title"]}>

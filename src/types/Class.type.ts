@@ -6,5 +6,5 @@ export type GetClassResult = {
   enrollmentEndDate: Date;
   status: string;
   price: number;
-  courseId: number;
+  courseId: string;
 };

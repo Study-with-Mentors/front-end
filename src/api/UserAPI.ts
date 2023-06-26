@@ -33,7 +33,7 @@ export type UpdateUserProfileMentorParams = {
   version?: number;
   bio?: string;
   degree?: string;
-  fieldId?: string;
+  field?: { id: string };
 };
 
 export const UserAPI = {
@@ -53,8 +53,13 @@ export const UserAPI = {
     });
     return res?.data;
   },
-  getById: async (id: string) => {
-    const res = await http.get(`/user/profile/${id}`);
+  getMentorProfileById: async (id: string) => {
+    const res = await http.get(`/mentor/${id}`);
+    return res?.data;
+  },
+
+  getMentorList: async () => {
+    const res = await http.get(`/mentor`);
     return res?.data;
   },
   uploadImageProfile: async (params: UploadImageProfileProps) => {
@@ -81,8 +86,8 @@ export const UserAPI = {
     });
     return res?.data;
   },
-  updateUserProfileMentor: async (params: UpdateUserProfileStudentParams) => {
-    const res = await http.put("/user/profile/student", params, {
+  updateUserProfileMentor: async (params: UpdateUserProfileMentorParams) => {
+    const res = await http.put("/user/profile/mentor", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

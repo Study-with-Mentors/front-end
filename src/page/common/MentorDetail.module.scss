@@ -1,5 +1,5 @@
 .container{
-    @apply  p-9 overflow-hidden flex justify-center bg-white mb-80;
+    @apply  p-9 overflow-hidden flex justify-center bg-white h-full;
     .profile-container{
         width: 440px;
         .avatar-wrapper{
@@ -7,6 +7,7 @@
             border: 1px solid #ccc;
             .image-wrapper{
                 @apply m-auto w-full text-center bg-taupe_light rounded-xl;
+                border: 1px solid #B38B6D;
                 .image{
                     @apply  w-full;
                     max-height: 200px; 
@@ -23,29 +24,7 @@
             }
         }
 
-        .about-wrapper{
-            @apply px-9 py-7 rounded-2xl mb-8;
-            border: 1px solid #ccc;
-
-            .title{
-                @apply font-extrabold mb-1 mt-0;
-                font-size: 20px;
-            }
-
-            .description{
-                @apply text-gray_main mt-3 font-medium  leading-6 mb-6;
-                font-size: 14px;
-            }
-            .skill-wrapper{
-                @apply flex;
-                width: 100%;
-                flex-wrap: wrap;
-                .skill{
-                    @apply text-sm bg-green_light text-green_main font-semibold px-3 py-2 rounded-2xl mr-3 mt-2;
-                    flex-shrink: 0;
-                }
-            }
-        }
+       
 
         .contact-info{
             @apply px-9 py-7 rounded-2xl;
@@ -72,6 +51,30 @@
     .course-container{
         @apply ml-9;
         width: 880px;
+
+        .about-wrapper{
+            @apply px-9 py-7 rounded-2xl mb-8;
+            border: 1px solid #ccc;
+
+            .title{
+                @apply font-extrabold mb-1 mt-0;
+                font-size: 20px;
+            }
+
+            .description{
+                @apply text-gray_main mt-3 font-medium  leading-6 mb-6;
+                font-size: 14px;
+            }
+            .skill-wrapper{
+                @apply flex;
+                width: 100%;
+                flex-wrap: wrap;
+                .skill{
+                    @apply text-sm bg-green_light text-green_main font-semibold px-3 py-2 rounded-2xl mr-3 mt-2;
+                    flex-shrink: 0;
+                }
+            }
+        }
 
         .certificate-container{
             @apply px-7  mb-9 ;

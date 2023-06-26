@@ -36,7 +36,8 @@ module.exports = {
     extend: {
 
       borderColor: {
-        primary: "rgb(239,239,239)"
+        primary: "rgb(239,239,239)",
+        taube: "B38B6D"
       },
       textColor: {
         primary: "rgb(142,142,142)",

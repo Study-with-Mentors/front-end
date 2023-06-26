@@ -80,6 +80,7 @@ const ListClass = () => {
             sessionName="session name"
             mentorImage="none"
             mentorName="none"
+            courseId={item.courseId}
           />
           {index != classes.length - 1 ? <Divider /> : <></>}
         </div>

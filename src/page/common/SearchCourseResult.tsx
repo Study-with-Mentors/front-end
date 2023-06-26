@@ -167,8 +167,6 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ];
   }, [options, fieldOptions]);
 
-  console.log(state.data);
-
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>

@@ -43,6 +43,12 @@ export type GetUserResult = {
   };
 };
 
+export type GetMentorResult = {
+  totalPages: number;
+  totalElements: number;
+  result: GetUserResult[];
+};
+
 export enum GENDER {
   NONE = "NONE",
   MALE = "MALE",
