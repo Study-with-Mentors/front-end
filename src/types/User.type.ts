@@ -7,7 +7,7 @@ export type UserDetail = {
   lastname: string;
   birthdate: string;
   gender: string;
-  role: string;
+  role?: "USER" | "ADMIN";
 };
 
 export type Mentor = {
@@ -42,6 +42,19 @@ export type GetUserResult = {
     education: EDUCATION;
   };
 };
+
+export type CourseTableDetail = {
+  id: string;
+  name: string;
+  user: string;
+  field: string;
+  level: string;
+};
+
+export enum ROLE {
+  ADMIN = "ADMIN",
+  USER = "USER"
+}
 
 export enum GENDER {
   NONE = "NONE",

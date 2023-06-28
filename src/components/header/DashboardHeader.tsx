@@ -5,7 +5,7 @@ export type DashBoardHeaderProps = {
   navigationLink: string[];
 };
 
-const DashboardHeader = ({ navigationLink }: DashBoardHeaderProps) => {
+const  DashboardHeader = ({ navigationLink }: DashBoardHeaderProps) => {
   return (
     <div className={styled["container"]}>
       <span>Home</span>

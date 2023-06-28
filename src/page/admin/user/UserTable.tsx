@@ -1,8 +1,7 @@
-import React from "react";
 import { UserDetail } from "../../../types/User.type";
 import type { ColumnsType } from "antd/es/table";
-import { Table, Space, Pagination } from "antd";
-import styled from "./Index.module.scss";
+import { Table, Space } from "antd";
+import styled from "./AdminUser.module.scss";
 
 const fakeUserDetailData: UserDetail[] = [
   {
@@ -12,7 +11,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
   {
     userId: "2",
@@ -21,7 +19,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
   {
     userId: "3",
@@ -30,7 +27,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
   {
     userId: "4",
@@ -39,7 +35,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
   {
     userId: "5",
@@ -48,7 +43,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
   {
     userId: "6",
@@ -57,7 +51,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
   {
     userId: "7",
@@ -66,7 +59,6 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "USER",
   },
 ];
 
@@ -92,48 +84,22 @@ const columns: ColumnsType<UserDetail> = [
     key: "birthdate",
   },
   {
-    title: "Role",
-    dataIndex: "role",
-    key: "role",
-  },
-  {
     title: "Gender",
     dataIndex: "gender",
     key: "gender",
   },
-  //   {
-  //     title: "Tags",
-  //     key: "tags",
-  //     dataIndex: "tags",
-  //     render: (_, { tags }) => (
-  //       <>
-  //         {tags.map((tag) => {
-  //           let color = tag.length > 5 ? "geekblue" : "green";
-  //           if (tag === "loser") {
-  //             color = "volcano";
-  //           }
-  //           return (
-  //             <Tag color={color} key={tag}>
-  //               {tag.toUpperCase()}
-  //             </Tag>
-  //           );
-  //         })}
-  //       </>
-  //     ),
-  //   },
   {
     title: "Action",
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a>Invite {record.firstname}</a>
         <a style={{ color: "red" }}>Delete</a>
       </Space>
     ),
   },
 ];
 
-const UserList = () => {
+const UserTable = () => {
   return (
     <div className={styled["container"]}>
       <Table
@@ -150,4 +116,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UserTable;

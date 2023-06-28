@@ -9,11 +9,8 @@ const AdminLandingLayout = () => {
     <div className={styled["container"]}>
       <LeftSideBar />
       <div
-        style={{
-          width: "100%",
-        }}
+        style={{ width: '100%', backgroundColor: "#f2f4f7" }}
       >
-        <DashboardHeader navigationLink={["comoo"]} />
         <Outlet />
       </div>
     </div>

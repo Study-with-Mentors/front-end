@@ -1,7 +1,7 @@
 import { Children } from "react";
 import { Outlet, useRoutes } from "react-router-dom";
 import AdminLandingLayout from "../layout/admin/AdminLandingLayout";
-import AdminLandingPageDashboard from "../page/admin/AdminLandingPageDashboard";
+import AdminDashboard from "../page/admin/dashboard/AdminDashboardMain";
 import UserList from "../layout/admin/user/Index";
 import NotFoundPage from "../page/common/404Page";
 
@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
         {
           path: "dashboard",
           element: <Outlet />,
-          children: [{ path: "", element: <UserList />, index: true }],
+          children: [{ path: "", element: <AdminDashboard />, index: true }],
         },
         {
           path: "user",

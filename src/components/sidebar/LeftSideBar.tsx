@@ -42,7 +42,7 @@ const items: MenuProps["items"] = [
 ];
 
 const LeftSideBar = () => {
-  const [current, setCurrent] = useState("dashboard");
+  const [current, setCurrent] = useState("");
   const navigate = useNavigate();
 
   const onClick: MenuProps["onClick"] = (e) => {
