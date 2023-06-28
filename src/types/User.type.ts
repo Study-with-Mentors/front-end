@@ -43,14 +43,6 @@ export type GetUserResult = {
   };
 };
 
-export type CourseTableDetail = {
-  id: string;
-  name: string;
-  user: string;
-  field: string;
-  level: string;
-};
-
 export enum ROLE {
   ADMIN = "ADMIN",
   USER = "USER"

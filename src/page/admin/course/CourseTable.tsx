@@ -1,77 +1,33 @@
-import { CourseTableDetail } from "../../../types/User.type";
-import type { ColumnsType } from "antd/es/table";
 import { Table, Space } from "antd";
 import styled from "./AdminCourse.module.scss";
+import LoadingSkeleton from "../../../components/skeleton/LoadingSkeleton";
+import { UseQueryResult, useQuery } from "react-query";
+import { GetCourse, GetCourseResult } from "../../../types/Course.type";
+import { CourseAPI } from "../../../api/CourseAPI";
+import { useState } from "react";
+import { ColumnsType } from "antd/es/table";
+import SearchIcon from "@mui/icons-material/Search";
+import Input from "antd/lib/input";
 
-const fakeUserDetailData: CourseTableDetail[] = [
-  {
-    id: "1",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "2",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "3",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "4",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "5",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "6",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "7",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-  {
-    id: "8",
-    name: "Hello_",
-    user: "its_me",
-    field: "Physics",
-    level: "ADVANCE",
-  },
-];
+type TableType = {
+  id: string,
+  name: string,
+  mentor: string,
+  field: string,
+  level: string,
+  status: string,
+}
 
-const columns: ColumnsType<CourseTableDetail> = [
+const columns: ColumnsType<TableType> = [
   {
     title: "Name",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "User",
-    dataIndex: "user",
-    key: "user",
+    title: "Mentor",
+    dataIndex: "mentor",
+    key: "mentor",
   },
   {
     title: "Field",
@@ -84,9 +40,14 @@ const columns: ColumnsType<CourseTableDetail> = [
     key: "level",
   },
   {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+  },
+  {
     title: "Action",
     key: "action",
-    render: (_, record) => (
+    render: () => (
       <Space size="middle">
         <a style={{ color: "blue" }}>Detail</a>
       </Space>
@@ -95,12 +56,62 @@ const columns: ColumnsType<CourseTableDetail> = [
 ];
 
 const CourseTable = () => {
+
+  const [newTableData, setNewTableData] = useState<TableType[]>([]);
+  const [inputData, setInputData] = useState<string>('')
+
+  const {
+    data: courses,
+    isLoading,
+    isFetching,
+    refetch
+  }: UseQueryResult<GetCourse, Error> = useQuery(
+    ["courses"],
+    async () => await CourseAPI.getAll({})
+      .then((courses) => {
+        let filteredList = courses.result.filter((course: GetCourseResult) => course.shortName.toLowerCase().includes(inputData))
+        setNewTableData(
+          filteredList.map((course: GetCourseResult): TableType => {
+            return {
+              id: course.id,
+              name: course.shortName,
+              mentor: course.mentor.firstName,
+              field: course.field.name,
+              level: course.courseLevel,
+              status: course.status
+            };
+          })
+        )
+      })
+
+  );
+
+  if (isLoading) return <LoadingSkeleton />;
+
+  console.log(courses?.result);
   return (
     <div className={styled["container"]}>
+      <div className={styled["searchbar"]}>
+        <Input
+          className={styled["input"]}
+          size="large"
+          prefix={
+            <div className={styled["search-container"]}>
+              <SearchIcon className={styled["search-icon"]} />
+            </div>
+          }
+          value={inputData}
+          onChange={(e) => setInputData(e.target.value)}
+          onPressEnter={() => refetch()}
+          placeholder="Search course name"
+          bordered={false}
+        />
+      </div>
       <Table
+        loading={isFetching}
         className={styled["table"]}
         columns={columns}
-        dataSource={fakeUserDetailData}
+        dataSource={newTableData}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
