@@ -4,6 +4,7 @@ import { Avatar, Card, Rate, Image, Button } from "antd";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useNavigate } from "react-router-dom";
 import { Mentor } from "../../types/User.type";
+import { Image as ImageCourse } from "../../types/Image.type";
 
 const { Meta } = Card;
 
@@ -14,7 +15,7 @@ export enum CourseCardHorizontalType {
 
 type CourseCardHorizontalProps = {
   id?: string;
-  images: string[];
+  image: ImageCourse;
   mentor: Mentor;
   description: string;
   shortName: string;
@@ -26,7 +27,7 @@ type CourseCardHorizontalProps = {
 const CourseCardHorizontal = ({
   id,
   description,
-  images,
+  image,
   mentor,
   shortName,
   courseLevel,
@@ -51,7 +52,7 @@ const CourseCardHorizontal = ({
         className={styled["image-wrapper"]}
         onClick={() => navigateToCourseDetail()}
       >
-        <img className={styled["image"]} alt="example" src={images?.[0]} />
+        <img className={styled["image"]} alt="example" src={image.url} />
       </div>
 
       <div className={styled["body-wrapper"]}>

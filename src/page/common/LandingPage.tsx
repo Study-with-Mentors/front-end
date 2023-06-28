@@ -53,7 +53,7 @@ const LandingPage = () => {
             id={course.id}
             description={course.fullName}
             courseLevel={course.courseLevel}
-            images={course.images}
+            image={course.image}
             mentor={course.mentor}
             shortName={course.shortName}
           />

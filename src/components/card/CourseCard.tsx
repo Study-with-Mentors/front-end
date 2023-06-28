@@ -3,11 +3,12 @@ import styled from "./CourseCard.module.scss";
 import { Avatar, Card, Rate, Image } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Mentor } from "../../types/User.type";
+import { Image as ImageCourse } from "../../types/Image.type";
 
 const { Meta } = Card;
 export type CourseCardProps = {
   id?: string;
-  images: string[];
+  image: ImageCourse;
   mentor: Mentor;
   description: string;
   shortName: string;
@@ -16,7 +17,7 @@ export type CourseCardProps = {
 
 const CourseCard = ({
   id,
-  images,
+  image,
   description,
   mentor,
   shortName,
@@ -29,7 +30,7 @@ const CourseCard = ({
         <Image
           style={{ aspectRatio: "3/2" }}
           preview={false}
-          src={images?.[0]}
+          src={image.url}
         />
       }
     >
