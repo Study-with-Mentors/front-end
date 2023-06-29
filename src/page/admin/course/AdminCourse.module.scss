@@ -23,3 +23,73 @@
         }
     }
 }
+
+.container-detail {
+    @apply bg-gray_third pl-9 flex justify-center pb-80 z-0;
+    position: relative;
+
+    .detail-left {
+        @apply bg-white p-9 ml-12 rounded-2xl mt-12 h-fit;
+        max-width: 600px;
+
+        .image {
+            @apply py-9;
+        }
+
+        .body_header-wrapper {
+            .title {
+                @apply font-semibold;
+                margin-bottom: 10px;
+                color: #102844;
+                font-size: 22px;
+            }
+
+            .mentor,
+            .description {
+                @apply text-gray_main cursor-pointer;
+                font-size: 14px;
+
+                span {
+                    @apply font-semibold;
+                    color: #102844;
+                }
+            }
+        }
+    }
+
+    .detail-right {
+        @apply bg-white p-9 ml-12 rounded-2xl mt-12 h-fit;
+        max-width: 280px;
+
+        .price {
+            @apply mr-0 bg-gray_third font-medium w-64 h-20 items-center justify-center flex text-blue_title rounded-2xl;
+            width: 100%;
+            border: 1px dashed rgba(0, 0, 0, 0.1);
+            font-size: 22px;
+
+            span {
+                @apply ml-5 text-gray_main font-normal text-base;
+            }
+        }
+
+        .button {
+            @apply font-semibold rounded-xl flex justify-center items-center;
+            width: 100%;
+            height: 52px;
+        }
+
+        .title {
+            @apply text-lg font-medium text-blue_title;
+        }
+
+        .description {
+            @apply text-sm font-normal text-gray_main;
+        }
+
+        .tag {
+            @apply bg-gray_primary w-fit rounded-lg;
+            padding: 6px 12px;
+            color: #767278;
+        }
+    }
+}

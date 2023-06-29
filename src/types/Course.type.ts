@@ -8,6 +8,12 @@ export type GetCourse = {
   result: GetCourseResult[];
 };
 
+type Image = {
+  id: string,
+  url: string,
+  version: number
+}
+
 export type GetCourseResult = {
   id: string;
   version: number;
@@ -21,4 +27,19 @@ export type GetCourseResult = {
   field: GetField;
   mentor: Mentor;
   images: string[];
+};
+
+export type GetCourseResultAdmin = {
+  id: string;
+  version: number;
+  shortName: string;
+  fullName: string;
+  description: string;
+  learningOutcome: string;
+  status: string;
+  courseLevel: string;
+  intendedLearner: string;
+  field: GetField;
+  mentor: Mentor;
+  image: Image
 };

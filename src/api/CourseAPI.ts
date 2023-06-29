@@ -37,6 +37,7 @@ export const CourseAPI = {
     }
 
     const res = await http.get(url);
+    console.log(res.data)
     return res.data;
   },
   getById: async (id: string) => {
@@ -46,6 +47,7 @@ export const CourseAPI = {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
       });
+      console.log(res.data)
       return res.data;
     } catch (error) {
       throw error;

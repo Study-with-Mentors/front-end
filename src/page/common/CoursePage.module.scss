@@ -1,97 +1,98 @@
-.container{
-    @apply bg-gray_third pl-9 flex  justify-center pb-80;
+.container {
+    @apply bg-gray_third pl-9 flex justify-center pb-80;
 
-    .body-wrapper{
-    max-width: 800px;
+    .body-wrapper {
+        max-width: 800px;
 
-        .header{
+        .header {
             @apply pt-6 pb-9;
-            .title{
+
+            .title {
                 @apply font-semibold;
                 color: #102844;
                 font-size: 22px;
             }
 
-            .description{
+            .description {
                 @apply text-gray_main;
                 font-size: 14px;
 
-                span{
+                span {
                     @apply font-medium;
                     color: #102844;
                 }
             }
         }
 
-        .body{
+        .body {
             @apply bg-white rounded-2xl px-9;
 
-            .image{
-                @apply py-9 ;
+            .image {
+                @apply py-9;
             }
 
-            .body_header-wrapper{
-                .title{
-                    @apply font-semibold; 
+            .body_header-wrapper {
+                .title {
+                    @apply font-semibold;
                     margin-bottom: 10px;
                     color: #102844;
                     font-size: 22px;
                 }
 
-                .create-by{
+                .create-by {
                     @apply text-gray_main cursor-pointer;
                     font-size: 14px;
 
-                    span{
-                        @apply font-semibold ;
+                    span {
+                        @apply font-semibold;
                         color: #102844;
-                    }   
+                    }
                 }
             }
         }
     }
 
-    .sidebar{
+    .sidebar {
         @apply bg-white p-9 ml-12 rounded-2xl mt-12 h-fit;
         max-width: 280px;
 
-        .price{
+        .price {
             @apply mr-0 bg-gray_third font-medium w-64 h-20 items-center justify-center flex text-blue_title rounded-2xl;
             width: 100%;
             border: 1px dashed rgba(0, 0, 0, 0.1);
             font-size: 22px;
 
-            span{
+            span {
                 @apply ml-5 text-gray_main font-normal text-base;
             }
         }
 
-        .button{
+        .button {
             @apply font-semibold rounded-xl flex justify-center items-center;
             width: 100%;
             height: 52px;
         }
 
-        .title{
+        .title {
             @apply text-lg font-medium text-blue_title;
         }
 
-        .description{
+        .description {
             @apply text-sm font-normal text-gray_main;
         }
 
-        .course-activity{
+        .course-activity {
             @apply flex items-center text-gray_main;
-            .icon{
+
+            .icon {
                 @apply mr-7 text-blue_title;
             }
         }
 
-        .tag{
+        .tag {
             @apply bg-gray_primary w-fit rounded-lg;
             padding: 6px 12px;
             color: #767278;
         }
     }
 }
-

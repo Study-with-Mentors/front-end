@@ -1,10 +1,10 @@
-import { Table, Space } from "antd";
+import { Table, Space, Button } from "antd";
 import styled from "./AdminCourse.module.scss";
 import LoadingSkeleton from "../../../components/skeleton/LoadingSkeleton";
 import { UseQueryResult, useQuery } from "react-query";
 import { GetCourse, GetCourseResult } from "../../../types/Course.type";
 import { CourseAPI } from "../../../api/CourseAPI";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "antd/lib/input";
@@ -18,47 +18,57 @@ type TableType = {
   status: string,
 }
 
-const columns: ColumnsType<TableType> = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Mentor",
-    dataIndex: "mentor",
-    key: "mentor",
-  },
-  {
-    title: "Field",
-    dataIndex: "field",
-    key: "field",
-  },
-  {
-    title: "Level",
-    dataIndex: "level",
-    key: "level",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: () => (
-      <Space size="middle">
-        <a style={{ color: "blue" }}>Detail</a>
-      </Space>
-    ),
-  },
-];
+interface PropsOption {
+  setId: Dispatch<SetStateAction<string>>,
+  setDetail: Dispatch<SetStateAction<boolean>>
+}
 
-const CourseTable = () => {
+const CourseTable = ({ setId, setDetail }: PropsOption) => {
 
   const [newTableData, setNewTableData] = useState<TableType[]>([]);
   const [inputData, setInputData] = useState<string>('')
+
+  const toDetailPage = (id: string) => {
+    setId(id)
+    setDetail(true)
+  }
+
+  const columns: ColumnsType<TableType> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Mentor",
+      dataIndex: "mentor",
+      key: "mentor",
+    },
+    {
+      title: "Field",
+      dataIndex: "field",
+      key: "field",
+    },
+    {
+      title: "Level",
+      dataIndex: "level",
+      key: "level",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, value) => (
+        <Space size="middle">
+          <Button type="primary" onClick={() => toDetailPage(value.id)}>Detail</Button>
+        </Space>
+      ),
+    },
+  ];
 
   const {
     data: courses,
