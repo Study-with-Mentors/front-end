@@ -50,6 +50,7 @@ export const CourseAPI = {
     }
 
     const res = await http.get(url);
+    console.log(res.data)
     return res.data;
   },
   getById: async (id: string) => {

@@ -1,4 +1,5 @@
 import { GetField } from "./Field.type";
+import { Image } from "./Image.type";
 import { Mentor } from "./User.type";
 
 export type GetCourse = {

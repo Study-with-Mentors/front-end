@@ -4,6 +4,7 @@ import { Avatar, Card, Rate, Image, Button } from "antd";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useNavigate } from "react-router-dom";
 import { Mentor } from "../../types/User.type";
+import { Image as ImageCourse } from "../../types/Image.type";
 
 const { Meta } = Card;
 
