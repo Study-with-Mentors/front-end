@@ -1,9 +1,9 @@
-import { Button, Divider, Image } from "antd";
+import { Button, Divider, Image, Skeleton } from "antd";
 import { Dispatch, SetStateAction } from "react";
 import { UseQueryResult, useQuery } from "react-query";
 import { CourseAPI } from "../../../api/CourseAPI";
 import LoadingSkeleton from "../../../components/skeleton/LoadingSkeleton";
-import { GetCourseResultAdmin } from "../../../types/Course.type";
+import { GetCourseResult } from "../../../types/Course.type";
 import styled from "./AdminCourse.module.scss";
 
 interface PropsOption {
@@ -14,10 +14,10 @@ interface PropsOption {
 
 const CourseTableDetail = ({ id, setId, setDetail }: PropsOption) => {
 
-  const { data: course, isLoading }: UseQueryResult<GetCourseResultAdmin, Error> =
+  const { data: course, isLoading }: UseQueryResult<GetCourseResult, Error> =
     useQuery(
       ["course", id],
-      async () => await CourseAPI.getById(id ?? "0"),
+      async () => await CourseAPI.getById(id!),
       {
         enabled: Boolean(id),
       }
@@ -35,20 +35,24 @@ const CourseTableDetail = ({ id, setId, setDetail }: PropsOption) => {
       <div className={styled["detail-left"]}>
         <Button onClick={backToList}>Back</Button>
         <div className={styled["image"]}>
-          <Image
-            preview={false}
-            height={428}
-            style={{
-              borderRadius: "3%",
-            }}
-            src={course?.image.url
-              || "https://cdn.dribbble.com/userupload/5814653/file/original-f197c4a6a7350813f3d6d941a7e1dc2f.png?compress=1&resize=1024x768"}
-          />
+          {isLoading ? (
+            <Skeleton.Image />
+          ) : (
+            <Image
+              loading="lazy"
+              preview={false}
+              height={428}
+              style={{
+                borderRadius: "3%",
+              }}
+              src={course?.image.url}
+            />
+          )}
         </div>
         <div className={styled["body_header-wrapper"]}>
           <p className={styled["title"]}>{course?.fullName}</p>
           <p className={styled["mentor"]}>
-            <span>{course?.mentor.lastName}</span>
+            Mentor: <span>{course?.mentor.lastName}</span>
           </p>
           <Divider />
           <p className={styled["description"]}>
@@ -65,7 +69,7 @@ const CourseTableDetail = ({ id, setId, setDetail }: PropsOption) => {
         <p className={styled["description"]}>{course?.intendedLearner}</p>
         <Divider />
         <p className={styled["title"]}>Tags:</p>
-        <div className={styled["tag"]}>{course?.learningOutcome}</div>
+        <div className={styled["tag"]}>{course?.field.name}</div>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import LoadingSkeleton from "../skeleton/LoadingSkeleton";
 import NumericInput from "../input/NumericInput";
 
 const { TextArea } = Input;
+const { RangePicker } = DatePicker;
 
 const renderText = ({ fieldProps }: any) => {
   const { placeholder, name, rules, style, label } = fieldProps;
@@ -33,7 +34,8 @@ const renderText = ({ fieldProps }: any) => {
 };
 
 const renderNumeric = ({ fieldProps }: any) => {
-  const { placeholder, name, rules, style, label } = fieldProps;
+  const { placeholder, name, rules, style, label, minValue, maxValue } =
+    fieldProps;
 
   return (
     <Form.Item
@@ -44,10 +46,10 @@ const renderNumeric = ({ fieldProps }: any) => {
       label={label}
     >
       <InputNumber
-        style={{ height: "50px", width: "800px" }}
+        style={{ height: "50px", width: "100%" }}
         placeholder={placeholder}
-        min={1900}
-        max={2024}
+        min={minValue}
+        max={maxValue}
       />
     </Form.Item>
   );
@@ -164,6 +166,38 @@ const renderSelectDate = ({ fieldProps }: any) => {
   );
 };
 
+const renderRangePicker = ({ fieldProps }: any) => {
+  const { name, rules, style, label } = fieldProps;
+
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      rules={[rules]}
+      wrapperCol={{ span: 24 }}
+      style={style}
+    >
+      <RangePicker showTime size="large" />
+    </Form.Item>
+  );
+};
+
+const renderRangePickerDate = ({ fieldProps }: any) => {
+  const { name, rules, style, label } = fieldProps;
+
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      rules={[rules]}
+      wrapperCol={{ span: 24 }}
+      style={style}
+    >
+      <RangePicker style={{ width: "100%" }} size="large" />
+    </Form.Item>
+  );
+};
+
 const renderSelectMultiOption = ({ fieldProps }: any) => {
   const { name, rules, style, label, options, placeholder } = fieldProps;
 
@@ -199,6 +233,8 @@ export const EDIT_FIELD_TYPES = {
   SELECTMULTIOPTION: "selectMultiOption",
   RADIO: "selectRadio",
   NUMERIC: "numeric",
+  RANGEPICKER: "rangepicker",
+  RANGEPICKERDATE: "rangePickerDate",
 };
 
 const FORM_MAPPING = {
@@ -211,6 +247,8 @@ const FORM_MAPPING = {
   [EDIT_FIELD_TYPES.RADIO]: renderRadio,
   [EDIT_FIELD_TYPES.TEXTAREA]: renderTextArea,
   [EDIT_FIELD_TYPES.NUMERIC]: renderNumeric,
+  [EDIT_FIELD_TYPES.RANGEPICKER]: renderRangePicker,
+  [EDIT_FIELD_TYPES.RANGEPICKERDATE]: renderRangePickerDate,
 };
 
 const EditAndUpdateForm = ({ fields }: any) => {

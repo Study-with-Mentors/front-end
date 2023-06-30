@@ -167,8 +167,6 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ];
   }, [options, fieldOptions]);
 
-  console.log(state.data);
-
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
@@ -245,7 +243,11 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             courses?.result.map((course) => (
-              <CourseCardHorizontal key={course.id} {...course} />
+              <CourseCardHorizontal
+                key={course.id}
+                {...course}
+                image={course.image.url}
+              />
             ))
           )}
         </div>

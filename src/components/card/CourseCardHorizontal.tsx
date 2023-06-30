@@ -4,6 +4,7 @@ import { Avatar, Card, Rate, Image, Button } from "antd";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useNavigate } from "react-router-dom";
 import { Mentor } from "../../types/User.type";
+import { Image as ImageCourse } from "../../types/Image.type";
 
 const { Meta } = Card;
 
@@ -14,7 +15,7 @@ export enum CourseCardHorizontalType {
 
 type CourseCardHorizontalProps = {
   id?: string;
-  images: string[];
+  image: string;
   mentor: Mentor;
   description: string;
   shortName: string;
@@ -26,7 +27,7 @@ type CourseCardHorizontalProps = {
 const CourseCardHorizontal = ({
   id,
   description,
-  images,
+  image,
   mentor,
   shortName,
   courseLevel,
@@ -40,7 +41,7 @@ const CourseCardHorizontal = ({
     if (type == CourseCardHorizontalType.EDIT) {
       url = `/home/course/edit/${id}`;
     } else {
-      url = `/landing/course/${id}`;
+      url = `/course/${id}`;
     }
     navigate(url);
   };
@@ -51,7 +52,7 @@ const CourseCardHorizontal = ({
         className={styled["image-wrapper"]}
         onClick={() => navigateToCourseDetail()}
       >
-        <img className={styled["image"]} alt="example" src={images?.[0]} />
+        <img className={styled["image"]} alt="example" src={image} />
       </div>
 
       <div className={styled["body-wrapper"]}>
@@ -71,10 +72,23 @@ const CourseCardHorizontal = ({
         </div>
         <div className={styled["footer-wrapper"]}>
           <div className={styled["avatar-wrapper"]}>
-            <Avatar size={40} src={mentor.profileImage} />
+            <Avatar size={40} src={mentor.profileImage.url} />
             <p className={styled["name"]}>{mentor.lastName}</p>
           </div>
           <div className={styled["action-wrapper"]}>
+            {type == CourseCardHorizontalType.EDIT ? (
+              <Button type="primary" className={styled["button"]}>
+                Class list
+                <ArrowOutwardIcon
+                  style={{
+                    marginLeft: ".1rem",
+                    fontSize: "1.2rem",
+                  }}
+                />
+              </Button>
+            ) : (
+              ""
+            )}
             <Button
               className={styled["button"]}
               onClick={() => {

@@ -1,18 +1,11 @@
-import { Field } from "react-hook-form";
-import { Mentor } from "./User.type";
 import { GetField } from "./Field.type";
+import { Mentor } from "./User.type";
 
 export type GetCourse = {
   totalPages: number;
   totalElements: number;
   result: GetCourseResult[];
 };
-
-type Image = {
-  id: string,
-  url: string,
-  version: number
-}
 
 export type GetCourseResult = {
   id: string;
@@ -26,20 +19,11 @@ export type GetCourseResult = {
   intendedLearner: string;
   field: GetField;
   mentor: Mentor;
-  images: string[];
+  image: GetCourseImage;
 };
 
-export type GetCourseResultAdmin = {
+export type GetCourseImage = {
   id: string;
-  version: number;
-  shortName: string;
-  fullName: string;
-  description: string;
-  learningOutcome: string;
-  status: string;
-  courseLevel: string;
-  intendedLearner: string;
-  field: GetField;
-  mentor: Mentor;
-  image: Image
+  version: 0;
+  url: string;
 };

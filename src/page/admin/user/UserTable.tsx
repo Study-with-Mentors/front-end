@@ -11,6 +11,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
   {
     userId: "2",
@@ -19,6 +20,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
   {
     userId: "3",
@@ -27,6 +29,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
   {
     userId: "4",
@@ -35,6 +38,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
   {
     userId: "5",
@@ -43,6 +47,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
   {
     userId: "6",
@@ -51,6 +56,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
   {
     userId: "7",
@@ -59,6 +65,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
+    role: "USER"
   },
 ];
 

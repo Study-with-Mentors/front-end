@@ -1,8 +1,7 @@
 import React from "react";
 import CourseCard, { CourseCardProps } from "../../components/card/CourseCard";
 import styled from "./LandingPage.module.scss";
-import TutorCard, { TutorCardProps } from "../../components/card/TutorCard";
-import VoIu from "../../assets/310876606_2194096234108406_8917809045783773918_n.jpg";
+import TutorCard from "../../components/card/TutorCard";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -15,47 +14,15 @@ import { UseQueryResult, useQuery } from "react-query";
 import { GetCourse } from "../../types/Course.type";
 import { CourseAPI } from "../../api/CourseAPI";
 import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
+import { GetMentorResult } from "../../types/User.type";
+import { UserAPI } from "../../api/UserAPI";
+import { useNavigate } from "react-router-dom";
+import { Typography, Button } from "antd";
+import { motion, useAnimation } from "framer-motion";
 
-const fakeTutorData: TutorCardProps[] = [
-  {
-    name: "VoIu",
-    avatar: VoIu,
-    description:
-      "I’ll break down why your product descriptions are an incredible opportunity to engage your potential customers",
-  },
-  {
-    name: "VoIu",
-    avatar: VoIu,
-    description:
-      "I’ll break down why your product descriptions are an incredible opportunity to engage your potential customers",
-  },
-  {
-    name: "VoIu",
-    avatar: VoIu,
-    description:
-      "I’ll break down why your product descriptions are an incredible opportunity to engage your potential customers",
-  },
-  {
-    name: "VoIu",
-    avatar: VoIu,
-    description:
-      "I’ll break down why your product descriptions are an incredible opportunity to engage your potential customers",
-  },
-  {
-    name: "VoIu",
-    avatar: VoIu,
-    description:
-      "I’ll break down why your product descriptions are an incredible opportunity to engage your potential customers",
-  },
-  {
-    name: "VoIu",
-    avatar: VoIu,
-    description:
-      "I’ll break down why your product descriptions are an incredible opportunity to engage your potential customers",
-  },
-];
-
+const { Title } = Typography;
 const LandingPage = () => {
+  const navigate = useNavigate();
   const {
     data: courses,
     isLoading: isCoursesLoading,
@@ -63,13 +30,41 @@ const LandingPage = () => {
     ["courses"],
     async () => await CourseAPI.getAll({})
   );
+  const {
+    data: mentors,
+    isLoading: isMentorsLoading,
+  }: UseQueryResult<GetMentorResult, Error> = useQuery(
+    ["mentors"],
+    async () => await UserAPI.getMentorList()
+  );
 
-  if (isCoursesLoading) return <LoadingSkeleton />;
+  // if (isCoursesLoading || isMentorsLoading) return <LoadingSkeleton />;
 
-  console.log(courses?.result);
-
+  const exampleVariant = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+  };
   return (
     <div className={styled["container"]}>
+      <div className={styled["carousel"]}>
+        <motion.div
+          animate={{ x: 0, transition: { duration: 0.8 } }}
+          initial={{ x: -400 }}
+          variants={exampleVariant}
+          className="box"
+        >
+          <p className={styled["title"]}> Access Your Class From</p>
+          <p className={styled["sub-title"]}> Anywhere & Anytime</p>
+          <p className={styled["description"]}>
+            A solution for easy and flexible online learning, you can study
+            anywhere and at anytime on this platform
+          </p>
+          <Button type="primary" className={styled["button"]}>
+            Start Now
+          </Button>
+        </motion.div>
+      </div>
+
       <div className={styled["header"]}>
         <p className={styled["title"]}>Popular Courses</p>
         <p className={styled["body"]}>Explore the most popular courses</p>
@@ -82,7 +77,7 @@ const LandingPage = () => {
             id={course.id}
             description={course.fullName}
             courseLevel={course.courseLevel}
-            images={course.images}
+            image={course.image.url}
             mentor={course.mentor}
             shortName={course.shortName}
           />
@@ -97,22 +92,32 @@ const LandingPage = () => {
 
         <Swiper
           slidesPerView={4}
-          spaceBetween={120}
+          spaceBetween={80}
           navigation={true}
           modules={[Navigation]}
           className={styled["slider"] + " " + "mySwiper"}
           style={{}}
         >
-          {fakeTutorData.map((tutor) => (
+          {mentors?.result.map((tutor) => (
             <SwiperSlide
+              key={tutor.id}
+              onClick={() => navigate(`/mentor/${tutor.id}`)}
               style={{
                 borderRadius: 10,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                border: "1px solid rgb(0 0 0 /0.1)",
+                boxShadow:
+                  "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+                cursor: "pointer",
               }}
             >
-              <TutorCard {...tutor} />
+              <TutorCard
+                avatar={tutor.profileImage.url}
+                description={tutor.mentor.bio}
+                name={tutor.lastName}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
