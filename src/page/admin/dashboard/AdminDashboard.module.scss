@@ -4,6 +4,11 @@
     .header {
         @apply grid gap-12 grid-cols-4;
 
+        .spin {
+            @apply flex justify-center items-center;
+            margin-top: 50px;
+        }
+
         .item-wrapper {
             @apply bg-white rounded-xl p-6;
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -43,32 +48,17 @@
         .item-wrapper {
             @apply bg-white rounded-xl p-6;
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            
+
+            .bar {
+                height: 300px;
+                margin-left: auto;
+                margin-right: auto; 
+            }
 
             .title {
                 @apply text-base font-normal mb-0;
                 color: #5F6980;
-            }
-
-            .data {
-                @apply font-semibold mt-1 mb-4;
-                font-size: 1.625rem;
-                color: #282828;
-            }
-
-            .extra-data {
-                @apply flex items-center text-xs font-semibold tracking-wider;
-
-                .value-green {
-                    @apply text-green_success bg-green_success mr-2 py-1 px-3 rounded-full;
-                }
-
-                .value-red {
-                    @apply text-rose-500 bg-red-100 mr-2 py-1 px-3 rounded-full;
-                }
-
-                .extra {
-                    @apply text-gray-400;
-                }
             }
         }
     }

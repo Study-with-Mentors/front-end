@@ -93,7 +93,6 @@ const CourseTable = ({ setId, setDetail }: PropsOption) => {
           })
         )
       })
-
   );
 
   if (isLoading) return <LoadingSkeleton />;
