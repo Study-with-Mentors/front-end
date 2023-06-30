@@ -5,6 +5,7 @@ import AppRoute from "./routes/AppRoute";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ConfigProvider } from "antd";
+import vi_VN from "antd/locale/vi_VN";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +64,7 @@ function App() {
             fontFamily: "Poppins",
           },
         }}
+        locale={vi_VN}
       >
         <BrowserRouter>
           <QueryClientProvider client={queryClient}>

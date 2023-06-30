@@ -27,7 +27,10 @@ export const ClassCardHorizontal = ({
   mentorName,
 }: ClassCardHorizontalProps) => {
   const { data: course, isLoading }: UseQueryResult<GetCourseResult, Error> =
-    useQuery(["course"], async () => await CourseAPI.getById(courseId));
+    useQuery(
+      ["course", courseId],
+      async () => await CourseAPI.getById(courseId)
+    );
 
   if (isLoading) return <Spin />;
 

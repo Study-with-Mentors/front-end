@@ -42,7 +42,7 @@ const CreateCoursePage = () => {
 
     await createCourse(createCourseParams, {
       onSuccess(data, variables, context) {
-        navigate(`/home/course/edit/${data.data.id}`);
+        navigate(`/home/course/edit/${data.id}`);
       },
       onError(error, variables, context) {
         console.log(error);
@@ -204,12 +204,13 @@ const CreateCoursePage = () => {
           type: "primary",
           htmlType: "submit",
           text: "Save",
+          loading: isCreateCourseLoading,
           style: {},
         },
         cols: 12,
       },
     ];
-  }, [intendedLearnerOptions, fieldOptions]);
+  }, [intendedLearnerOptions, fieldOptions, isCreateCourseLoading]);
 
   if (isLoading || isIntendedLearnerLoading) return <LoadingSkeleton />;
 

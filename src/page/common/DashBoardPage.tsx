@@ -65,7 +65,7 @@ const DashBoardPage = () => {
     ["lessons"],
     async () =>
       await LessionAPI.getLessonByDate(
-        getLessonParams(dayjs(), LessonParamsType.DATE)
+        getLessonParams(dayjs(), LessonParamsType.MONTH)
       )
   );
 

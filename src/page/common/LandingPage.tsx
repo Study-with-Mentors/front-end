@@ -48,7 +48,7 @@ const LandingPage = () => {
     <div className={styled["container"]}>
       <div className={styled["carousel"]}>
         <motion.div
-          animate={{ x: 0, transition: { duration: 0.8 } }}
+          animate={{ x: 0, transition: { duration: 0.8, ease: "easeIn" } }}
           initial={{ x: -400 }}
           variants={exampleVariant}
           className="box"
@@ -59,7 +59,11 @@ const LandingPage = () => {
             A solution for easy and flexible online learning, you can study
             anywhere and at anytime on this platform
           </p>
-          <Button type="primary" className={styled["button"]}>
+          <Button
+            onClick={() => navigate("/auth")}
+            type="primary"
+            className={styled["button"]}
+          >
             Start Now
           </Button>
         </motion.div>

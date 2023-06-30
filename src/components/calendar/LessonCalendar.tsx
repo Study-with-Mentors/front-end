@@ -88,7 +88,10 @@ const LessonCalendar: React.FC = () => {
     let listData: GetListDataType[] = [];
     lessonsInMonth?.forEach((lessonInday: GetLessonResult) => {
       if (
-        value.date() == dayjs(lessonInday.startTime).subtract(7, "hour").date()
+        value.date() ==
+          dayjs(lessonInday.startTime).subtract(7, "hour").date() &&
+        value.month() ==
+          dayjs(lessonInday.startTime).subtract(7, "hour").month()
       ) {
         listData.push({ type: "success", content: "Incoming class" });
       }
@@ -101,8 +104,9 @@ const LessonCalendar: React.FC = () => {
 
     return (
       <>
-        {listData.map((item) => (
+        {listData.map((item, index) => (
           <Badge
+            key={index}
             status={item.type as BadgeProps["status"]}
             text={item.content}
           />
@@ -116,7 +120,7 @@ const LessonCalendar: React.FC = () => {
   };
 
   // if (isLoading) return <Spin />;
-  console.log(lessons);
+  console.log(lessonsInMonth);
 
   return (
     <>
