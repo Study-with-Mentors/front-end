@@ -5,6 +5,8 @@ export type GetLessonResult = {
   startTime: Date;
   endTime: Date;
   location: string;
+  courseName: string;
+  sessionName: string;
   clazzId: string;
   sessionId: string;
 };

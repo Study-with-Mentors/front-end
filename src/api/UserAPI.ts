@@ -6,7 +6,9 @@ export type LoginProps = {
 };
 
 export type UploadImageProfileProps = {
-  profileImage: string;
+  id: string;
+  version: number;
+  url: string;
 };
 
 export type UpdateUserParams = {
@@ -36,6 +38,11 @@ export type UpdateUserProfileMentorParams = {
   field?: { id: string };
 };
 
+export type GetMentorIncomeParams = {
+  startDate: string;
+  endDate: string;
+};
+
 export const UserAPI = {
   login: async (loginProps: LoginProps) => {
     try {
@@ -53,6 +60,14 @@ export const UserAPI = {
     });
     return res?.data;
   },
+  getUserImageByToken: async () => {
+    const res = await http.get("/user/profile/image", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
   getMentorProfileById: async (id: string) => {
     const res = await http.get(`/mentor/${id}`);
     return res?.data;
@@ -60,6 +75,14 @@ export const UserAPI = {
 
   getMentorList: async () => {
     const res = await http.get(`/mentor`);
+    return res?.data;
+  },
+  getMentorIncome: async (params: GetMentorIncomeParams) => {
+    const res = await http.get(`/mentor/course/enrollment/report`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
     return res?.data;
   },
   uploadImageProfile: async (params: UploadImageProfileProps) => {

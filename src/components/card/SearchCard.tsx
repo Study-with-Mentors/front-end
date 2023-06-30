@@ -22,7 +22,7 @@ const SearchCard = () => {
     const searchInput = e.target.value;
     if (searchInput == "") return;
     dispatch({ type: ActionEnum.SET, payload: { value: searchInput } });
-    navigate("/landing/course/search");
+    navigate("/course/search");
   };
   return (
     <div className={styled["container"]}>

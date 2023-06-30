@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "./MainHeader.module.scss";
 import MainLogo from "../../assets/main-logo.svg";
-import { Button, Card, Avatar, Badge, Skeleton } from "antd";
+import { Button, Card, Avatar, Badge, Skeleton, Dropdown } from "antd";
 import SearchCard from "../card/SearchCard";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import "./MainHeader.css";
 import { useNavigate } from "react-router-dom";
 import { UseQueryResult, useQuery } from "react-query";
-import { GetUserResult } from "../../types/User.type";
+import { GetProfileImage, GetUserResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
+import type { MenuProps } from "antd";
 
 export type MainHeaderProps = {};
 
@@ -18,18 +19,42 @@ const MainHeader = ({}: MainHeaderProps) => {
   const userID = localStorage.getItem("userID");
 
   const {
-    data: user,
+    data: image,
     isLoading,
     isFetching,
     refetch,
-  }: UseQueryResult<GetUserResult, Error> = useQuery(
-    ["user"],
-    async () => await UserAPI.getByUserToken()
+  }: UseQueryResult<GetProfileImage, Error> = useQuery(
+    ["user", userID],
+    async () => await UserAPI.getUserImageByToken(),
+    {
+      enabled: !!userID,
+    }
   );
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: <a onClick={() => navigate("/home/profile")}>Profile</a>,
+      key: "0",
+    },
+    {
+      label: <a onClick={() => navigate("/home")}>Dashboard</a>,
+      key: "1",
+    },
+
+    {
+      label: <a onClick={handleLogout}>Logout</a>,
+      key: "2",
+    },
+  ];
 
   return (
     <div className={styled["container"]}>
-      <div onClick={() => navigate("/home")} className={styled["logo-wrapper"]}>
+      <div onClick={() => navigate("/")} className={styled["logo-wrapper"]}>
         <img className={styled["logo"]} src={MainLogo} alt="" />
         <p className={styled["body"]}>
           STUDY WITH
@@ -47,13 +72,13 @@ const MainHeader = ({}: MainHeaderProps) => {
           <>
             <Button
               className={styled["button-signIn"] + " " + styled["button"]}
-              onClick={() => navigate("/signin")}
+              onClick={() => navigate("/auth")}
             >
               Sign in
             </Button>
             <Button
               className={styled["button-signUp"] + " " + styled["button"]}
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/auth/signup")}
             >
               Sign up
             </Button>
@@ -85,15 +110,16 @@ const MainHeader = ({}: MainHeaderProps) => {
                 }}
               ></Skeleton.Avatar>
             ) : (
-              <Avatar
-                size={48}
-                onClick={() => navigate("/home/profile")}
-                style={{
-                  marginLeft: "10px",
-                  cursor: "pointer",
-                }}
-                icon={<img src={user?.profileImage} />}
-              />
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <Avatar
+                  size={48}
+                  style={{
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                  }}
+                  icon={<img src={image?.url} />}
+                />
+              </Dropdown>
             )}
           </>
         )}

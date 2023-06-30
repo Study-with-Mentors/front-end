@@ -6,7 +6,7 @@ import "./MainHeader.css";
 import { useNavigate } from "react-router-dom";
 import type { MenuProps } from "antd";
 import { UseQueryResult, useQuery } from "react-query";
-import { GetUserResult } from "../../types/User.type";
+import { GetProfileImage, GetUserResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 
 export type HomeHeaderProps = {};
@@ -15,18 +15,18 @@ const HomeHeader = ({}: HomeHeaderProps) => {
   const navigate = useNavigate();
 
   const {
-    data: user,
+    data: image,
     isLoading,
     isFetching,
     refetch,
-  }: UseQueryResult<GetUserResult, Error> = useQuery(
-    ["user"],
-    async () => await UserAPI.getByUserToken()
+  }: UseQueryResult<GetProfileImage, Error> = useQuery(
+    ["userImage"],
+    async () => await UserAPI.getUserImageByToken()
   );
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/signin");
+    navigate("/");
   };
 
   const items: MenuProps["items"] = [
@@ -34,6 +34,7 @@ const HomeHeader = ({}: HomeHeaderProps) => {
       label: <a onClick={() => navigate("/home/profile")}>Profile</a>,
       key: "0",
     },
+
     {
       label: <a onClick={handleLogout}>Logout</a>,
       key: "1",
@@ -68,7 +69,7 @@ const HomeHeader = ({}: HomeHeaderProps) => {
                 cursor: "pointer",
                 // border: "none",
               }}
-              icon={<img src={user?.profileImage} />}
+              icon={<img src={image?.url} />}
             />
           </Dropdown>
         </>

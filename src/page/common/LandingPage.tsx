@@ -17,7 +17,10 @@ import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import { GetMentorResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 import { useNavigate } from "react-router-dom";
+import { Typography, Button } from "antd";
+import { motion, useAnimation } from "framer-motion";
 
+const { Title } = Typography;
 const LandingPage = () => {
   const navigate = useNavigate();
   const {
@@ -35,12 +38,33 @@ const LandingPage = () => {
     async () => await UserAPI.getMentorList()
   );
 
-  if (isCoursesLoading || isMentorsLoading) return <LoadingSkeleton />;
+  // if (isCoursesLoading || isMentorsLoading) return <LoadingSkeleton />;
 
-  console.log(courses?.result);
-
+  const exampleVariant = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+  };
   return (
     <div className={styled["container"]}>
+      <div className={styled["carousel"]}>
+        <motion.div
+          animate={{ x: 0, transition: { duration: 0.8 } }}
+          initial={{ x: -400 }}
+          variants={exampleVariant}
+          className="box"
+        >
+          <p className={styled["title"]}> Access Your Class From</p>
+          <p className={styled["sub-title"]}> Anywhere & Anytime</p>
+          <p className={styled["description"]}>
+            A solution for easy and flexible online learning, you can study
+            anywhere and at anytime on this platform
+          </p>
+          <Button type="primary" className={styled["button"]}>
+            Start Now
+          </Button>
+        </motion.div>
+      </div>
+
       <div className={styled["header"]}>
         <p className={styled["title"]}>Popular Courses</p>
         <p className={styled["body"]}>Explore the most popular courses</p>
@@ -53,7 +77,7 @@ const LandingPage = () => {
             id={course.id}
             description={course.fullName}
             courseLevel={course.courseLevel}
-            images={course.images}
+            image={course.image.url}
             mentor={course.mentor}
             shortName={course.shortName}
           />
@@ -77,7 +101,7 @@ const LandingPage = () => {
           {mentors?.result.map((tutor) => (
             <SwiperSlide
               key={tutor.id}
-              onClick={() => navigate(`/home/mentor/${tutor.id}`)}
+              onClick={() => navigate(`/mentor/${tutor.id}`)}
               style={{
                 borderRadius: 10,
                 display: "flex",
@@ -90,7 +114,7 @@ const LandingPage = () => {
               }}
             >
               <TutorCard
-                avatar={tutor.profileImage}
+                avatar={tutor.profileImage.url}
                 description={tutor.mentor.bio}
                 name={tutor.lastName}
               />

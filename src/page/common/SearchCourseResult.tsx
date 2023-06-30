@@ -243,7 +243,11 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             courses?.result.map((course) => (
-              <CourseCardHorizontal key={course.id} {...course} />
+              <CourseCardHorizontal
+                key={course.id}
+                {...course}
+                image={course.image.url}
+              />
             ))
           )}
         </div>

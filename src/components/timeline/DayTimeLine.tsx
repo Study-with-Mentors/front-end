@@ -11,7 +11,7 @@ import { CourseAPI } from "../../api/CourseAPI";
 import dayjs from "dayjs";
 
 export type LineBoxProps = {
-  courseId: string;
+  courseName: string;
   startTime: Date;
   endTime: Date;
   location: string;
@@ -21,62 +21,59 @@ export const LineBox = ({
   startTime,
   endTime,
   location,
-  courseId,
+  courseName,
 }: LineBoxProps) => {
-  const { data, isLoading }: UseQueryResult<GetCourseResult, Error> = useQuery(
-    ["course", courseId],
-    async () => await CourseAPI.getById(courseId)
-  );
+  console.log(startTime, endTime);
+
   return (
-    <Spin spinning={isLoading}>
-      <div className={boxStyled["container"]}>
-        <div className={boxStyled["header"]}>
-          <div className={boxStyled["icon-wrapper"]}>
-            <AccessTimeFilledIcon className={boxStyled["icon"]} />{" "}
-            {dayjs(startTime).format("LT")} - {dayjs(endTime).format("LT")}
-          </div>
-          <div className={boxStyled["icon-wrapper"]}>
-            <FmdGoodIcon
-              style={{
-                fontSize: "1.3rem",
-              }}
-              className={boxStyled["icon"]}
-            />{" "}
-            {location}
-          </div>
+    <div className={boxStyled["container"]}>
+      <div className={boxStyled["header"]}>
+        <div className={boxStyled["icon-wrapper"]}>
+          <AccessTimeFilledIcon className={boxStyled["icon"]} />{" "}
+          {dayjs(startTime).subtract(7, "hour").format("HH:mm")} -{" "}
+          {dayjs(endTime).subtract(7, "hour").format("HH:mm")}
         </div>
-        <div className={boxStyled["body"]}>
-          <p className={boxStyled["sessionName"]}>{data?.fullName}</p>
-          <Avatar.Group
-            maxCount={2}
-            maxStyle={{
-              width: "1.6rem",
-              height: "1.6rem",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: ".7rem",
+        <div className={boxStyled["icon-wrapper"]}>
+          <FmdGoodIcon
+            style={{
+              fontSize: "1.3rem",
             }}
-          >
-            <Avatar
-              className={boxStyled["avatar"]}
-              src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
-            />
-            <Avatar
-              className={boxStyled["avatar"]}
-              src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
-            />
-            <Avatar
-              className={boxStyled["avatar"]}
-              src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
-            />
-          </Avatar.Group>
-        </div>
-        <div className={boxStyled["footer"]}>
-          <Button className={boxStyled["button"]}>Detail</Button>
+            className={boxStyled["icon"]}
+          />{" "}
+          {location}
         </div>
       </div>
-    </Spin>
+      <div className={boxStyled["body"]}>
+        <p className={boxStyled["sessionName"]}>{courseName}</p>
+        <Avatar.Group
+          maxCount={2}
+          maxStyle={{
+            width: "1.6rem",
+            height: "1.6rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: ".7rem",
+          }}
+        >
+          <Avatar
+            className={boxStyled["avatar"]}
+            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
+          />
+          <Avatar
+            className={boxStyled["avatar"]}
+            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
+          />
+          <Avatar
+            className={boxStyled["avatar"]}
+            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
+          />
+        </Avatar.Group>
+      </div>
+      <div className={boxStyled["footer"]}>
+        <Button className={boxStyled["button"]}>Detail</Button>
+      </div>
+    </div>
   );
 };
 
@@ -88,7 +85,7 @@ type DateTimeLineProps = {
 const DayTimeLine = ({ date, lessonList }: DateTimeLineProps) => {
   const timelineItems = lessonList?.map((lesson: GetLessonResult) => {
     return {
-      // children: <LineBox {...lesson} />,
+      children: <LineBox {...lesson} />,
     };
   });
 

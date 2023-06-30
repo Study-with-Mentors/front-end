@@ -19,5 +19,11 @@ export type GetCourseResult = {
   intendedLearner: string;
   field: GetField;
   mentor: Mentor;
-  images: string[];
+  image: GetCourseImage;
+};
+
+export type GetCourseImage = {
+  id: string;
+  version: 0;
+  url: string;
 };

@@ -5,6 +5,14 @@ export type GetLessonByDateParams = {
   upperTime: string;
 };
 
+export type CreateLessonParams = {
+  lessonNum: number;
+  startTime: string;
+  endTime: string;
+  location: string;
+  sessionId: string;
+};
+
 export const LessionAPI = {
   getLessonByDate: async (params: GetLessonByDateParams) => {
     const res = await http.get(`/student/lesson?${toQueryParams(params)}`, {

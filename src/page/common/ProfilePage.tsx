@@ -284,6 +284,8 @@ const ProfilePage = () => {
           name: "year",
           label: "University year",
           rules: { required: true, message: "This field must not empty!" },
+          minValue: 1900,
+          maxValue: 2024,
           style: {
             width: "800px",
             height: "50px",
@@ -433,7 +435,11 @@ const ProfilePage = () => {
                 setloadingAvatar(false);
                 if (url) {
                   mutate(
-                    { profileImage: url },
+                    {
+                      url: url,
+                      id: localStorage.getItem("userID")!,
+                      version: 0,
+                    },
                     {
                       onSuccess(data, variables, context) {
                         refetch();
@@ -456,7 +462,7 @@ const ProfilePage = () => {
                 <Avatar
                   size={200}
                   className={styled["img"]}
-                  src={data?.profileImage}
+                  src={data?.profileImage.url}
                   alt="avatar"
                 />
               )}
@@ -499,7 +505,7 @@ const ProfilePage = () => {
           initialValues={{
             ["degree"]: data?.mentor.degree,
             ["bio"]: data?.mentor.bio,
-            ["field"]: data?.mentor.field.id,
+            ["field"]: data?.mentor?.field?.id,
           }}
           layout="vertical"
           requiredMark="optional"

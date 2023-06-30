@@ -19,6 +19,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminLandingLayout from "../layout/admin/AdminLandingLayout";
 import AdminLandingPage from "../page/admin/AdminLandingPage";
 import UserList from "../layout/admin/user/Index";
+import CreateClassPage from "../page/common/CreateClassPage";
 const CommonRoute = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -28,7 +29,7 @@ const CommonRoute = () => {
 
   let element = useRoutes([
     {
-      path: "landing",
+      path: "",
       element: <LandingLayout />,
       children: [
         {
@@ -44,15 +45,19 @@ const CommonRoute = () => {
           path: "course/:id",
           element: <CoursePage />,
         },
+        {
+          path: "mentor/:id",
+          element: <MentorDetail />,
+        },
       ],
     },
     {
-      path: "signup",
-      element: <SignUpPage />,
-    },
-    {
-      path: "signin",
-      element: <LoginPage />,
+      path: "auth",
+      element: <Outlet />,
+      children: [
+        { path: "", element: <LoginPage />, index: true },
+        { path: "signup", element: <SignUpPage /> },
+      ],
     },
     {
       path: "home",
@@ -72,51 +77,23 @@ const CommonRoute = () => {
           element: <LessonCalendarPage />,
         },
         {
-          path: "courses",
-          element: <CourseListPage />,
-        },
-        {
-          path: "mentor/:id",
-          element: (
-            <MentorDetail
-            // // email="emai_@gmail.com"
-            // // id="1"
-            // // location="HCM City"
-            // // mentorName="Evada Kevadra"
-            // // skillList={[
-            // //   "UI/UX",
-            // //   "Back End",
-            // //   "English Grammar",
-            // //   "Preschool education",
-            // // ]}
-            // // workPosition="Senior Teacher in FPT University"
-            // // decription=" I think I am a nice person though have negligible weaknesses,
-            // // have a good amount of likeable good qualities too. I am sincere and responsible.
-            // //  I am not a very intelligent student but sure I am dynamic as I am capable of managing and handling serious and difficult situations easily and finish all tasks well.
-            // // "
-            // // mentorBackgrounds={[
-            // //   {
-            // //     image:
-            // //       "https://cdn.dribbble.com/users/5947371/screenshots/16688215/media/cdb4d7aacb2c07079caf8953a11f80d6.jpg?compress=1&resize=1000x750&vertical=top",
-            // //     name: "University of Melbourn",
-            // //     position: "Master degree, Foreign Language",
-            // //     time: "Sep 2007 - Oct 2022",
-            // //   },
-            // //   {
-            // //     image:
-            // //       "https://cdn.dribbble.com/users/5947371/screenshots/16688215/media/cdb4d7aacb2c07079caf8953a11f80d6.jpg?compress=1&resize=1000x750&vertical=top",
-            // //     name: "University of Melbourn",
-            // //     position: "Master degree, Foreign Language",
-            // //     time: "Sep 2007 - Oct 2022",
-            // //   },
-            // ]}
-            />
-          ),
-        },
-
-        {
-          path: "course/edit/:id",
-          element: <EditCoursePage />,
+          path: "course",
+          element: <Outlet />,
+          children: [
+            {
+              path: "",
+              element: <CourseListPage />,
+              index: true,
+            },
+            {
+              path: "edit/:id",
+              element: <EditCoursePage />,
+            },
+            {
+              path: "create-class/:id",
+              element: <CreateClassPage />,
+            },
+          ],
         },
       ],
     },

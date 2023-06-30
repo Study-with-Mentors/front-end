@@ -17,7 +17,7 @@ export type Mentor = {
   firstName: string;
   lastName: string;
   birthdate: string;
-  profileImage: string;
+  profileImage: GetProfileImage;
   gender: string;
 };
 
@@ -28,7 +28,7 @@ export type GetUserResult = {
   firstName: string;
   lastName: string;
   birthdate: Date;
-  profileImage: string;
+  profileImage: GetProfileImage;
   gender: GENDER;
   mentor: {
     bio: string;
@@ -43,10 +43,21 @@ export type GetUserResult = {
   };
 };
 
+export type GetProfileImage = {
+  id: string;
+  version: number;
+  url: string;
+};
+
 export type GetMentorResult = {
   totalPages: number;
   totalElements: number;
   result: GetUserResult[];
+};
+
+export type GetIncomeResult = {
+  numOfEnrollments: number;
+  totalEarning: number;
 };
 
 export enum GENDER {

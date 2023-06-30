@@ -18,7 +18,7 @@ import {
   Tabs,
 } from "antd";
 import type { FormInstance } from "antd/es/form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UseQueryResult, useQuery } from "react-query";
 import { GetSessionResult } from "../../types/Session.type";
 import {
@@ -269,6 +269,7 @@ type ExpandedDataProps = {
 
 const EditCoursePage = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   const {
     data: sessions,
@@ -707,7 +708,20 @@ const EditCoursePage = () => {
       </div>
       {/* <Divider /> */}
       <div className={styled["body"]}>
-        <Tabs defaultActiveKey="1" items={items} />
+        <Tabs
+          defaultActiveKey="1"
+          items={items}
+          tabBarExtraContent={
+            <Button
+              onClick={() =>
+                navigate(`/home/course/create-class/${params?.id}`)
+              }
+              type="primary"
+            >
+              Create class
+            </Button>
+          }
+        />
       </div>
     </div>
   );

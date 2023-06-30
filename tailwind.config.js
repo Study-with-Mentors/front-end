@@ -34,7 +34,7 @@ module.exports = {
   mode: 'jit',
   theme: {
     extend: {
-
+    
       borderColor: {
         primary: "rgb(239,239,239)",
         taube: "B38B6D"
@@ -92,16 +92,21 @@ module.exports = {
         //Violet
         'stuff-violet-8': '#391085',
 
-
+     
+  
       },
       fontFamily: {
         'montserrat': 'Montserrat, sans-serif',
-        'lexend': 'Lexend,sans-serif'
+        'lexend': 'Lexend,sans-serif',
+        'nunito': 'Nunito'
       },
       outline: {
         primary: ['1px solid #9783EE'],
       },
       backgroundOpacity: { 6: '0.06' },
+      backgroundImage:{
+        'carousel_image' : "url('/src/assets/carousel_image.png')"
+      },
 
       borderWidth: {
         3: '3px',
@@ -112,6 +117,7 @@ module.exports = {
       fontSize: {
         xxs: '10px',
       },
+      
       fontWeight: {
         thinest: 100,
         thin: 200,

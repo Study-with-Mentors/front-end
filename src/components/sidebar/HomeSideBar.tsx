@@ -19,7 +19,7 @@ const items: MenuProps["items"] = [
   },
   {
     label: "Course",
-    key: "/home/courses",
+    key: "/home/course",
     icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
   },
   {

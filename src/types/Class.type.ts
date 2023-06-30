@@ -8,3 +8,9 @@ export type GetClassResult = {
   price: number;
   courseId: string;
 };
+
+export type GetSearchClass = {
+  totalPages: number;
+  totalElements: number;
+  result: GetClassResult[];
+};

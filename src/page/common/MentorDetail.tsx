@@ -122,7 +122,7 @@ const MentorDetail = ({}: MentorDetailProps) => {
       <div className={styled["profile-container"]}>
         <div className={styled["avatar-wrapper"]}>
           <div className={styled["image-wrapper"]}>
-            <Image className={styled["image"]} src={data?.profileImage} />
+            <Image className={styled["image"]} src={data?.profileImage.url} />
           </div>
           <p className={styled["name"]}>{data?.lastName}</p>
           <p className={styled["desctiption"]}>Degree: {data?.mentor.degree}</p>

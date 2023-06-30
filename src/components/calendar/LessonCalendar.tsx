@@ -16,12 +16,12 @@ type GetListDataType = {
   content?: string;
 };
 
-enum LessonParamsType {
+export enum LessonParamsType {
   DATE = "DATE",
   MONTH = "MONTH",
 }
 
-const getLessonParams = (
+export const getLessonParams = (
   value: Dayjs,
   type: LessonParamsType
 ): GetLessonByDateParams => {
@@ -35,11 +35,6 @@ const getLessonParams = (
       };
       break;
     case LessonParamsType.MONTH:
-      console.log(
-        value.startOf("month").format("YYYY-MM-DD 00:00:00"),
-        value.add(1, "month").startOf("month").format("YYYY-MM-DD 23:59:99")
-      );
-
       params = {
         lowerTime: value.startOf("month").format("YYYY-MM-DD 00:00:00"),
         upperTime: value
@@ -92,36 +87,12 @@ const LessonCalendar: React.FC = () => {
   const getListData = (value: Dayjs) => {
     let listData: GetListDataType[] = [];
     lessonsInMonth?.forEach((lessonInday: GetLessonResult) => {
-      if (value.date() == dayjs(lessonInday.startTime).date()) {
+      if (
+        value.date() == dayjs(lessonInday.startTime).subtract(7, "hour").date()
+      ) {
         listData.push({ type: "success", content: "Incoming class" });
       }
     });
-    // switch (value.date()) {
-    //   case 8:
-    //     listData = [
-    //       { type: "warning", content: "This is warning event." },
-    //       { type: "success", content: "This is usual event." },
-    //     ];
-    //     break;
-    //   case 10:
-    //     listData = [
-    //       { type: "warning", content: "This is warning event." },
-    //       { type: "success", content: "This is usual event." },
-    //       { type: "error", content: "This is error event." },
-    //     ];
-    //     break;
-    //   case 15:
-    //     listData = [
-    //       { type: "warning", content: "This is warning event" },
-    //       { type: "success", content: "This is very long usual event。。...." },
-    //       { type: "error", content: "This is error event 1." },
-    //       { type: "error", content: "This is error event 2." },
-    //       { type: "error", content: "This is error event 3." },
-    //       { type: "error", content: "This is error event 4." },
-    //     ];
-    //     break;
-    //   default:
-    // }
     return listData || [];
   };
 
@@ -129,16 +100,14 @@ const LessonCalendar: React.FC = () => {
     const listData = getListData(value);
 
     return (
-      <ul className="events">
+      <>
         {listData.map((item) => (
-          <li key={item.content}>
-            <Badge
-              status={item.type as BadgeProps["status"]}
-              text={item.content}
-            />
-          </li>
+          <Badge
+            status={item.type as BadgeProps["status"]}
+            text={item.content}
+          />
         ))}
-      </ul>
+      </>
     );
   };
 
@@ -147,7 +116,7 @@ const LessonCalendar: React.FC = () => {
   };
 
   // if (isLoading) return <Spin />;
-  // console.log(lessonsInMonth);
+  console.log(lessons);
 
   return (
     <>
