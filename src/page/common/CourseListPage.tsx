@@ -67,24 +67,29 @@ const ListClass = () => {
         borderRadius: ".8rem",
       }}
     >
-      {classes?.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
-          <ClassCardHorizontal
-            startTime={dayjs(item.startDate).format("DD-MM-YYYY")}
-            endTime={dayjs(item.endDate).format("DD-MM-YYYY")}
-            location="online"
-            sessionName="session name"
-            mentorImage="none"
-            mentorName="none"
-          />
-          {index != classes.length - 1 ? <Divider /> : <></>}
-        </div>
-      ))}
+      {classes?.length == 0 ? (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      ) : (
+        classes?.map((item, index) => (
+          <div
+            key={index}
+            style={{
+              marginBottom: "1rem",
+            }}
+          >
+            <ClassCardHorizontal
+              startTime={dayjs(item.startDate).format("DD-MM-YYYY")}
+              endTime={dayjs(item.endDate).format("DD-MM-YYYY")}
+              location="online"
+              sessionName="session name"
+              mentorImage="none"
+              mentorName="none"
+              courseId={item.courseId}
+            />
+            {index != classes.length - 1 ? <Divider /> : <></>}
+          </div>
+        ))
+      )}
     </div>
   );
 };

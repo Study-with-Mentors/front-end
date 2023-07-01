@@ -18,8 +18,8 @@ const items: MenuProps["items"] = [
     icon: <HomeFilled style={{ fontSize: "26px" }} />,
   },
   {
-    label: "Course",
-    key: "/home/courses",
+    label: "Courses & Classes",
+    key: "/home/course",
     icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
   },
   {

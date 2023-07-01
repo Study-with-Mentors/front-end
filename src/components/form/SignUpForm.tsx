@@ -126,7 +126,7 @@ const SignUpForm = () => {
         </p>
         <p className={styled["header-body"]}>
           Already have an account?{" "}
-          <span onClick={() => navigate("/signin")}>Log in</span>
+          <span onClick={() => navigate("/auth")}>Log in</span>
         </p>
       </div>
       <Form

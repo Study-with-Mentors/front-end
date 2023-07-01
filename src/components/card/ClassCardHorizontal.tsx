@@ -1,17 +1,20 @@
 import React from "react";
-import { Avatar, Button } from "antd";
-import { LineBox, LineBoxProps } from "../timeline/DayTimeLine";
+import { Avatar, Button, Spin } from "antd";
 import styled from "./ClassCardHorizontal.module.scss";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import { UseQueryResult, useQuery } from "react-query";
+import { CourseAPI } from "../../api/CourseAPI";
+import { GetCourseResult } from "../../types/Course.type";
 
 export type ClassCardHorizontalProps = {
   startTime: string;
   endTime: string;
   location: string;
   sessionName: string;
-  mentorName: string;
-  mentorImage: string;
+  courseId: string;
+  mentorName?: string;
+  mentorImage?: string;
 };
 
 export const ClassCardHorizontal = ({
@@ -20,8 +23,17 @@ export const ClassCardHorizontal = ({
   location,
   sessionName,
   mentorImage,
+  courseId,
   mentorName,
 }: ClassCardHorizontalProps) => {
+  const { data: course, isLoading }: UseQueryResult<GetCourseResult, Error> =
+    useQuery(
+      ["course", courseId],
+      async () => await CourseAPI.getById(courseId)
+    );
+
+  if (isLoading) return <Spin />;
+
   return (
     <>
       <div className={styled["container"]}>
@@ -41,10 +53,13 @@ export const ClassCardHorizontal = ({
           </div>
         </div>
         <div className={styled["body"]}>
-          <p className={styled["sessionName"]}>{sessionName}</p>
+          <p className={styled["sessionName"]}>{course?.fullName}</p>
           <div className={styled["avatar-wrapper"]}>
-            <Avatar className={styled["avatar"]} src={mentorImage} />
-            <p>{mentorName}</p>
+            <Avatar
+              className={styled["avatar"]}
+              src={course?.mentor.profileImage.url}
+            />
+            <p>{course?.mentor.lastName}</p>
           </div>
         </div>
         <div className={styled["footer"]}>

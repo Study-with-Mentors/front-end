@@ -203,29 +203,29 @@ const CreateClassPage = () => {
     dataIndex: string;
     editType?: EditableType;
   })[] = [
-      {
-        title: "Session name",
-        dataIndex: "sessionName",
-        width: "40%",
+    {
+      title: "Session name",
+      dataIndex: "sessionName",
+      width: "40%",
+    },
+    {
+      title: "Start date - End date",
+      dataIndex: "time",
+      render(value, record, index) {
+        return <RangePicker value={value} inputReadOnly showTime></RangePicker>;
       },
-      {
-        title: "Start date - End date",
-        dataIndex: "time",
-        render(value, record, index) {
-          return <RangePicker value={value} inputReadOnly showTime></RangePicker>;
-        },
-        editable: true,
-        editType: EditableType.RANGEPICKER,
-      },
+      editable: true,
+      editType: EditableType.RANGEPICKER,
+    },
 
-      {
-        title: "Location",
-        dataIndex: "location",
-        editable: true,
-        editType: EditableType.INPUT,
-        width: "20%",
-      },
-    ];
+    {
+      title: "Location",
+      dataIndex: "location",
+      editable: true,
+      editType: EditableType.INPUT,
+      width: "20%",
+    },
+  ];
 
   const handleSave = (row: DataType) => {
     const newData = [...dataSource];
@@ -300,7 +300,7 @@ const CreateClassPage = () => {
           height: "50px",
           marginBottom: "3rem",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },
@@ -318,7 +318,7 @@ const CreateClassPage = () => {
           height: "50px",
           marginBottom: "3.5rem",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },
@@ -336,7 +336,7 @@ const CreateClassPage = () => {
           height: "50px",
           marginBottom: "5rem",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },

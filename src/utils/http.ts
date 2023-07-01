@@ -43,8 +43,9 @@ http.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response.status == 401) {
-      // window.location.href = "http://localhost:3000/signin";
+    if (err.response.status == 400) {
+      localStorage.clear();
+      window.location.href = "http://localhost:3000/auth";
     }
     throw err;
   }

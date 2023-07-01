@@ -1,4 +1,8 @@
 import { GetField } from "./Field.type";
+<<<<<<< HEAD
+=======
+import { Image } from "./Image.type";
+>>>>>>> main-layout
 import { Mentor } from "./User.type";
 
 export type GetCourse = {
@@ -20,6 +24,15 @@ export type GetCourseResult = {
   field: GetField;
   mentor: Mentor;
   image: GetCourseImage;
+<<<<<<< HEAD
+=======
+};
+
+export type GetCourseImage = {
+  id: string;
+  version: 0;
+  url: string;
+>>>>>>> main-layout
 };
 
 export type GetCourseImage = {

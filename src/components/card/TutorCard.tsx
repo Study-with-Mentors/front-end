@@ -19,9 +19,10 @@ const TutorCard = ({ avatar, description, name }: TutorCardProps) => {
       cover={
         <Avatar
           style={{
-            width: "100%",
-            height: "100%",
-            aspectRatio: "1/1",
+            width: "14rem",
+            height: "14rem",
+            marginTop: "2rem",
+            border: "1px solid #ccc",
           }}
           src={avatar}
         />
@@ -54,9 +55,9 @@ const TutorCard = ({ avatar, description, name }: TutorCardProps) => {
         description={
           <p
             style={{
-              fontSize: "16px",
+              fontSize: "15px",
               fontWeight: 300,
-              color: "#2E2C2C",
+              color: "#8c8c8c",
               lineHeight: "36px",
             }}
           >
