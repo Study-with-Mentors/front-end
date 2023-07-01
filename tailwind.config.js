@@ -59,7 +59,7 @@ module.exports = {
         purple_golden: "#391085",
         green_main: "#01555b",
         green_success : "#20C997",
-        
+        // red_fail: "#FF4D4F",
       },
 
       colors: {

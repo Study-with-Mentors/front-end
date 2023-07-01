@@ -1,58 +1,63 @@
 .container {
-    @apply bg-gray_third pl-9 flex justify-center pb-80;
+    @apply mx-10 mt-20;
 
-    .body-wrapper {
-        max-width: 800px;
+    .searchbar {
+        cursor: pointer;
+        // border-radius: 60px;
+        border-radius: 6px;
+        background-color: #FFFFFF;
+        margin-bottom: 10px;
+        box-shadow: 1px 1px 1px 0px rgb(194, 194, 194);
 
-        .header {
-            @apply pt-6 pb-9;
+        .input {
+            @apply leading-5;
 
+            .search-container {
+                @apply p-2 rounded-full w-9 h-6 flex items-center justify-center;
+
+
+                .search-icon {
+                    @apply w-6 h-6 text-xl;
+                }
+            }
+        }
+    }
+}
+
+.container-detail {
+    @apply bg-gray_third pl-9 flex justify-center pb-80 z-0;
+    position: relative;
+
+    .detail-left {
+        @apply bg-white p-9 ml-12 rounded-2xl mt-12 h-fit;
+        max-width: 600px;
+
+        .image {
+            @apply py-9;
+        }
+
+        .body_header-wrapper {
             .title {
                 @apply font-semibold;
+                margin-bottom: 10px;
                 color: #102844;
                 font-size: 22px;
             }
 
+            .mentor,
             .description {
-                @apply text-gray_main;
+                @apply text-gray_main cursor-pointer;
                 font-size: 14px;
 
                 span {
-                    @apply font-medium;
-                    color: #102844;
-                }
-            }
-        }
-
-        .body {
-            @apply bg-white rounded-2xl px-9;
-
-            .image {
-                @apply py-9;
-            }
-
-            .body_header-wrapper {
-                .title {
                     @apply font-semibold;
-                    margin-bottom: 10px;
                     color: #102844;
-                    font-size: 22px;
-                }
-
-                .create-by {
-                    @apply text-gray_main cursor-pointer;
-                    font-size: 14px;
-
-                    span {
-                        @apply font-semibold;
-                        color: #102844;
-                    }
                 }
             }
         }
     }
 
-    .sidebar {
+    .detail-right {
         @apply bg-white p-9 ml-12 rounded-2xl mt-12 h-fit;
         max-width: 280px;
 
@@ -79,14 +84,6 @@
 
         .description {
             @apply text-sm font-normal text-gray_main;
-        }
-
-        .course-activity {
-            @apply flex items-center text-gray_main;
-
-            .icon {
-                @apply mr-7 text-blue_title;
-            }
         }
 
         .tag {

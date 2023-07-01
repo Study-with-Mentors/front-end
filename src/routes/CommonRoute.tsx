@@ -1,3 +1,4 @@
+import CreateClassPage from "../page/common/CreateClassPage";
 import { useEffect } from "react";
 import { Outlet, useNavigate, useRoutes } from "react-router-dom";
 import SignUpPage from "../page/common/SignUpPage";
@@ -17,9 +18,10 @@ import CourseListPage from "../page/common/CourseListPage";
 import NotFoundPage from "../page/common/404Page";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminLandingLayout from "../layout/admin/AdminLandingLayout";
-import AdminLandingPage from "../page/admin/AdminLandingPage";
+import AdminDashboard from "../page/admin/dashboard/AdminDashboardMain";
 import UserList from "../layout/admin/user/Index";
-import CreateClassPage from "../page/common/CreateClassPage";
+import AdminUser from "../page/admin/user/AdminUser";
+import AdminCourse from "../page/admin/course/AdminCourse";
 const CommonRoute = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -106,11 +108,20 @@ const CommonRoute = () => {
         path: "/admin",
         element: <AdminLandingLayout />,
         children: [
-          { path: "", element: <AdminLandingPage />, index: true },
+          {
+            path: "",
+            element: <Outlet />,
+            children: [{ path: "", element: <AdminDashboard />, index: true }],
+          },
           {
             path: "user",
             element: <Outlet />,
-            children: [{ path: "", element: <UserList />, index: true }],
+            children: [{ path: "", element: <AdminUser />, index: true }],
+          },
+          {
+            path: "course",
+            element: <Outlet />,
+            children: [{ path: "", element: <AdminCourse />, index: true }],
           },
         ],
       }),
