@@ -5,10 +5,7 @@ import { UseQueryResult, useQuery } from "react-query";
 import { GetClassResult } from "../../types/Class.type";
 import { ClassAPI } from "../../api/ClassAPI";
 import { useCreateEnrollment } from "../../hooks/useCreateEnrollmentHook";
-<<<<<<< HEAD
-=======
 import { useNavigate } from "react-router-dom";
->>>>>>> main-layout
 
 interface ClassListTableItem {
   key: string;
@@ -40,11 +37,8 @@ const checkEnrolledClasses = (
 var dataItem: ClassListTableItem[] = [];
 
 const ClassListTable = ({ courseId }: ClassListTableProps) => {
-<<<<<<< HEAD
-=======
   const navigate = useNavigate();
 
->>>>>>> main-layout
   const { data, isLoading }: UseQueryResult<GetClassResult[], Error> = useQuery(
     ["classes", courseId],
     async () =>
@@ -129,16 +123,11 @@ const ClassListTable = ({ courseId }: ClassListTableProps) => {
                     },
                     {
                       onSuccess(data, variables, context) {
-<<<<<<< HEAD
-                        console.log(data);
-                        window.open(data.object, "VNPay-enroll");
-=======
                         window.open(data.object, "VNPAY");
                         navigate(`/home/course`);
                       },
                       onError(error, variables, context) {
                         console.log(error);
->>>>>>> main-layout
                       },
                     }
                   );

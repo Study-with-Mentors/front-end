@@ -10,8 +10,4 @@ export const useUpdateUserMentorProfile = () => {
   });
 
   return { mutate, isLoading, error, data };
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> main-layout

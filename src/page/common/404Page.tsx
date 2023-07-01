@@ -8,7 +8,7 @@ const NotFoundPage = () => {
     <div className={styled["container"]}>
       <div className={styled["body"]}>
         <img src={notFound} alt="404" />
-        Seems like this page has been lost to time. <Link to='/landing'>Back to front page</Link>
+        Seems like this page has been lost to time. <Link to='/'>Back to front page</Link>
       </div>
     </div>
   )
