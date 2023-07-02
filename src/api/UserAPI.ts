@@ -5,6 +5,15 @@ export type LoginProps = {
   password: string;
 };
 
+export type SignupProps = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirm: string;
+  gender: GENDER
+};
+
 export type UploadImageProfileProps = {
   id: string;
   version: number;
@@ -47,6 +56,14 @@ export const UserAPI = {
   login: async (loginProps: LoginProps) => {
     try {
       const res = await http.post("/login", loginProps);
+      return res?.data;
+    } catch (err: any) {
+      throw err;
+    }
+  },
+  signup: async (signupProps: SignupProps) => {
+    try {
+      const res = await http.post("/signup", signupProps);
       return res?.data;
     } catch (err: any) {
       throw err;
