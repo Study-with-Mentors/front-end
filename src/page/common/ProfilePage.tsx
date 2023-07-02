@@ -31,6 +31,7 @@ import { useUpdateUserStudentProfile } from "../../hooks/useUpdateUserProfileStu
 import { GetField } from "../../types/Field.type";
 import { FieldAPI } from "../../api/FieldAPI";
 import { useUpdateUserMentorProfile } from "../../hooks/useUpdateUserProfileMentorHook";
+import { UserOutlined } from "@ant-design/icons";
 
 const dateFormat = "YYYY-MM-DD";
 var fieldOptions: SelectProps["options"] = [];
@@ -458,11 +459,18 @@ const ProfilePage = () => {
                     height: 200,
                   }}
                 />
-              ) : (
+              ) : data?.profileImage ? (
                 <Avatar
                   size={200}
                   className={styled["img"]}
                   src={data?.profileImage.url}
+                  alt="avatar"
+                />
+              ) : (
+                <Avatar
+                  size={200}
+                  className={styled["img"]}
+                  icon={<UserOutlined />}
                   alt="avatar"
                 />
               )}

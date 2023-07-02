@@ -7,7 +7,16 @@ import React, {
 } from "react";
 import styled from "./EditCoursePage.module.scss";
 import type { InputRef, TableColumnsType, TabsProps } from "antd";
-import { Form, Input, Popconfirm, Table, Button, Spin, Tabs } from "antd";
+import {
+  Form,
+  Input,
+  Popconfirm,
+  Table,
+  Button,
+  Spin,
+  Tabs,
+  message,
+} from "antd";
 import type { FormInstance } from "antd/es/form";
 import { useNavigate, useParams } from "react-router-dom";
 import { UseQueryResult, useQuery } from "react-query";
@@ -261,6 +270,7 @@ type ExpandedDataProps = {
 const EditCoursePage = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const {
     data: sessions,
@@ -344,6 +354,10 @@ const EditCoursePage = () => {
       },
       onError(error, variables, context) {
         console.log(error);
+        messageApi.open({
+          type: "error",
+          content: "Unable to modify this course!",
+        });
       },
     });
   };
@@ -415,6 +429,10 @@ const EditCoursePage = () => {
                     },
                     onError(error, variables, context) {
                       console.log(error);
+                      messageApi.open({
+                        type: "error",
+                        content: "Unable to modify this course!",
+                      });
                     },
                   }
                 );
@@ -457,7 +475,11 @@ const EditCoursePage = () => {
         refetch();
       },
       onError(error, variables, context) {
-        console.log(error);
+        console.log(error, variables, context);
+        messageApi.open({
+          type: "error",
+          content: "Unable to modify this course!",
+        });
       },
     });
     // setDataSource([...dataSource, newData]);
@@ -488,6 +510,10 @@ const EditCoursePage = () => {
         },
         onError(error, variables, context) {
           console.log(error);
+          messageApi.open({
+            type: "error",
+            content: "Unable to modify this course!",
+          });
         },
       });
     } else {
@@ -543,6 +569,10 @@ const EditCoursePage = () => {
           },
           onError(error, variables, context) {
             console.log(error);
+            messageApi.open({
+              type: "error",
+              content: "Unable to modify this course!",
+            });
           },
         });
       } else {
@@ -556,6 +586,10 @@ const EditCoursePage = () => {
         },
         onError(error, variables, context) {
           console.log(error);
+          messageApi.open({
+            type: "error",
+            content: "Unable to modify this course!",
+          });
         },
       });
     };
@@ -704,6 +738,8 @@ const EditCoursePage = () => {
 
   return (
     <div className={styled["container"]}>
+      {contextHolder}
+
       <div className={styled["header"]}>
         <p className={styled["title"]}>Edit course</p>
       </div>

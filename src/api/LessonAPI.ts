@@ -22,4 +22,8 @@ export const LessionAPI = {
     });
     return res.data;
   },
+  getLessonByClassId: async (class_id: string) => {
+    const res = await http.get(`/clazz/${class_id}/lesson`);
+    return res.data;
+  },
 };

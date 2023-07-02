@@ -5,7 +5,7 @@ import AppRoute from "./routes/AppRoute";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ConfigProvider } from "antd";
-import vi_VN from "antd/locale/vi_VN";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,22 +57,23 @@ function App() {
   });
 
   return (
-    <DataContext.Provider value={{ state, dispatch }}>
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: "Poppins",
-          },
-        }}
-        locale={vi_VN}
-      >
-        <BrowserRouter>
-          <QueryClientProvider client={queryClient}>
-            <AppRoute />
-          </QueryClientProvider>
-        </BrowserRouter>
-      </ConfigProvider>
-    </DataContext.Provider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+      <DataContext.Provider value={{ state, dispatch }}>
+        <ConfigProvider
+          theme={{
+            token: {
+              fontFamily: "Poppins",
+            },
+          }}
+        >
+          <BrowserRouter>
+            <QueryClientProvider client={queryClient}>
+              <AppRoute />
+            </QueryClientProvider>
+          </BrowserRouter>
+        </ConfigProvider>
+      </DataContext.Provider>
+    </GoogleOAuthProvider>
   );
 }
 

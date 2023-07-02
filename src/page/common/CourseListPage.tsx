@@ -85,6 +85,7 @@ const ListClass = () => {
               mentorImage="none"
               mentorName="none"
               courseId={item.courseId}
+              class_id={item.id}
             />
             {index != classes.length - 1 ? <Divider /> : <></>}
           </div>

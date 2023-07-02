@@ -54,6 +54,10 @@ export const ClassAPI = {
     const res = await http.get(`/course/${courseId}/clazz`);
     return res?.data;
   },
+  getClassByClassId: async (classId: string) => {
+    const res = await http.get(`/clazz/${classId}`);
+    return res?.data;
+  },
   searchClass: async (params: SearchClassParams) => {
     var url;
     if (Object.keys(params).length == 0) {

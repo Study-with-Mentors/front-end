@@ -22,6 +22,8 @@ import AdminDashboard from "../page/admin/dashboard/AdminDashboardMain";
 import UserList from "../layout/admin/user/Index";
 import AdminUser from "../page/admin/user/AdminUser";
 import AdminCourse from "../page/admin/course/AdminCourse";
+import ClassListTable from "../components/card/ClassListTable";
+import ClassDetailPage from "../page/common/ClassDetailPage";
 const CommonRoute = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -94,6 +96,17 @@ const CommonRoute = () => {
             {
               path: "create-class/:id",
               element: <CreateClassPage />,
+            },
+          ],
+        },
+        {
+          path: "class",
+          element: <Outlet />,
+          children: [
+            {
+              path: ":id",
+              element: <ClassDetailPage />,
+              index: true,
             },
           ],
         },

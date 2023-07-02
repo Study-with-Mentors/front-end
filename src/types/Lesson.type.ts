@@ -8,5 +8,6 @@ export type GetLessonResult = {
   courseName: string;
   sessionName: string;
   clazzId: string;
+  courseId: string;
   sessionId: string;
 };

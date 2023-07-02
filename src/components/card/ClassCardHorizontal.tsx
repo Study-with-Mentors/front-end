@@ -6,6 +6,7 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import { UseQueryResult, useQuery } from "react-query";
 import { CourseAPI } from "../../api/CourseAPI";
 import { GetCourseResult } from "../../types/Course.type";
+import { useNavigate } from "react-router-dom";
 
 export type ClassCardHorizontalProps = {
   startTime: string;
@@ -15,6 +16,7 @@ export type ClassCardHorizontalProps = {
   courseId: string;
   mentorName?: string;
   mentorImage?: string;
+  class_id: string;
 };
 
 export const ClassCardHorizontal = ({
@@ -25,7 +27,10 @@ export const ClassCardHorizontal = ({
   mentorImage,
   courseId,
   mentorName,
+  class_id,
 }: ClassCardHorizontalProps) => {
+  const navigate = useNavigate();
+
   const { data: course, isLoading }: UseQueryResult<GetCourseResult, Error> =
     useQuery(
       ["course", courseId],
@@ -63,7 +68,12 @@ export const ClassCardHorizontal = ({
           </div>
         </div>
         <div className={styled["footer"]}>
-          <Button className={styled["button"]}>Detail</Button>
+          <Button
+            onClick={() => navigate(`/home/class/${class_id}`)}
+            className={styled["button"]}
+          >
+            Detail
+          </Button>
         </div>
       </div>
     </>
