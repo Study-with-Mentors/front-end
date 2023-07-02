@@ -52,6 +52,14 @@ export const UserAPI = {
       throw err;
     }
   },
+  signUpVerify: async (token: string) => {
+    try {
+      const res = await http.get("/signup/verify", { params: { token: token } });
+      return res?.data
+    } catch (err: any) {
+      throw err;
+    }
+  },
   getByUserToken: async () => {
     const res = await http.get("/user/profile", {
       headers: {

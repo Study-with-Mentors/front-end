@@ -22,12 +22,13 @@ import AdminDashboard from "../page/admin/dashboard/AdminDashboardMain";
 import UserList from "../layout/admin/user/Index";
 import AdminUser from "../page/admin/user/AdminUser";
 import AdminCourse from "../page/admin/course/AdminCourse";
+import SignUpVerifyPage from "../page/common/SignUpVerifyPage";
 const CommonRoute = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const checkRole = role && role == "ADMIN";
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   let element = useRoutes([
     {
@@ -59,6 +60,7 @@ const CommonRoute = () => {
       children: [
         { path: "", element: <LoginPage />, index: true },
         { path: "signup", element: <SignUpPage /> },
+        { path: "signup/verify", element: <SignUpVerifyPage /> },
       ],
     },
     {
