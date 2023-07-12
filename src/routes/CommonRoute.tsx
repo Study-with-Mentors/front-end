@@ -24,6 +24,8 @@ import AdminUser from "../page/admin/user/AdminUser";
 import AdminCourse from "../page/admin/course/AdminCourse";
 import ClassListTable from "../components/card/ClassListTable";
 import ClassDetailPage from "../page/common/ClassDetailPage";
+import SignUpVerifyPage from "../page/common/SignUpVerifyPage";
+import EditClassDetail from "../page/common/EditClassDetail";
 const CommonRoute = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -61,6 +63,7 @@ const CommonRoute = () => {
       children: [
         { path: "", element: <LoginPage />, index: true },
         { path: "signup", element: <SignUpPage /> },
+        { path: "signup/verify", element: <SignUpVerifyPage /> },
       ],
     },
     {
@@ -107,6 +110,10 @@ const CommonRoute = () => {
               path: ":id",
               element: <ClassDetailPage />,
               index: true,
+            },
+            {
+              path: "edit/:id",
+              element: <EditClassDetail />,
             },
           ],
         },

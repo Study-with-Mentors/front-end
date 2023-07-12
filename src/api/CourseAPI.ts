@@ -40,6 +40,11 @@ export type UpdateCourseParams = {
   field: { id: string };
 };
 
+export type UpdateCourseImageParams = {
+  courseId: string;
+  url: string;
+};
+
 export const CourseAPI = {
   getAll: async (searchCourseParams: SearchCourseParams) => {
     var url;
@@ -50,12 +55,16 @@ export const CourseAPI = {
     }
 
     const res = await http.get(url);
-    console.log(res.data)
+    console.log(res.data);
     return res.data;
   },
   getById: async (id: string) => {
     try {
-      const res = await http.get(`/course/${id}`);
+      const res = await http.get(`/course/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      });
       return res.data;
     } catch (error) {
       throw error;
@@ -85,6 +94,20 @@ export const CourseAPI = {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     });
+    return res?.data;
+  },
+  updateCourseImage: async ({ courseId, url }: UpdateCourseImageParams) => {
+    const res = await http.put(
+      `/course/${courseId}/image`,
+      {
+        url,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
     return res?.data;
   },
 };

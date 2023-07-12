@@ -1,6 +1,31 @@
 .container{
     @apply mt-8;
 
+    .img-container{
+         @apply mb-10;
+        .img-wrapper{
+            @apply flex justify-center items-center relative cursor-pointer;
+        }
+
+
+        .img-wrapper::before{
+            @apply absolute flex justify-center items-center;
+            opacity: 0;
+            z-index: 1000;
+            content: 'Edit';
+            width: 100%;
+            height: 100%;
+            background-color: #cccccc;
+        }
+
+        .img-wrapper:hover::before{
+            transition: all .2s ease-out;
+            opacity: .8;
+        }
+
+        
+    }
+
     
 
     .left-wrapper{

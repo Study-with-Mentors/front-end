@@ -1,13 +1,16 @@
 import React from "react";
 import { DownOutlined } from "@ant-design/icons";
 import type { TableColumnsType } from "antd";
-import { Badge, Dropdown, Space, Table } from "antd";
+import { Badge, Dropdown, Space, Table, Spin } from "antd";
 import { UseQueryResult, useQuery } from "react-query";
 import { ClassAPI } from "../../api/ClassAPI";
 import { GetClassResult } from "../../types/Class.type";
 import { LessionAPI } from "../../api/LessonAPI";
 import { GetLessonResult } from "../../types/Lesson.type";
 import { useParams } from "react-router-dom";
+import { GetActivityResult } from "../../types/Activity.type";
+import { ActivityAPI } from "../../api/ActivityAPI";
+import styled from "./ClassDetailPage.module.scss";
 
 export type ClassDetailPageProps = {};
 
@@ -19,6 +22,7 @@ interface DataType {
   end_time: string;
   location: string;
   resourse: string;
+  sessionId: string;
 }
 
 interface ExpandedDataType {
@@ -27,10 +31,9 @@ interface ExpandedDataType {
   description: string;
 }
 
-const items = [
-  { key: "1", label: "Action 1" },
-  { key: "2", label: "Action 2" },
-];
+type ExpandedDataProps = {
+  sessionId: string;
+};
 
 var data: DataType[] = [];
 
@@ -63,12 +66,20 @@ const ClassDetailPage = ({}: ClassDetailPageProps) => {
             end_time: item.endTime,
             location: item.location,
             resourse: "resourse",
+            sessionId: item.sessionId,
           };
         });
       })
   );
 
-  const expandedRowRender = () => {
+  const expandedRowRender = (values: object) => {
+    console.log(values);
+
+    const props = values as DataType;
+    return <ExpandedRowRender sessionId={props.sessionId}></ExpandedRowRender>;
+  };
+
+  const ExpandedRowRender = (props: { sessionId: string }) => {
     const columns: TableColumnsType<ExpandedDataType> = [
       { title: "Activity Name", dataIndex: "title", key: "title" },
       {
@@ -78,20 +89,42 @@ const ClassDetailPage = ({}: ClassDetailPageProps) => {
       },
     ];
 
-    const data = [];
-    for (let i = 0; i < 3; ++i) {
-      data.push({
-        key: i.toString(),
-        title: "title",
-        description: "description",
-      });
-    }
-    return <Table columns={columns} dataSource={data} pagination={false} />;
+    const {
+      data,
+      isLoading,
+      error,
+    }: UseQueryResult<ExpandedDataType[], Error> = useQuery(
+      ["activities", props.sessionId],
+      async () =>
+        await ActivityAPI.getActivityBySessionId({
+          sessionId: props.sessionId,
+        }).then((items) => {
+          return items.map((item: GetActivityResult): ExpandedDataType => {
+            return {
+              key: item.id,
+              title: item.title,
+              description: item.description,
+            };
+          });
+        })
+    );
+
+    return (
+      <Spin spinning={isLoading}>
+        <Table columns={columns} dataSource={data} pagination={false} />
+      </Spin>
+    );
   };
 
   const columns: TableColumnsType<DataType> = [
-    { title: "Lesson name", dataIndex: "name", key: "name" },
-    { title: "Lesson number", dataIndex: "lesson_num", key: "lesson_num" },
+    { title: "Lesson name", dataIndex: "lesson_name", key: "lesson_name" },
+    {
+      title: "Lesson number",
+      dataIndex: "lesson_num",
+      key: "lesson_num",
+      defaultSortOrder: "ascend",
+      sorter: (a: any, b: any) => a?.lesson_num - b?.lesson_num,
+    },
     { title: "Start time", dataIndex: "start_time", key: "start_time" },
     { title: "End time", dataIndex: "end_time", key: "end_time" },
     { title: "Location", dataIndex: "location", key: "location" },
@@ -99,15 +132,16 @@ const ClassDetailPage = ({}: ClassDetailPageProps) => {
   ];
 
   return (
-    <>
+    <div className={styled["container"]}>
       <Table
         loading={isLessonLoading}
         columns={columns}
+        bordered={true}
         expandable={{ expandedRowRender, defaultExpandedRowKeys: ["0"] }}
         dataSource={data}
         pagination={false}
       />
-    </>
+    </div>
   );
 };
 

@@ -28,7 +28,9 @@
             @apply bg-white rounded-2xl px-9;
 
             .image {
-                @apply py-9;
+                @apply py-9 flex justify-center ;
+                width: 760px;
+                height: 428px;
             }
 
             .body_header-wrapper {

@@ -15,7 +15,9 @@ import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import { GetSessionResult } from "../../types/Session.type";
 import { SessionAPI } from "../../api/SessionAPI";
 import { SessionCard } from "../../components/card/SessionCard";
-import ClassListTable from "../../components/card/ClassListTable";
+import ClassListTable, {
+  ClassListTableType,
+} from "../../components/card/ClassListTable";
 
 export type CoursePageProps = {};
 
@@ -183,7 +185,10 @@ const CoursePage = () => {
         onCancel={handleCancel}
         width={1000}
       >
-        <ClassListTable courseId={params?.id!} />
+        <ClassListTable
+          courseId={params?.id!}
+          type={ClassListTableType.DETAIL}
+        />
       </Modal>
     </>
   );

@@ -48,7 +48,7 @@ const LeftSideBar = () => {
   const onClick: MenuProps["onClick"] = (e) => {
     if (e.key === "logout") {
       localStorage.clear();
-      navigate("/signin");
+      navigate("/auth");
     } else {
       navigate(`${e.key}`);
       setCurrent(e.key);

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Space, Spin, Table, Tag, Button } from "antd";
+import { Space, Spin, Table, Tag, Button, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { UseQueryResult, useQuery } from "react-query";
 import { GetClassResult } from "../../types/Class.type";
@@ -16,8 +16,14 @@ interface ClassListTableItem {
   price: number;
 }
 
+export enum ClassListTableType {
+  EDIT = "EDIT",
+  DETAIL = "DETAIL",
+}
+
 export type ClassListTableProps = {
   courseId: string;
+  type: ClassListTableType;
 };
 
 const checkEnrolledClasses = (
@@ -36,9 +42,9 @@ const checkEnrolledClasses = (
 
 var dataItem: ClassListTableItem[] = [];
 
-const ClassListTable = ({ courseId }: ClassListTableProps) => {
+const ClassListTable = ({ courseId, type }: ClassListTableProps) => {
   const navigate = useNavigate();
-
+  const [messageApi, contextHolder] = message.useMessage();
   const { data, isLoading }: UseQueryResult<GetClassResult[], Error> = useQuery(
     ["classes", courseId],
     async () =>
@@ -105,38 +111,59 @@ const ClassListTable = ({ courseId }: ClassListTableProps) => {
         title: "Action",
         key: "action",
         render: (_, record) => {
-          var checkEnrolled: boolean = checkEnrolledClasses(
-            record,
-            enrolledClass ?? []
-          );
-          return (
-            <Space size="middle">
-              <Button
-                loading={isCreateEnrollmentLoading}
-                disabled={checkEnrolled}
-                onClick={() => {
-                  createEnrollment(
-                    {
-                      classId: record.key,
-                      paymentType: "VNPAY",
-                      studentId: localStorage.getItem("userID") ?? "",
-                    },
-                    {
-                      onSuccess(data, variables, context) {
-                        window.open(data.object, "VNPAY");
-                        navigate(`/home/course`);
-                      },
-                      onError(error, variables, context) {
-                        console.log(error);
-                      },
-                    }
-                  );
-                }}
-              >
-                {checkEnrolled ? "Enrolled" : "Enroll this"}
-              </Button>
-            </Space>
-          );
+          switch (type) {
+            case ClassListTableType.DETAIL:
+              var checkEnrolled: boolean = checkEnrolledClasses(
+                record,
+                enrolledClass ?? []
+              );
+              return (
+                <Space size="middle">
+                  <Button
+                    loading={isCreateEnrollmentLoading}
+                    disabled={checkEnrolled}
+                    onClick={() => {
+                      createEnrollment(
+                        {
+                          classId: record.key,
+                          paymentType: "VNPAY",
+                          studentId: localStorage.getItem("userID") ?? "",
+                        },
+                        {
+                          onSuccess(data, variables, context) {
+                            window.open(data.object, "VNPAY");
+                            navigate(`/home/course`);
+                          },
+                          onError(error: any, variables, context) {
+                            messageApi.open({
+                              type: "error",
+                              duration: 3,
+                              content:
+                                error?.response?.data?.message?.slice(0, 50) +
+                                "...",
+                            });
+                          },
+                        }
+                      );
+                    }}
+                  >
+                    {checkEnrolled ? "Enrolled" : "Enroll this"}
+                  </Button>
+                </Space>
+              );
+            case ClassListTableType.EDIT:
+              return (
+                <Button
+                  onClick={() => {
+                    navigate(`/home/class/edit/${record.key}`);
+                  }}
+                >
+                  Show detail
+                </Button>
+              );
+            default:
+              return;
+          }
         },
       },
     ];
@@ -144,6 +171,7 @@ const ClassListTable = ({ courseId }: ClassListTableProps) => {
 
   return (
     <Spin spinning={isLoading || isLoadingEnrolledClass}>
+      {contextHolder}
       <Table columns={columns} dataSource={dataItem} pagination={false} />
     </Spin>
   );

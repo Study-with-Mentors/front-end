@@ -153,7 +153,11 @@ const DashBoardPage = () => {
                     src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
                   />
                 }
-                title={<a href="https://ant.design">{item.sessionName}</a>}
+                title={
+                  <a onClick={() => navigate(`/home/class/${item.clazzId}`)}>
+                    {item.sessionName}
+                  </a>
+                }
                 description={dayjs(item.startTime).format("YYYY-MM-DD HH:mm")}
               />
             </List.Item>

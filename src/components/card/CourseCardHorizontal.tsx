@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "./CourseCardHorizontal.module.scss";
-import { Avatar, Card, Rate, Image, Button } from "antd";
+import { Avatar, Card, Rate, Image, Button, Modal } from "antd";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useNavigate } from "react-router-dom";
 import { Mentor } from "../../types/User.type";
 import { Image as ImageCourse } from "../../types/Image.type";
+import { useGetClassByCourseId } from "../../hooks/useGetClassListHook";
+import ClassListTable, { ClassListTableType } from "./ClassListTable";
 
 const { Meta } = Card;
 
@@ -36,6 +38,27 @@ const CourseCardHorizontal = ({
 }: CourseCardHorizontalProps) => {
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const {
+    data,
+    error,
+    isLoading,
+    mutate: getClassListByCourseId,
+  } = useGetClassByCourseId();
+
   const navigateToCourseDetail = () => {
     var url;
     if (type == CourseCardHorizontalType.EDIT) {
@@ -44,6 +67,11 @@ const CourseCardHorizontal = ({
       url = `/course/${id}`;
     }
     navigate(url);
+  };
+
+  const onClickShowClassList = () => {
+    showModal();
+    getClassListByCourseId(id!);
   };
 
   return (
@@ -77,7 +105,11 @@ const CourseCardHorizontal = ({
           </div>
           <div className={styled["action-wrapper"]}>
             {type == CourseCardHorizontalType.EDIT ? (
-              <Button type="primary" className={styled["button"]}>
+              <Button
+                type="primary"
+                className={styled["button"]}
+                onClick={showModal}
+              >
                 Class list
                 <ArrowOutwardIcon
                   style={{
@@ -107,6 +139,16 @@ const CourseCardHorizontal = ({
           </div>
         </div>
       </div>
+
+      <Modal
+        title="Class List"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={1000}
+      >
+        <ClassListTable courseId={id!} type={ClassListTableType.EDIT} />
+      </Modal>
     </div>
   );
 };

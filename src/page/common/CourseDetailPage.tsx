@@ -6,6 +6,7 @@ import {
   Upload,
   UploadProps,
   Image as NewImage,
+  Spin,
 } from "antd";
 import { UseQueryResult, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -27,6 +28,8 @@ import type {
   UploadFile,
   UploadProps as UploadPropsInterface,
 } from "antd/es/upload/interface";
+import { useUploadImageFirebase } from "../../hooks/useUploadImageFirebase";
+import { useUpdateCourseImage } from "../../hooks/useUpdateCourseImageHook";
 
 const onPreview = async (file: UploadFile) => {
   let src = file.url as string;
@@ -80,9 +83,14 @@ const CourseDetailPage = () => {
   //Notification
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = () => {
+  const openNotificationWithIcon = (message: string) => {
     api["success"]({
-      message: "Course update successfully!",
+      message,
+    });
+  };
+  const openNotificationWithIconError = (message: string) => {
+    api["error"]({
+      message,
     });
   };
   //
@@ -93,6 +101,20 @@ const CourseDetailPage = () => {
     isLoading: isUpdateCourseLoading,
     error,
   } = useUpdateCourse();
+
+  const {
+    mutate: updateCourseImage,
+    isLoading: isCourseImageLoading,
+    isError: isCourseImageError,
+    isSuccess: isCourseImageSuccess,
+  } = useUpdateCourseImage();
+
+  const {
+    mutate: uploadImageFirebase,
+    isLoading: isUploadImageFirebaseLoading,
+    isError: isUploadImageFirebaseError,
+    isSuccess: isUploadImageFirebaseSuccess,
+  } = useUploadImageFirebase();
 
   const {
     data,
@@ -177,11 +199,11 @@ const CourseDetailPage = () => {
     };
     updateCourse(updateParams, {
       onSuccess(data, variables, context) {
-        openNotificationWithIcon();
+        openNotificationWithIcon("Update course sucessfully");
         refetch();
       },
-      onError(error, variables, context) {
-        console.log(error);
+      onError(error: any, variables, context) {
+        openNotificationWithIconError(error?.response?.data?.message);
       },
     });
   };
@@ -357,37 +379,51 @@ const CourseDetailPage = () => {
 
   return (
     <div className={styled["container"]}>
-      <div className={styled["img-wrapper"]}>
-        <ImgCrop rotationSlider>
+      {contextHolder}
+      <div className={styled["img-container"]}>
+        <ImgCrop aspectSlider={false} aspect={2 / 1}>
           <Upload
             {...props}
             onChange={async ({ fileList }) => {
-              // setloadingAvatar(true);
-              // var url = await uploadImage(fileList[0].originFileObj);
-              // setloadingAvatar(false);
-              // if (url) {
-              //   mutate(
-              //     {
-              //       url: url,
-              //       id: localStorage.getItem("userID")!,
-              //       version: 0,
-              //     },
-              //     {
-              //       onSuccess(data, variables, context) {
-              //         refetch();
-              //       },
-              //     }
-              //   );
-              // }
+              uploadImageFirebase(
+                { image: fileList[0].originFileObj },
+                {
+                  onSuccess(data, variables, context) {
+                    updateCourseImage(
+                      { courseId: params?.id!, url: data! },
+                      {
+                        onSuccess: () => {
+                          refetch();
+                          openNotificationWithIcon("Upload successfully");
+                        },
+                        onError(error: any, variables, context) {
+                          openNotificationWithIconError(
+                            error?.response?.data?.message
+                          );
+                        },
+                      }
+                    );
+                  },
+                  onError(error, variables, context) {
+                    openNotificationWithIconError("Error upload to cloud");
+                  },
+                }
+              );
             }}
           >
-            <NewImage
-              height={428}
-              className={styled["img"]}
-              src={data?.image.url}
-              preview={false}
-              alt="image"
-              fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA
+            {isUploadImageFirebaseLoading ||
+            isCourseImageLoading ||
+            isLoading ? (
+              <Spin spinning={true} />
+            ) : (
+              <div className={styled["img-wrapper"]}>
+                <NewImage
+                  height={300}
+                  className={styled["img"]}
+                  src={data?.image.url}
+                  preview={false}
+                  alt="image"
+                  fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA
             AMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3aw
             yMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHEToKwj4DVhAQ5A9k3gGyB5IxEoBmM
             L4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjIHBEugw5sUIsSQpBob
@@ -413,8 +449,9 @@ const CourseDetailPage = () => {
             1JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHM
             CRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JEC
             Fno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiEC/wGgKKC4YMA4TAAAAABJRU5ErkJggg=="
-            />
-            <p className={styled["description"]}>Edit</p>
+                />
+              </div>
+            )}
           </Upload>
         </ImgCrop>
       </div>

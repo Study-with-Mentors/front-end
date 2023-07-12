@@ -9,12 +9,14 @@ import { GetLessonResult } from "../../types/Lesson.type";
 import { UseQueryResult, useQuery } from "react-query";
 import { CourseAPI } from "../../api/CourseAPI";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export type LineBoxProps = {
   courseName: string;
   startTime: Date;
   endTime: Date;
   location: string;
+  clazzId: string;
 };
 
 export const LineBox = ({
@@ -22,8 +24,9 @@ export const LineBox = ({
   endTime,
   location,
   courseName,
+  clazzId,
 }: LineBoxProps) => {
-  console.log(startTime, endTime);
+  const navigate = useNavigate();
 
   return (
     <div className={boxStyled["container"]}>
@@ -71,7 +74,12 @@ export const LineBox = ({
         </Avatar.Group>
       </div>
       <div className={boxStyled["footer"]}>
-        <Button className={boxStyled["button"]}>Detail</Button>
+        <Button
+          className={boxStyled["button"]}
+          onClick={() => navigate(`/home/class/${clazzId}`)}
+        >
+          Detail
+        </Button>
       </div>
     </div>
   );
