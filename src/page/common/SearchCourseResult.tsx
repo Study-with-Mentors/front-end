@@ -14,6 +14,7 @@ import { EnumAPI } from "../../api/EnumAPI";
 import { FieldAPI, GetField } from "../../api/FieldAPI";
 import { useForm, useWatch } from "antd/lib/form/Form";
 import { ActionEnum, DataContext } from "../../App";
+import type { CheckboxValueType } from "antd/es/checkbox/Group";
 
 export type SearchCourseResultProps = {};
 
@@ -34,6 +35,7 @@ const onFinish = (values: any) => {
 const SearchCourseResult = ({}: SearchCourseResultProps) => {
   const navigate = useNavigate();
   const { state, dispatch } = useContext(DataContext);
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
 
   const [form] = useForm();
   const level: string[] = useWatch("level", form);
@@ -110,7 +112,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
           placeholder: "Fields",
           name: "fields",
           options: fieldOptions,
-
+          value: checkedList,
           label: (
             <p
               style={{
@@ -167,7 +169,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ];
   }, [options, fieldOptions]);
 
-  console.log(state.data);
+  console.log(level);
 
   return (
     <div className={styled["container"]}>
@@ -215,6 +217,8 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
         <Button
           loading={isFetching}
           onClick={() => {
+            form.setFieldValue("level", []);
+            form.setFieldValue("fields", []);
             dispatch({ type: ActionEnum.SET, payload: { value: "" } });
             refetch();
           }}
@@ -245,7 +249,11 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             courses?.result.map((course) => (
-              <CourseCardHorizontal key={course.id} {...course} />
+              <CourseCardHorizontal
+                key={course.id}
+                {...course}
+                image={course.image.url}
+              />
             ))
           )}
         </div>

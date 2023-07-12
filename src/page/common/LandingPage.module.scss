@@ -1,6 +1,39 @@
 .container{
     // @apply mx-20;
     @apply flex flex-col ;
+
+    .carousel{
+        @apply bg-carousel_image px-36 ;
+        height: 90vh;
+        .title {
+            @apply font-extrabold font-nunito m-0 mt-52;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            font-size: 4rem;
+            color: #2C2c2c;
+        }
+
+        .sub-title{
+            @apply font-extrabold font-nunito m-0 pb-6;
+            text-shadow: 0px 4px 4px  rgba(0, 0, 0, 0.25);
+            font-size: 4rem;
+            color: #00ABBD;
+        }
+
+        .description{
+            @apply font-medium tracking-tight;
+            text-shadow: 0px 1px 1px  rgba(0, 0, 0, 0.25);
+            max-width: 600px;
+            font-size: 18px;
+            font-style: normal;
+            color: #96989B;
+        }
+
+        .button{
+            @apply text-white bg-blue-700 rounded-full font-semibold w-40 h-16 text-lg mt-8; 
+            
+        }
+    }
+
     .header{
         @apply pt-16 px-60;
         background-color: #FAFEFF;
@@ -13,6 +46,8 @@
             font-size: 38px;
         }
     }
+
+ 
     .course-container{
         @apply grid grid-cols-3 gap-x-20 gap-y-9 pt-16 px-60 pb-24;
         background-color: #FAFEFF

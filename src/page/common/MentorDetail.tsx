@@ -9,6 +9,9 @@ import { UseQueryResult, useQuery } from "react-query";
 import { GetUserResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 import { useParams } from "react-router-dom";
+import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
+import { GetCourse, GetCourseResult } from "../../types/Course.type";
+import { CourseAPI } from "../../api/CourseAPI";
 
 export type MentorDetailProps = {
   // id: string;
@@ -30,48 +33,21 @@ export type MentorBackground = {
 
 export type CourseDetail = {
   courseName: string;
-  price: number;
+  field: string;
   level: string;
-  numberOfSession: number;
+  status: string;
 };
 export const LEVELTYPE = {
-  Beginner: "Beginner",
-  Intermidiate: "Intermidiate",
-  Senior: "Senior",
+  ADVANCE: "ADVANCE",
+  FUNDAMENTAL: "FUNDAMENTAL",
 };
 
 const LEVEL_MAPPING = {
-  [LEVELTYPE.Beginner]: "green",
-  [LEVELTYPE.Intermidiate]: "#eab676",
-  [LEVELTYPE.Senior]: "red",
+  [LEVELTYPE.ADVANCE]: "green",
+  [LEVELTYPE.FUNDAMENTAL]: "#eab676",
 };
 
-const fakeMentorCourses: CourseDetail[] = [
-  {
-    courseName: "UI/UX",
-    numberOfSession: 32,
-    level: "Beginner",
-    price: 200,
-  },
-  {
-    courseName: "NodeJs",
-    numberOfSession: 21,
-    level: "Intermidiate",
-    price: 200,
-  },
-  {
-    courseName: "Hoc lam` ngu`",
-    numberOfSession: 1,
-    level: "Senior",
-    price: 200,
-  },
-  {
-    courseName: "Hoc lam` cho",
-    numberOfSession: 32,
-    level: "Beginner",
-    price: 200,
-  },
-];
+var mentorCourses: CourseDetail[] = [];
 
 const columns = [
   {
@@ -97,60 +73,67 @@ const columns = [
     },
   },
   {
-    title: "Number Of Session",
-    dataIndex: "numberOfSession",
-    key: "numberOfSession",
-    render: (item: number) => <p style={{ fontWeight: 500 }}>{item} lessons</p>,
+    title: "Field",
+    dataIndex: "field",
+    key: "field",
+    render: (item: string) => <p style={{ fontWeight: 500 }}>{item}</p>,
   },
   {
-    title: "Price",
-    dataIndex: "price",
-    key: "price",
-    render: (item: number) => <p style={{ fontWeight: 600 }}>VND {item}</p>,
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    render: (item: string) => <p style={{ fontWeight: 600 }}>{item}</p>,
   },
 ];
 
 const MentorDetail = ({}: MentorDetailProps) => {
   const params = useParams();
 
-  const {
-    data,
-    isLoading,
-    isFetching,
-    refetch,
-  }: UseQueryResult<GetUserResult, Error> = useQuery(
+  const { data, isLoading }: UseQueryResult<GetUserResult, Error> = useQuery(
     ["user", params?.id],
-    async () => await UserAPI.getById(params?.id ?? "")
+    async () => await UserAPI.getMentorProfileById(params?.id ?? "")
   );
+
+  const {
+    data: courses,
+    isLoading: isCoursesLoading,
+  }: UseQueryResult<GetCourse, Error> = useQuery(
+    ["courses", params?.id],
+    async () =>
+      await CourseAPI.getAll({ mentorId: params?.id }).then(
+        (courses: GetCourse) =>
+          (mentorCourses = courses?.result.map(
+            (course: GetCourseResult): CourseDetail => {
+              return {
+                courseName: course.fullName,
+                level: course.courseLevel,
+                field: course.field.name,
+                status: course.status,
+              };
+            }
+          ))
+      )
+  );
+
+  if (isLoading) return <LoadingSkeleton />;
 
   return (
     <div className={styled["container"]}>
       <div className={styled["profile-container"]}>
         <div className={styled["avatar-wrapper"]}>
           <div className={styled["image-wrapper"]}>
-            <Image className={styled["image"]} src={data?.profileImage} />
+            <Image className={styled["image"]} src={data?.profileImage.url} />
           </div>
           <p className={styled["name"]}>{data?.lastName}</p>
-          <p className={styled["desctiption"]}>{data?.mentor.degree}</p>
+          <p className={styled["desctiption"]}>Degree: {data?.mentor.degree}</p>
         </div>
-        <div className={styled["about-wrapper"]}>
-          <p className={styled["title"]}>About me</p>
-          <p className={styled["description"]}>{data?.mentor.bio}</p>
-          <div className={styled["skill-wrapper"]}>
-            {/* {skillList?.map((item, index) => (
-              <span key={index} className={styled["skill"]}>
-                {item}
-              </span>
-            ))} */}
-          </div>
-        </div>
+
         <div className={styled["contact-info"]}>
           <p className={styled["title"]}>Contact Info</p>
           <p className={styled["sub-title"]}>Location</p>
           <div className={styled["content"]}>
             <LocationOnIcon className={styled["icon"]} />
             HCM City
-            {/* {data?.gender} */}
           </div>
           <p className={styled["sub-title"]}>Email</p>
           <div className={styled["content"]}>
@@ -160,9 +143,18 @@ const MentorDetail = ({}: MentorDetailProps) => {
         </div>
       </div>
       <div className={styled["course-container"]}>
-        <div className={styled["certificate-container"]}>
+        <div className={styled["about-wrapper"]}>
+          <p className={styled["title"]}>About me</p>
+          <p className={styled["description"]}>{data?.mentor.bio}</p>
+          <div className={styled["skill-wrapper"]}>
+            {/* {skillList?.map((item, index) => ( */}
+            <span className={styled["skill"]}>{data?.mentor.field.name}</span>
+            {/* ))} */}
+          </div>
+        </div>
+        {/* <div className={styled["certificate-container"]}>
           <p className={styled["title"]}> Education Background</p>
-          {/* {mentorBackgrounds?.map((item, index) => (
+          {mentorBackgrounds?.map((item, index) => (
             <div key={index} className={styled["certificate-wrapper"]}>
               {" "}
               <Avatar
@@ -183,18 +175,19 @@ const MentorDetail = ({}: MentorDetailProps) => {
                 <InsertLinkOutlinedIcon className={styled["icon"]} />
               </div>
             </div>
-          ))} */}
-        </div>
+          ))}
+        </div> */}
         <div className={styled["course-wrapper"]}>
           <Table
             columns={columns}
+            loading={isCoursesLoading}
             style={{
               overflow: "hidden",
               borderRadius: "16px",
               padding: "0 20px",
               border: "1px solid #ccc",
             }}
-            dataSource={fakeMentorCourses}
+            dataSource={mentorCourses}
             showHeader={false}
             title={() => (
               <p

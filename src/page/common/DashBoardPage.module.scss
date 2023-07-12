@@ -28,4 +28,22 @@
             }
         }
     }
+
+    .body{
+        @apply flex mt-10;
+
+        .body-wrapper:first-child{
+            @apply mr-9;
+        }
+
+        .body-wrapper:nth-child(2){
+            @apply ml-9;
+        }
+
+        .body-wrapper{
+            @apply bg-white rounded-xl p-6;
+            flex: 1;
+        }
+    }
+
 }

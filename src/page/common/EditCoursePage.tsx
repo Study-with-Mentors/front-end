@@ -13,12 +13,12 @@ import {
   Popconfirm,
   Table,
   Button,
-  Skeleton,
-  Divider,
+  Spin,
   Tabs,
+  message,
 } from "antd";
 import type { FormInstance } from "antd/es/form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UseQueryResult, useQuery } from "react-query";
 import { GetSessionResult } from "../../types/Session.type";
 import {
@@ -269,6 +269,8 @@ type ExpandedDataProps = {
 
 const EditCoursePage = () => {
   const params = useParams();
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const {
     data: sessions,
@@ -352,6 +354,10 @@ const EditCoursePage = () => {
       },
       onError(error, variables, context) {
         console.log(error);
+        messageApi.open({
+          type: "error",
+          content: "Unable to modify this course!",
+        });
       },
     });
   };
@@ -363,8 +369,8 @@ const EditCoursePage = () => {
     {
       title: "Session Name",
       dataIndex: "name",
-      editable: true,
       key: "name",
+      editable: true,
     },
     {
       title: "Session number",
@@ -372,13 +378,13 @@ const EditCoursePage = () => {
       editable: true,
       key: "sessionNumber",
       // defaultSortOrder: "ascend",
-      sorter: (a: any, b: any) => a?.sessionNumber - b?.sessionNumber,
+      // sorter: (a: any, b: any) => a?.sessionNumber - b?.sessionNumber,
     },
     {
       title: "Description",
       dataIndex: "description",
+      key: "Description",
       editable: true,
-      key: "description",
     },
     {
       title: "Resourse",
@@ -423,6 +429,10 @@ const EditCoursePage = () => {
                     },
                     onError(error, variables, context) {
                       console.log(error);
+                      messageApi.open({
+                        type: "error",
+                        content: "Unable to modify this course!",
+                      });
                     },
                   }
                 );
@@ -465,7 +475,11 @@ const EditCoursePage = () => {
         refetch();
       },
       onError(error, variables, context) {
-        console.log(error);
+        console.log(error, variables, context);
+        messageApi.open({
+          type: "error",
+          content: "Unable to modify this course!",
+        });
       },
     });
     // setDataSource([...dataSource, newData]);
@@ -496,6 +510,10 @@ const EditCoursePage = () => {
         },
         onError(error, variables, context) {
           console.log(error);
+          messageApi.open({
+            type: "error",
+            content: "Unable to modify this course!",
+          });
         },
       });
     } else {
@@ -525,30 +543,41 @@ const EditCoursePage = () => {
     };
   });
 
-  const handlesavesub = async (row: ExpandedDataType) => {
-    const params: UpdateActivityParams = {
-      id: row.key.toString(),
-      description: row.description,
-      title: row.title,
-      version: 0,
-      sessionId: row.sessionId,
-    };
-    await updateActivity(params, {
-      onSuccess(data, variables, context) {
-        refetch();
-      },
-      onError(error, variables, context) {
-        console.log(error);
-      },
-    });
-  };
-
   const ExpandedRowRender = ({
     activityList,
     sessionId,
   }: ExpandedDataProps) => {
     const [expandedDataSource, setExpandedDataSource] =
       useState<ExpandedDataType[]>(activityList);
+
+    const handlesavesub = async (row: ExpandedDataType) => {
+      var checkEqual: boolean = deepEqual(
+        row,
+        activityList.find((x) => x.key == row.key)
+      );
+      if (!checkEqual) {
+        const params: UpdateActivityParams = {
+          id: row.key.toString(),
+          description: row.description,
+          title: row.title,
+          version: 0,
+          sessionId: row.sessionId,
+        };
+        await updateActivity(params, {
+          onSuccess(data, variables, context) {
+            refetch();
+          },
+          onError(error, variables, context) {
+            console.log(error);
+            messageApi.open({
+              type: "error",
+              content: "Unable to modify this course!",
+            });
+          },
+        });
+      } else {
+      }
+    };
 
     const handleDeleteSub = (key: React.Key) => {
       deleteActivity(key.toString(), {
@@ -557,6 +586,10 @@ const EditCoursePage = () => {
         },
         onError(error, variables, context) {
           console.log(error);
+          messageApi.open({
+            type: "error",
+            content: "Unable to modify this course!",
+          });
         },
       });
     };
@@ -646,10 +679,13 @@ const EditCoursePage = () => {
         };
       }
     );
-    return isUpdateActivityLoading || isFetching ? (
-      <Skeleton active />
-    ) : (
-      <ExpandedRowRender activityList={data} sessionId={list.key.toString()} />
+    return (
+      <Spin spinning={isUpdateActivityLoading}>
+        <ExpandedRowRender
+          activityList={data}
+          sessionId={list.key.toString()}
+        />
+      </Spin>
     );
   };
 
@@ -702,12 +738,27 @@ const EditCoursePage = () => {
 
   return (
     <div className={styled["container"]}>
+      {contextHolder}
+
       <div className={styled["header"]}>
         <p className={styled["title"]}>Edit course</p>
       </div>
       {/* <Divider /> */}
       <div className={styled["body"]}>
-        <Tabs defaultActiveKey="1" items={items} />
+        <Tabs
+          defaultActiveKey="1"
+          items={items}
+          tabBarExtraContent={
+            <Button
+              onClick={() =>
+                navigate(`/home/course/create-class/${params?.id}`)
+              }
+              type="primary"
+            >
+              Create class
+            </Button>
+          }
+        />
       </div>
     </div>
   );

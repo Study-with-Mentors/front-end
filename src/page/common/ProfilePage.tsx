@@ -18,6 +18,7 @@ import { GetUserResult } from "../../types/User.type";
 import { UseQueryResult, useQuery } from "react-query";
 import {
   UpdateUserParams,
+  UpdateUserProfileMentorParams,
   UpdateUserProfileStudentParams,
   UserAPI,
 } from "../../api/UserAPI";
@@ -27,9 +28,13 @@ import { useUpdateImageProfile } from "../../hooks/useUploadImageProfile";
 import { useUpdateUser } from "../../hooks/useUpdateUserHook";
 import { EnumAPI } from "../../api/EnumAPI";
 import { useUpdateUserStudentProfile } from "../../hooks/useUpdateUserProfileStudentHook";
+import { GetField } from "../../types/Field.type";
+import { FieldAPI } from "../../api/FieldAPI";
+import { useUpdateUserMentorProfile } from "../../hooks/useUpdateUserProfileMentorHook";
+import { UserOutlined } from "@ant-design/icons";
 
 const dateFormat = "YYYY-MM-DD";
-const fieldOptions: SelectProps["options"] = [];
+var fieldOptions: SelectProps["options"] = [];
 var educationOptions: SelectProps["options"] = [];
 
 const onFinishFailed = (errorInfo: any) => {
@@ -60,70 +65,6 @@ const props: UploadProps = {
   showUploadList: false,
 };
 
-const mentor_detail_fields = [
-  {
-    type: EDIT_FIELD_TYPES.TEXTAREA,
-    fieldProps: {
-      placeholder: "Degree",
-      name: "degree",
-      label: "Degree",
-      rules: { required: true, message: "This field must not empty!" },
-      style: {
-        width: "800px",
-      },
-      onChange: (value: any) => {},
-    },
-    cols: 12,
-  },
-
-  {
-    type: EDIT_FIELD_TYPES.TEXTAREA,
-    fieldProps: {
-      placeholder: "Bio",
-      name: "bio",
-      label: "Bio",
-      rules: { required: true, message: "This field must not empty!" },
-      style: {
-        width: "800px",
-      },
-      onChange: (value: any) => {},
-    },
-    cols: 12,
-  },
-
-  {
-    type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
-    fieldProps: {
-      placeholder: "Field",
-      name: "field",
-      label: "Field",
-      rules: { required: true, message: "This field must not empty!" },
-      options: fieldOptions,
-      style: {
-        width: "800px",
-        height: "50px",
-        marginBottom: "3rem",
-      },
-      onChange: (value: any) => {},
-    },
-    cols: 12,
-  },
-  {
-    type: EDIT_FIELD_TYPES.BUTTON,
-    formProps: {
-      // wrapperCol: { span: 24, offset: 9 },
-    },
-    fieldProps: {
-      type: "primary",
-      htmlType: "submit",
-      text: "Save",
-      style: {},
-      // loading: isFetching || isUpdateUserLoading,
-    },
-    cols: 12,
-  },
-];
-
 const ProfilePage = () => {
   const [loadingAvatar, setloadingAvatar] = useState(false);
   const {
@@ -150,6 +91,19 @@ const ProfilePage = () => {
   );
 
   const {
+    data: fields,
+    isLoading: isFieldsLoading,
+  }: UseQueryResult<GetField[], Error> = useQuery(
+    ["fields"],
+    async () =>
+      await FieldAPI.getAll().then((fields) => {
+        fieldOptions = fields.map((field: GetField) => {
+          return { value: field.id, label: field.name };
+        });
+      })
+  );
+
+  const {
     data: updateImageData,
     isLoading: isUpdateImageLoading,
     mutate,
@@ -160,6 +114,12 @@ const ProfilePage = () => {
     isLoading: isUpdateUserStudentProfile,
     mutate: mutateUpdateUserStudentProfile,
   } = useUpdateUserStudentProfile();
+
+  const {
+    data: updateUserMentorProfile,
+    isLoading: isUpdateUserMentorProfile,
+    mutate: mutateUpdateUserMentorProfile,
+  } = useUpdateUserMentorProfile();
 
   const {
     data: updateUser,
@@ -184,7 +144,6 @@ const ProfilePage = () => {
     });
   };
   const onFinishStudent = async (values: any) => {
-    console.log(values);
     const params: UpdateUserProfileStudentParams = {
       bio: values?.bio,
       education: values?.education,
@@ -202,7 +161,20 @@ const ProfilePage = () => {
     });
   };
   const onFinishMentor = async (values: any) => {
-    console.log(values);
+    const params: UpdateUserProfileMentorParams = {
+      bio: values?.bio,
+      degree: values?.degree,
+      field: { id: values?.field },
+    };
+
+    mutateUpdateUserMentorProfile(params, {
+      onSuccess(data, variables, context) {
+        refetch();
+      },
+      onError(error, variables, context) {
+        console.log(error);
+      },
+    });
   };
 
   const profile_fields = useMemo(() => {
@@ -313,6 +285,8 @@ const ProfilePage = () => {
           name: "year",
           label: "University year",
           rules: { required: true, message: "This field must not empty!" },
+          minValue: 1900,
+          maxValue: 2024,
           style: {
             width: "800px",
             height: "50px",
@@ -371,7 +345,76 @@ const ProfilePage = () => {
     ];
   }, [educationOptions, isUpdateUserStudentProfile]);
 
-  if (isLoading || isEducationLoading) return <LoadingSkeleton />;
+  const mentor_detail_fields = useMemo(() => {
+    return [
+      {
+        type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
+        fieldProps: {
+          placeholder: "Degree",
+          name: "degree",
+          label: "Degree",
+          rules: { required: true, message: "This field must not empty!" },
+          options: educationOptions,
+          style: {
+            width: "800px",
+            height: "50px",
+            marginBottom: "3rem",
+          },
+        },
+        cols: 12,
+      },
+
+      {
+        type: EDIT_FIELD_TYPES.TEXTAREA,
+        fieldProps: {
+          placeholder: "Bio",
+          name: "bio",
+          label: "Bio",
+          rules: { required: true, message: "This field must not empty!" },
+          style: {
+            width: "800px",
+          },
+        },
+        cols: 12,
+      },
+
+      {
+        type: EDIT_FIELD_TYPES.SELECTMULTIOPTION,
+        fieldProps: {
+          placeholder: "Field",
+          name: "field",
+          label: "Field",
+          rules: { required: true, message: "This field must not empty!" },
+          options: fieldOptions,
+          style: {
+            width: "800px",
+            height: "50px",
+            marginBottom: "3rem",
+          },
+          onChange: (value: any) => {},
+        },
+        cols: 12,
+      },
+      {
+        type: EDIT_FIELD_TYPES.BUTTON,
+        formProps: {
+          // wrapperCol: { span: 24, offset: 9 },
+        },
+        fieldProps: {
+          type: "primary",
+          htmlType: "submit",
+          text: "Save",
+          style: {},
+
+          loading: isUpdateUserMentorProfile,
+        },
+        cols: 12,
+      },
+    ];
+  }, [fieldOptions, isUpdateUserMentorProfile]);
+
+  if (isLoading || isEducationLoading || isFieldsLoading)
+    return <LoadingSkeleton />;
 
   return (
     <div className={styled["container"]}>
@@ -393,7 +436,11 @@ const ProfilePage = () => {
                 setloadingAvatar(false);
                 if (url) {
                   mutate(
-                    { profileImage: url },
+                    {
+                      url: url,
+                      id: localStorage.getItem("userID")!,
+                      version: 0,
+                    },
                     {
                       onSuccess(data, variables, context) {
                         refetch();
@@ -412,11 +459,18 @@ const ProfilePage = () => {
                     height: 200,
                   }}
                 />
+              ) : data?.profileImage ? (
+                <Avatar
+                  size={200}
+                  className={styled["img"]}
+                  src={data?.profileImage.url}
+                  alt="avatar"
+                />
               ) : (
                 <Avatar
                   size={200}
                   className={styled["img"]}
-                  src={data?.profileImage}
+                  icon={<UserOutlined />}
                   alt="avatar"
                 />
               )}
@@ -456,7 +510,11 @@ const ProfilePage = () => {
         <Form
           name="mentor_detail"
           wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
+          initialValues={{
+            ["degree"]: data?.mentor.degree,
+            ["bio"]: data?.mentor.bio,
+            ["field"]: data?.mentor?.field?.id,
+          }}
           layout="vertical"
           requiredMark="optional"
           onFinish={onFinishMentor}

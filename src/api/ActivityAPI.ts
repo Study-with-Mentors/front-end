@@ -14,7 +14,15 @@ export type UpdateActivityParams = {
   sessionId: string;
 };
 
+export type GetActivityParams = {
+  sessionId: string;
+};
+
 export const ActivityAPI = {
+  getActivityBySessionId: async ({ sessionId }: GetActivityParams) => {
+    const res = await http.get(`/session/${sessionId}/activity`);
+    return res.data;
+  },
   createActivity: async (params: CreateActivityParams) => {
     const res = await http.post("/activity", params, {
       headers: {

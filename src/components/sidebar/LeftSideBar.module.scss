@@ -1,6 +1,8 @@
 .container{
 
     @apply shadow-xl w-fit overflow-hidden h-screen;
+    position: sticky;
+    top: 0;
 
     .logo-wrapper{
         @apply flex items-center pt-8 pb-8 ml-4;

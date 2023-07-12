@@ -5,8 +5,19 @@ export type LoginProps = {
   password: string;
 };
 
+export type SignupProps = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirm: string;
+  gender: GENDER
+};
+
 export type UploadImageProfileProps = {
-  profileImage: string;
+  id: string;
+  version: number;
+  url: string;
 };
 
 export type UpdateUserParams = {
@@ -33,7 +44,12 @@ export type UpdateUserProfileMentorParams = {
   version?: number;
   bio?: string;
   degree?: string;
-  fieldId?: string;
+  field?: { id: string };
+};
+
+export type GetMentorIncomeParams = {
+  startDate: string;
+  endDate: string;
 };
 
 export const UserAPI = {
@@ -41,6 +57,22 @@ export const UserAPI = {
     try {
       const res = await http.post("/login", loginProps);
       return res?.data;
+    } catch (err: any) {
+      throw err;
+    }
+  },
+  signup: async (signupProps: SignupProps) => {
+    try {
+      const res = await http.post("/signup", signupProps);
+      return res?.data;
+    } catch (err: any) {
+      throw err;
+    }
+  },
+  signUpVerify: async (token: string) => {
+    try {
+      const res = await http.get("/signup/verify", { params: { token: token } });
+      return res?.data
     } catch (err: any) {
       throw err;
     }
@@ -53,8 +85,29 @@ export const UserAPI = {
     });
     return res?.data;
   },
-  getById: async (id: string) => {
-    const res = await http.get(`/user/profile/${id}`);
+  getUserImageByToken: async () => {
+    const res = await http.get("/user/profile/image", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
+  getMentorProfileById: async (id: string) => {
+    const res = await http.get(`/mentor/${id}`);
+    return res?.data;
+  },
+
+  getMentorList: async () => {
+    const res = await http.get(`/mentor`);
+    return res?.data;
+  },
+  getMentorIncome: async (params: GetMentorIncomeParams) => {
+    const res = await http.get(`/mentor/course/enrollment/report`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
     return res?.data;
   },
   uploadImageProfile: async (params: UploadImageProfileProps) => {
@@ -81,8 +134,8 @@ export const UserAPI = {
     });
     return res?.data;
   },
-  updateUserProfileMentor: async (params: UpdateUserProfileStudentParams) => {
-    const res = await http.put("/user/profile/student", params, {
+  updateUserProfileMentor: async (params: UpdateUserProfileMentorParams) => {
+    const res = await http.put("/user/profile/mentor", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

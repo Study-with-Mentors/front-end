@@ -18,8 +18,8 @@ const items: MenuProps["items"] = [
     icon: <HomeFilled style={{ fontSize: "26px" }} />,
   },
   {
-    label: "Course",
-    key: "/home/courses",
+    label: "Courses & Classes",
+    key: "/home/course",
     icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
   },
   {
@@ -55,7 +55,7 @@ const HomeSideBar = () => {
   const onClick: MenuProps["onClick"] = (e) => {
     if (e.key == "/home/logout") {
       localStorage.clear();
-      navigate("/signin");
+      navigate("/auth");
     } else {
       navigate(`${e.key}`);
       setCurrent(e.key);

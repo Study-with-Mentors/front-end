@@ -12,7 +12,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "Dunno",
+    role: "USER",
   },
   {
     userId: "2",
@@ -21,7 +21,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "I no",
+    role: "USER",
   },
   {
     userId: "3",
@@ -30,7 +30,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "U no",
+    role: "USER",
   },
   {
     userId: "4",
@@ -39,7 +39,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "We no",
+    role: "USER",
   },
   {
     userId: "5",
@@ -48,7 +48,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "We no",
+    role: "USER",
   },
   {
     userId: "6",
@@ -57,7 +57,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "We no",
+    role: "USER",
   },
   {
     userId: "7",
@@ -66,7 +66,7 @@ const fakeUserDetailData: UserDetail[] = [
     birthdate: "2002/08/30",
     email: "animal_zzz@fpt.edu.vn",
     gender: "Male",
-    role: "We no",
+    role: "USER",
   },
 ];
 
@@ -95,10 +95,6 @@ const columns: ColumnsType<UserDetail> = [
     title: "Role",
     dataIndex: "role",
     key: "role",
-    sorter: {
-      compare: (a, b) => a.role.length - b.role.length,
-      // sortDirection: ["descend"],
-    },
   },
   {
     title: "Gender",

@@ -27,6 +27,24 @@ export type SearchCourseParams = {
   dir?: string;
 };
 
+export type UpdateCourseParams = {
+  id: string;
+  shortName: string;
+  version?: number;
+  fullName: string;
+  description: string;
+  learningOutcome: string;
+  status: string;
+  courseLevel: string;
+  intendedLearner: string;
+  field: { id: string };
+};
+
+export type UpdateCourseImageParams = {
+  courseId: string;
+  url: string;
+};
+
 export const CourseAPI = {
   getAll: async (searchCourseParams: SearchCourseParams) => {
     var url;
@@ -37,6 +55,7 @@ export const CourseAPI = {
     }
 
     const res = await http.get(url);
+    console.log(res.data);
     return res.data;
   },
   getById: async (id: string) => {
@@ -68,5 +87,27 @@ export const CourseAPI = {
     });
 
     return res.data;
+  },
+  updateCourse: async (params: UpdateCourseParams) => {
+    const res = await http.put(`/course/${params.id}`, params, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
+  updateCourseImage: async ({ courseId, url }: UpdateCourseImageParams) => {
+    const res = await http.put(
+      `/course/${courseId}/image`,
+      {
+        url,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
+    return res?.data;
   },
 };

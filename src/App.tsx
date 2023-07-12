@@ -1,14 +1,11 @@
 import React, { createContext, useReducer } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import LeftSideBar from "./components/sidebar/LeftSideBar";
-import CourseCard from "./components/card/CourseCard";
-import LoginForm from "./components/form/LoginForm";
-import AppTable from "./components/table/AppTable";
 import AppRoute from "./routes/AppRoute";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ConfigProvider } from "antd";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,21 +57,23 @@ function App() {
   });
 
   return (
-    <DataContext.Provider value={{ state, dispatch }}>
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: "Poppins",
-          },
-        }}
-      >
-        <BrowserRouter>
-          <QueryClientProvider client={queryClient}>
-            <AppRoute />
-          </QueryClientProvider>
-        </BrowserRouter>
-      </ConfigProvider>
-    </DataContext.Provider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+      <DataContext.Provider value={{ state, dispatch }}>
+        <ConfigProvider
+          theme={{
+            token: {
+              fontFamily: "Poppins",
+            },
+          }}
+        >
+          <BrowserRouter>
+            <QueryClientProvider client={queryClient}>
+              <AppRoute />
+            </QueryClientProvider>
+          </BrowserRouter>
+        </ConfigProvider>
+      </DataContext.Provider>
+    </GoogleOAuthProvider>
   );
 }
 

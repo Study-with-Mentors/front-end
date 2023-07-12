@@ -1,4 +1,5 @@
-import { Field } from "react-hook-form";
+import { GetField } from "./Field.type";
+import { Image } from "./Image.type";
 import { Mentor } from "./User.type";
 
 export type GetCourse = {
@@ -17,7 +18,13 @@ export type GetCourseResult = {
   status: string;
   courseLevel: string;
   intendedLearner: string;
-  field: Field;
+  field: GetField;
   mentor: Mentor;
-  images: string[];
+  image: GetCourseImage;
+};
+
+export type GetCourseImage = {
+  id: string;
+  version: 0;
+  url: string;
 };
