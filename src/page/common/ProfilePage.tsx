@@ -32,6 +32,8 @@ import { GetField } from "../../types/Field.type";
 import { FieldAPI } from "../../api/FieldAPI";
 import { useUpdateUserMentorProfile } from "../../hooks/useUpdateUserProfileMentorHook";
 import { UserOutlined } from "@ant-design/icons";
+import { JwtPayload } from "../../types/Jwt.type";
+import { decode } from "../../utils/jwt";
 
 const dateFormat = "YYYY-MM-DD";
 var fieldOptions: SelectProps["options"] = [];
@@ -435,10 +437,12 @@ const ProfilePage = () => {
                 var url = await uploadImage(fileList[0].originFileObj);
                 setloadingAvatar(false);
                 if (url) {
+                  var access_token = localStorage.getItem("access_token");
+                  var { uid }: JwtPayload = decode(access_token!);
                   mutate(
                     {
                       url: url,
-                      id: localStorage.getItem("userID")!,
+                      id: uid,
                       version: 0,
                     },
                     {

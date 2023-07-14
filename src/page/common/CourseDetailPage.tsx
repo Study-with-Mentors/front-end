@@ -123,7 +123,7 @@ const CourseDetailPage = () => {
     isFetching,
   }: UseQueryResult<GetCourseResult, Error> = useQuery(
     ["course", params?.id],
-    async () => await CourseAPI.getById(params?.id!),
+    async () => await CourseAPI.getByIdWithToken(params?.id!),
     {
       enabled: Boolean(params?.id),
     }

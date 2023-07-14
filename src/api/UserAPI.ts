@@ -11,7 +11,7 @@ export type SignupProps = {
   email: string;
   password: string;
   confirm: string;
-  gender: GENDER
+  gender: GENDER;
 };
 
 export type UploadImageProfileProps = {
@@ -71,8 +71,10 @@ export const UserAPI = {
   },
   signUpVerify: async (token: string) => {
     try {
-      const res = await http.get("/signup/verify", { params: { token: token } });
-      return res?.data
+      const res = await http.get("/signup/verify", {
+        params: { token: token },
+      });
+      return res?.data;
     } catch (err: any) {
       throw err;
     }
@@ -109,6 +111,10 @@ export const UserAPI = {
       },
     });
     return res?.data;
+  },
+  loginGoogle: async (params: string) => {
+    const res = await http.post("/login/google", params);
+    return res.data;
   },
   uploadImageProfile: async (params: UploadImageProfileProps) => {
     const res = await http.put("/user/profile", params, {

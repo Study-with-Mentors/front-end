@@ -18,14 +18,19 @@ const items: MenuProps["items"] = [
     icon: <HomeFilled style={{ fontSize: "26px" }} />,
   },
   {
-    label: "Courses & Classes",
-    key: "/home/course",
-    icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
-  },
-  {
     label: "Schedule",
     key: "/home/schedule",
     icon: <AccessTimeIcon style={{ fontSize: "26px" }} />,
+  },
+  {
+    label: "Classes",
+    key: "/home/class",
+    icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
+  },
+  {
+    label: "Courses",
+    key: "/home/course",
+    icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
   },
   // {
   //   label: "Achievement",

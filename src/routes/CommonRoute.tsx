@@ -26,10 +26,15 @@ import ClassListTable from "../components/card/ClassListTable";
 import ClassDetailPage from "../page/common/ClassDetailPage";
 import SignUpVerifyPage from "../page/common/SignUpVerifyPage";
 import EditClassDetail from "../page/common/EditClassDetail";
+import { JwtPayload } from "../types/Jwt.type";
+import { decode } from "../utils/jwt";
+import EnrolledListClassPage from "../page/common/EnrolledListClassPage";
 const CommonRoute = () => {
   const navigate = useNavigate();
-  const role = localStorage.getItem("role");
-  const checkRole = role && role == "ADMIN";
+  const access_token = localStorage.getItem("access_token");
+
+  var { rol }: JwtPayload = decode(access_token!);
+  const checkRole = rol && rol == "ADMIN";
 
   useEffect(() => {}, []);
 
@@ -107,9 +112,13 @@ const CommonRoute = () => {
           element: <Outlet />,
           children: [
             {
+              path: "",
+              element: <EnrolledListClassPage />,
+              index: true,
+            },
+            {
               path: ":id",
               element: <ClassDetailPage />,
-              index: true,
             },
             {
               path: "edit/:id",

@@ -11,12 +11,15 @@ import { UseQueryResult, useQuery } from "react-query";
 import { GetProfileImage, GetUserResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 import type { MenuProps } from "antd";
+import { JwtPayload } from "../../types/Jwt.type";
+import { decode } from "../../utils/jwt";
 
 export type MainHeaderProps = {};
 
 const MainHeader = ({}: MainHeaderProps) => {
   const navigate = useNavigate();
-  const userID = localStorage.getItem("userID");
+  const access_token = localStorage.getItem("access_token");
+  var { uid }: JwtPayload = decode(access_token!);
 
   const {
     data: image,
@@ -24,10 +27,10 @@ const MainHeader = ({}: MainHeaderProps) => {
     isFetching,
     refetch,
   }: UseQueryResult<GetProfileImage, Error> = useQuery(
-    ["user", userID],
+    ["user", uid],
     async () => await UserAPI.getUserImageByToken(),
     {
-      enabled: !!userID,
+      enabled: !!uid && uid != "0",
     }
   );
 
@@ -68,7 +71,7 @@ const MainHeader = ({}: MainHeaderProps) => {
       </div>
 
       <div className={styled["action-wrapper"]}>
-        {!userID ? (
+        {!uid || uid == "0" ? (
           <>
             <Button
               className={styled["button-signIn"] + " " + styled["button"]}
