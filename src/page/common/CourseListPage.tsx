@@ -1,4 +1,4 @@
-import { Avatar, List, Space, TabsProps, Tabs, Empty, Divider } from "antd";
+import { Avatar, List, Space, TabsProps, Tabs, Empty } from "antd";
 import React, { useEffect, useMemo } from "react";
 import { UseQueryResult, useQuery } from "react-query";
 import { CourseAPI } from "../../api/CourseAPI";
@@ -8,12 +8,10 @@ import styled from "./CourseListPage.module.scss";
 import CourseCardHorizontal, {
   CourseCardHorizontalType,
 } from "../../components/card/CourseCardHorizontal";
-import { GetClassResult } from "../../types/Class.type";
-import { ClassAPI } from "../../api/ClassAPI";
 import Button from "antd/lib/button";
 import { useNavigate } from "react-router-dom";
-import ClassCardHorizontal from "../../components/card/ClassCardHorizontal";
-import dayjs from "dayjs";
+import { JwtPayload } from "../../types/Jwt.type";
+import { decode } from "../../utils/jwt";
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
   <Space>
@@ -53,62 +51,17 @@ const renderListCourse = ({ listCourse }: renderListCourseProps) => {
   );
 };
 
-const ListClass = () => {
-  const { data: classes, isLoading }: UseQueryResult<GetClassResult[], Error> =
-    useQuery(["classes"], async () => await ClassAPI.getClassByUserToken());
-
-  if (isLoading) return <LoadingSkeleton />;
-  return (
-    <div
-      style={{
-        backgroundColor: "white",
-        padding: "2rem 0 1rem  0",
-        paddingLeft: ".5rem",
-        borderRadius: ".8rem",
-      }}
-    >
-      {classes?.length == 0 ? (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-      ) : (
-        classes?.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              marginBottom: "1rem",
-            }}
-          >
-            <ClassCardHorizontal
-              startTime={dayjs(item.startDate).format("DD-MM-YYYY")}
-              endTime={dayjs(item.endDate).format("DD-MM-YYYY")}
-              location="online"
-              sessionName="session name"
-              mentorImage="none"
-              mentorName="none"
-              courseId={item.courseId}
-              class_id={item.id}
-            />
-            {index != classes.length - 1 ? <Divider /> : <></>}
-          </div>
-        ))
-      )}
-    </div>
-  );
-};
-
-const renderListClass = ({}) => {
-  return <ListClass />;
-};
-
 const CourseListPage: React.FC = () => {
   const navigate = useNavigate();
-  const mentorID = localStorage.getItem("userID");
+  var access_token = localStorage.getItem("access_token");
+  var { uid }: JwtPayload = decode(access_token!);
 
   const { data: courses, isLoading }: UseQueryResult<GetCourseResult[], Error> =
     useQuery(
-      ["courses", mentorID],
+      ["courses", uid],
       async () => await CourseAPI.getCourseByMentorToken(),
       {
-        enabled: Boolean(mentorID),
+        enabled: Boolean(uid),
       }
     );
 
@@ -129,11 +82,11 @@ const CourseListPage: React.FC = () => {
         label: `Your courses`,
         children: renderListCourse({ listCourse: courses ?? [] }),
       },
-      {
-        key: "2",
-        label: `Enrolled classes`,
-        children: renderListClass({}),
-      },
+      // {
+      //   key: "2",
+      //   label: `Enrolled classes`,
+      //   children: renderListClass({}),
+      // },
     ];
   }, [courses]);
 

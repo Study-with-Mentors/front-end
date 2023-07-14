@@ -45,7 +45,7 @@ http.interceptors.response.use(
   (err) => {
     if (err.response.status == 400) {
       localStorage.clear();
-      window.location.href = "http://localhost:3000/auth";
+      window.location.href = "https://studywithmentor.id.vn/auth";
     }
     throw err;
   }

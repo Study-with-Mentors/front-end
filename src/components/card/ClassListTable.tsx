@@ -6,6 +6,8 @@ import { GetClassResult } from "../../types/Class.type";
 import { ClassAPI } from "../../api/ClassAPI";
 import { useCreateEnrollment } from "../../hooks/useCreateEnrollmentHook";
 import { useNavigate } from "react-router-dom";
+import { JwtPayload } from "../../types/Jwt.type";
+import { decode } from "../../utils/jwt";
 
 interface ClassListTableItem {
   key: string;
@@ -123,11 +125,13 @@ const ClassListTable = ({ courseId, type }: ClassListTableProps) => {
                     loading={isCreateEnrollmentLoading}
                     disabled={checkEnrolled}
                     onClick={() => {
+                      const access_token = localStorage.getItem("access_token");
+                      var decoded: JwtPayload = decode(access_token!);
                       createEnrollment(
                         {
                           classId: record.key,
                           paymentType: "VNPAY",
-                          studentId: localStorage.getItem("userID") ?? "",
+                          studentId: decoded.uid,
                         },
                         {
                           onSuccess(data, variables, context) {

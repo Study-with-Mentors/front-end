@@ -13,6 +13,9 @@ import { useIsMutating } from "react-query";
 import { useGoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import { useLoginGoogle } from "../../hooks/useLoginGoogle";
+import { GoogleLogin } from "react-google-login";
+import { access } from "fs";
 
 const { Text } = Typography;
 
@@ -39,9 +42,6 @@ const LoginForm = ({}: LoginFormProps) => {
       onSuccess(data, variables, context) {
         var decoded: JwtPayload = decode(data);
         localStorage.setItem("access_token", data);
-        localStorage.setItem("userID", decoded.uid);
-        localStorage.setItem("role", decoded.rol);
-        localStorage.setItem("expired_time", decoded.exp.toString());
         if (decoded.rol == "ADMIN") {
           navigate("/admin");
         } else {
@@ -54,15 +54,27 @@ const LoginForm = ({}: LoginFormProps) => {
     });
   };
 
+  const {
+    data: loginGoogleData,
+    error,
+    mutate: loginGoogle,
+  } = useLoginGoogle();
+
   const onLoginGoogle = useGoogleLogin({
     onSuccess: async (token) => {
       console.log(token);
 
-      const userInfo = await axios
-        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        })
-        .then((res) => console.log(res.data));
+      // loginGoogle(token.access_token, {
+      //   onSuccess(data, variables, context) {
+      //     console.log(data);
+      //   },
+      // }),
+
+      // const userInfo = await axios
+      //   .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+      //     // headers: { Authorization: `Bearer ${token.access_token}` },
+      //   })
+      //   .then((res) => console.log(res.data));
     },
     onError(errorResponse) {
       console.log(errorResponse);
@@ -70,6 +82,10 @@ const LoginForm = ({}: LoginFormProps) => {
   });
 
   const onLoginGoogleFailed = (res: any) => {
+    console.log(res);
+  };
+
+  const handleCredentialResponse = (res: any) => {
     console.log(res);
   };
 
@@ -149,7 +165,7 @@ const LoginForm = ({}: LoginFormProps) => {
         <div className={styled["footer"]}>
           <Divider className={styled["divider"]}>Or Sign In</Divider>
           <div className={styled["button-wrapper"]}>
-            <Button onClick={() => onLoginGoogle()} className={styled["btn"]}>
+            <Button onClick={() => {}} className={styled["btn"]}>
               <img className={styled["icon"]} src={GoogleIcon} alt="" /> Using
               Google
             </Button>
@@ -160,6 +176,12 @@ const LoginForm = ({}: LoginFormProps) => {
           </div>
         </div>
       </Form>
+
+      <div
+        id="g_id_onload"
+        data-client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+        data-callback="handleCredentialResponse"
+      ></div>
     </div>
   );
 };

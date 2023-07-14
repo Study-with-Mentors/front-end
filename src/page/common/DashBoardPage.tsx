@@ -17,17 +17,20 @@ import { GetClassResult, GetSearchClass } from "../../types/Class.type";
 import { ClassAPI } from "../../api/ClassAPI";
 import { GetIncomeResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
+import { JwtPayload } from "../../types/Jwt.type";
+import { decode } from "../../utils/jwt";
 
 const DashBoardPage = () => {
   const navigate = useNavigate();
+  const access_token = localStorage.getItem("access_token");
+  var { uid }: JwtPayload = decode(access_token!);
 
   const {
     data: searchCourses,
     isLoading: isSearchCoursesLoading,
   }: UseQueryResult<GetCourse, Error> = useQuery(
     ["search-courses"],
-    async () =>
-      await CourseAPI.getAll({ mentorId: localStorage.getItem("userID")! })
+    async () => await CourseAPI.getAll({ mentorId: uid })
   );
 
   const {
@@ -35,8 +38,7 @@ const DashBoardPage = () => {
     isLoading: isSearchClassLoading,
   }: UseQueryResult<GetSearchClass, Error> = useQuery(
     ["search-classes"],
-    async () =>
-      await ClassAPI.searchClass({ mentorId: localStorage.getItem("userID")! })
+    async () => await ClassAPI.searchClass({ mentorId: uid })
   );
 
   const {

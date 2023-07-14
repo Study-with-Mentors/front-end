@@ -60,6 +60,14 @@ export const CourseAPI = {
   },
   getById: async (id: string) => {
     try {
+      const res = await http.get(`/course/${id}`);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getByIdWithToken: async (id: string) => {
+    try {
       const res = await http.get(`/course/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
