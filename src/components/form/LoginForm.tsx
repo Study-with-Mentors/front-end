@@ -10,12 +10,11 @@ import { useLoginUser } from "../../hooks/useLoginHook";
 import { decode } from "../../utils/jwt";
 import { JwtPayload } from "../../types/Jwt.type";
 import { useIsMutating } from "react-query";
-import { useGoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useLoginGoogle } from "../../hooks/useLoginGoogle";
-import { GoogleLogin } from "react-google-login";
 import { access } from "fs";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const { Text } = Typography;
 
@@ -60,30 +59,9 @@ const LoginForm = ({}: LoginFormProps) => {
     mutate: loginGoogle,
   } = useLoginGoogle();
 
-  const onLoginGoogle = useGoogleLogin({
-    onSuccess: async (token) => {
-      console.log(token);
-
-      // loginGoogle(token.access_token, {
-      //   onSuccess(data, variables, context) {
-      //     console.log(data);
-      //   },
-      // }),
-
-      // const userInfo = await axios
-      //   .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-      //     // headers: { Authorization: `Bearer ${token.access_token}` },
-      //   })
-      //   .then((res) => console.log(res.data));
-    },
-    onError(errorResponse) {
-      console.log(errorResponse);
-    },
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => console.log(codeResponse),
   });
-
-  const onLoginGoogleFailed = (res: any) => {
-    console.log(res);
-  };
 
   const handleCredentialResponse = (res: any) => {
     console.log(res);
@@ -165,7 +143,12 @@ const LoginForm = ({}: LoginFormProps) => {
         <div className={styled["footer"]}>
           <Divider className={styled["divider"]}>Or Sign In</Divider>
           <div className={styled["button-wrapper"]}>
-            <Button onClick={() => {}} className={styled["btn"]}>
+            <Button
+              onClick={() => {
+                login();
+              }}
+              className={styled["btn"]}
+            >
               <img className={styled["icon"]} src={GoogleIcon} alt="" /> Using
               Google
             </Button>
