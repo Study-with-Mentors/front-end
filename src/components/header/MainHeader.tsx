@@ -88,21 +88,21 @@ const MainHeader = ({}: MainHeaderProps) => {
           </>
         ) : (
           <>
-            <Badge dot>
+            {/* <Badge>
               <NotificationsOutlinedIcon
                 style={{
                   cursor: "pointer",
                   fontSize: "28px",
                 }}
               />
-            </Badge>
-            <SettingsOutlinedIcon
+            </Badge> */}
+            {/* <SettingsOutlinedIcon
               style={{
                 fontSize: "28px",
                 margin: "0 12px",
                 cursor: "pointer",
               }}
-            />
+            /> */}
             {isLoading ? (
               <Skeleton.Avatar
                 active={true}

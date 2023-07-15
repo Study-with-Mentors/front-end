@@ -49,7 +49,7 @@ const HomeHeader = ({}: HomeHeaderProps) => {
 
       <div className={styled["action-wrapper"]}>
         <>
-          <Badge dot>
+          <Badge>
             <NotificationsOutlinedIcon
               style={{
                 color: "rgba(95, 105, 128, 1)",
