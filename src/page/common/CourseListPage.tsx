@@ -42,7 +42,7 @@ const renderListCourse = ({ listCourse }: renderListCourseProps) => {
           <CourseCardHorizontal
             key={course.id}
             {...course}
-            image={course.image?.url}
+            image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
             type={CourseCardHorizontalType.EDIT}
           />
         ))

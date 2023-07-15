@@ -5,16 +5,19 @@ import FacebookIcon from "../../assets/facebook_icon.png";
 import GoogleIcon from "../../assets/google_icon.png";
 import styled from "./SignUpPage.module.scss";
 import { Button, Divider } from "antd";
+import { Link } from "react-router-dom";
 
 const SignUpPage = () => {
   return (
     <div className={styled["container"]}>
       <div className={styled["left-wrapper"]}>
         <div className={styled["header"]}>
-          <p className={styled["title"]}>
-            Study With
-            <span style={{ color: "gray" }}> Mentor</span>
-          </p>
+          <Link to={"/"} style={{ textDecoration: 'none' }}>
+            <p className={styled["title"]}>
+              Study With
+              <span style={{ color: "gray" }}> Mentor</span>
+            </p>
+          </Link>
         </div>
 
         <div className={styled["body"]}>
@@ -38,7 +41,7 @@ const SignUpPage = () => {
       <div className={styled["right-wrapper"]}>
         <SignUpForm />
 
-        <div className={styled["footer"]}>
+        {/* <div className={styled["footer"]}>
           <Divider className={styled["divider"]}>Or Sign In</Divider>
           <div className={styled["button-wrapper"]}>
             <Button className={styled["btn"]}>
@@ -50,7 +53,7 @@ const SignUpPage = () => {
               Facebook
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

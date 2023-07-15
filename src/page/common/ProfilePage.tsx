@@ -467,7 +467,7 @@ const ProfilePage = () => {
                 <Avatar
                   size={200}
                   className={styled["img"]}
-                  src={data?.profileImage?.url}
+                  src={data?.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
                   alt="avatar"
                 />
               ) : (
