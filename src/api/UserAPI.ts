@@ -102,6 +102,7 @@ export const UserAPI = {
 
   getMentorList: async () => {
     const res = await http.get(`/mentor`);
+    console.log(res)
     return res?.data;
   },
   getMentorIncome: async (params: GetMentorIncomeParams) => {
