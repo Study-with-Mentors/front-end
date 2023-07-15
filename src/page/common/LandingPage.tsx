@@ -118,7 +118,7 @@ const LandingPage = () => {
               }}
             >
               <TutorCard
-                avatar={tutor.profileImage.url}
+                avatar={tutor.profileImage.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
                 description={tutor.mentor.bio}
                 name={tutor.lastName}
               />
