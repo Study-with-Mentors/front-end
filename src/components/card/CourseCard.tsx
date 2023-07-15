@@ -34,7 +34,7 @@ const CourseCard = ({
     >
       <Meta
         style={{ display: "flex", alignItems: "center", fontWeight: "500" }}
-        avatar={<Avatar size={42} src={mentor.profileImage.url} />}
+        avatar={<Avatar size={42} src={mentor.profileImage?.url} />}
         description={shortName}
       />
       <p className={styled["description"]}>{description}</p>

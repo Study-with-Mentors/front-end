@@ -130,7 +130,7 @@ const DashBoardPage = () => {
           renderItem={(item, index) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar size={40} src={`${item.image.url}`} />}
+                avatar={<Avatar size={40} src={`${item.image?.url}`} />}
                 title={
                   <a onClick={() => navigate(`/home/course/edit/${item.id}`)}>
                     {item.fullName}

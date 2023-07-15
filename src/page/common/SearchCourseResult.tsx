@@ -252,7 +252,7 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
               <CourseCardHorizontal
                 key={course.id}
                 {...course}
-                image={course.image.url}
+                image={course.image?.url}
               />
             ))
           )}

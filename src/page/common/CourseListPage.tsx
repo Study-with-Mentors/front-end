@@ -42,7 +42,7 @@ const renderListCourse = ({ listCourse }: renderListCourseProps) => {
           <CourseCardHorizontal
             key={course.id}
             {...course}
-            image={course.image.url}
+            image={course.image?.url}
             type={CourseCardHorizontalType.EDIT}
           />
         ))

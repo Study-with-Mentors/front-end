@@ -62,7 +62,7 @@ export const ClassCardHorizontal = ({
           <div className={styled["avatar-wrapper"]}>
             <Avatar
               className={styled["avatar"]}
-              src={course?.mentor.profileImage.url}
+              src={course?.mentor.profileImage?.url}
             />
             <p>{course?.mentor.lastName}</p>
           </div>

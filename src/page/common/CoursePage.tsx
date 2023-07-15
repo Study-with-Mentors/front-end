@@ -81,7 +81,7 @@ const CoursePage = () => {
                   style={{
                     borderRadius: "3%",
                   }}
-                  src={course?.image.url}
+                  src={course?.image?.url}
                 />
               )}
             </div>

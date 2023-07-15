@@ -100,7 +100,7 @@ const CourseCardHorizontal = ({
         </div>
         <div className={styled["footer-wrapper"]}>
           <div className={styled["avatar-wrapper"]}>
-            <Avatar size={40} src={mentor.profileImage.url} />
+            <Avatar size={40} src={mentor.profileImage?.url} />
             <p className={styled["name"]}>{mentor.lastName}</p>
           </div>
           <div className={styled["action-wrapper"]}>

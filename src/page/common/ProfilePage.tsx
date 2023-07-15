@@ -467,7 +467,7 @@ const ProfilePage = () => {
                 <Avatar
                   size={200}
                   className={styled["img"]}
-                  src={data?.profileImage.url}
+                  src={data?.profileImage?.url}
                   alt="avatar"
                 />
               ) : (
