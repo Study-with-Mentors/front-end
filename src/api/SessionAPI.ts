@@ -31,9 +31,9 @@ export type UpdateActivity = {
 };
 
 export const SessionAPI = {
-  getSessionByCourseID: async (courseID: string) => {
+  getSessionByCourseID: async (id: string) => {
     try {
-      const res = await http.get(`/session/course/${courseID}`);
+      const res = await http.get(`/sessions/api/courses/${id}/sessions`);
       return res.data;
     } catch (error) {
       throw error;

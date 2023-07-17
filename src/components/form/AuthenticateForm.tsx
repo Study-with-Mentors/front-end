@@ -1,6 +1,6 @@
 import React from "react";
 import LoginIcon from "../../assets/login_icon.png";
-import { Button, Checkbox, Form, Image, Input, Select } from "antd";
+import { Button, Checkbox, DatePicker, Form, Image, Input, Select } from "antd";
 import "./AuthenticateForm.css";
 
 const renderText = ({ fieldProps }: any) => {
@@ -67,7 +67,7 @@ const renderCheckBox = ({ fieldProps }: any) => {
       label={label}
       rules={rules}
       wrapperCol={{ span: 24 }}
-      // style={style}
+    // style={style}
     >
       <Checkbox.Group
         style={{
@@ -99,12 +99,28 @@ const renderSelect = ({ fieldProps }: any) => {
   );
 };
 
+const renderSelectDate = ({ fieldProps }: any) => {
+  const { name, rules, style, label, placeholder } = fieldProps;
+
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      rules={[rules]}
+      wrapperCol={{ span: 24 }}
+    >
+      <DatePicker style={style} placeholder={placeholder} />
+    </Form.Item>
+  );
+};
+
 export const FIELD_TYPES = {
   TEXT: "text",
   BUTTON: "button",
   PASSWORD: "password",
   CHECKBOX: "checkbox",
   SELECT: "select",
+  SELECTDATE: "selectDate",
 };
 
 const FORM_MAPPING = {
@@ -113,6 +129,7 @@ const FORM_MAPPING = {
   [FIELD_TYPES.PASSWORD]: renderPassword,
   [FIELD_TYPES.CHECKBOX]: renderCheckBox,
   [FIELD_TYPES.SELECT]: renderSelect,
+  [FIELD_TYPES.SELECTDATE]: renderSelectDate,
 };
 
 const AuthenticateForm = ({ fields }: any) => {
