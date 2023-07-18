@@ -133,13 +133,13 @@ const CoursePage = () => {
         </div>
         <div className={styled["sidebar"]}>
           <p className={styled["price"]}>
-            {course?.status == "DISABLE" ? "CLOSE" : "OPEN"}{" "}
+            {course?.status === "CLOSE" ? "CLOSED" : "OPEN"}{" "}
           </p>
           <Button
             type="primary"
             className={styled["button"]}
             onClick={showModal}
-            disabled={course?.status == "DISABLE" ? true : false}
+            disabled={course?.status === "CLOSE" ? true : false}
           >
             <ShoppingCartOutlinedIcon
               style={{

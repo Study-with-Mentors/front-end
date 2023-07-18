@@ -58,6 +58,18 @@ export const CourseAPI = {
     console.log(res.data);
     return res.data;
   },
+  getVisible: async (searchCourseParams: SearchCourseParams) => {
+    var url;
+    if (Object.keys(searchCourseParams).length == 0) {
+      url = "/courses/visible";
+    } else {
+      url = `/courses/visible?${toQueryParams(searchCourseParams).toString()}`;
+    }
+
+    const res = await http.get(url);
+    console.log(res.data);
+    return res.data;
+  },
   getById: async (id: string) => {
     try {
       const res = await http.get(`/courses/${id}`);

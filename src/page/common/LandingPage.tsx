@@ -28,7 +28,7 @@ const LandingPage = () => {
     isLoading: isCoursesLoading,
   }: UseQueryResult<GetCourse, Error> = useQuery(
     ["courses"],
-    async () => await CourseAPI.getAll({})
+    async () => await CourseAPI.getVisible({})
   );
   const {
     data: mentors,
