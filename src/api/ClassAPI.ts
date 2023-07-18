@@ -35,7 +35,7 @@ export type SearchClassParams = {
 
 export const ClassAPI = {
   getClassByUserToken: async () => {
-    const res = await http.get(`/me/students/classes`, {
+    const res = await http.get(`/me/student/classes`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

@@ -22,7 +22,7 @@ const SignUpForm = () => {
       email: values.email,
       password: values.password,
       confirm: values.confirm,
-      birthdate: values.birthday.add(1, "day").toDate(),
+      birthdate: values.birthday.add(1, "hour").toDate(),
       gender: values.gender,
     };
     console.log(signupProps)
