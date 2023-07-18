@@ -33,7 +33,7 @@ export type UpdateActivity = {
 export const SessionAPI = {
   getSessionByCourseID: async (id: string) => {
     try {
-      const res = await http.get(`/sessions/api/courses/${id}/sessions`);
+      const res = await http.get(`/courses/${id}/sessions`);
       return res.data;
     } catch (error) {
       throw error;
@@ -42,7 +42,7 @@ export const SessionAPI = {
 
   createSession: async (params: CreateSessionParams) => {
     try {
-      const res = await http.post(`/session`, params, {
+      const res = await http.post(`/sessions`, params, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -55,7 +55,7 @@ export const SessionAPI = {
 
   updateSession: async (params: UpdateSessionParams) => {
     try {
-      const res = await http.put(`/session/${params.id}`, params, {
+      const res = await http.put(`/sessions/${params.id}`, params, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -67,7 +67,7 @@ export const SessionAPI = {
   },
 
   deleteSession: async (id: string) => {
-    const res = await http.delete(`/session/${id}`, {
+    const res = await http.delete(`/sessions/${id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

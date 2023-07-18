@@ -7,6 +7,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import styled from "./HomeSideBar.module.scss";
 import LogoIcon from "../../assets/Logo.svg";
+import ClassIcon from '@mui/icons-material/Class';
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./HomeSideBar.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -25,7 +26,7 @@ const items: MenuProps["items"] = [
   {
     label: "Classes",
     key: "/home/class",
-    icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
+    icon: <ClassIcon style={{ fontSize: "26px" }} />,
   },
   {
     label: "Courses",
