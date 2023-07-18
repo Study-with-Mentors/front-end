@@ -17,8 +17,8 @@ const SignUpForm = () => {
 
   const onFinish = async (values: any) => {
     const signupProps: SignupProps = {
-      firstName: values.firstname,
-      lastName: values.lastname,
+      firstName: values.firstName,
+      lastName: values.lastName,
       email: values.email,
       password: values.password,
       confirm: values.confirm,
