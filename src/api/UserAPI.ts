@@ -79,6 +79,16 @@ export const UserAPI = {
       throw err;
     }
   },
+  resendVerify: async (token: string) => {
+    try {
+      const res = await http.get("/signup/resendUrl", {
+        params: { token: token },
+      });
+      return res?.data;
+    } catch (err: any) {
+      throw err;
+    }
+  },
   getByUserToken: async () => {
     const res = await http.get("/me", {
       headers: {

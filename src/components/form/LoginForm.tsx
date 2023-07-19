@@ -31,6 +31,7 @@ const LoginForm = ({ }: LoginFormProps) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const loginError = () => {
+    console.log(data)
     messageApi.open({
       type: "error",
       content: "Incorrect email or password!",
