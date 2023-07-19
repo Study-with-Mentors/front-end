@@ -45,7 +45,7 @@ const MainFooter = () => {
         </Col>
         <Col className={styled["section"]} xl={4}>
           <div className={styled["wrapper"]}>
-            <p className={styled["title"]}>ABOUT SAVVY</p>
+            <p className={styled["title"]}>ABOUT US</p>
             <p className={styled["item"]}>Home</p>
             <p className={styled["item"]}>Courses</p>
             <p className={styled["item"]}>Pricing</p>
@@ -54,7 +54,7 @@ const MainFooter = () => {
         <Col className={styled["section"]} xl={4}>
           <div className={styled["wrapper"]}>
             <p className={styled["title"]}>CONTACT US</p>
-            <p className={styled["item"]}>studywithmentors@gmail.com</p>
+            <p className={styled["item"]}>contact@studywithmentor.id.vn</p>
             <p className={styled["item"]}>FPT University HCM</p>
             <p className={styled["item"]}>Group 5</p>
           </div>

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Form,
   SelectProps,
@@ -7,6 +7,8 @@ import {
   UploadProps,
   Image as NewImage,
   Spin,
+  Modal,
+  Button,
 } from "antd";
 import { UseQueryResult, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -82,6 +84,7 @@ var intendedLearnerOptions: SelectProps["options"] = [];
 const CourseDetailPage = () => {
   //Notification
   const [api, contextHolder] = notification.useNotification();
+  const [openModal, setOpenModal] = useState(false);
 
   const openNotificationWithIcon = (message: string) => {
     api["success"]({
@@ -197,6 +200,37 @@ const CourseDetailPage = () => {
       status: values?.status,
       version: 0,
     };
+
+    //Open Modal confirm
+    if (updateParams.status === "CLOSE") {
+      setOpenModal(true)
+    } else {
+      updateCourse(updateParams, {
+        onSuccess(data, variables, context) {
+          openNotificationWithIcon("Update course sucessfully");
+          refetch();
+        },
+        onError(error: any, variables, context) {
+          openNotificationWithIconError(error?.response?.data?.message);
+        },
+      });
+    }
+  };
+
+  const onFinishConfirm = async (values: any) => {
+    const updateParams: UpdateCourseParams = {
+      id: params?.id ?? "",
+      courseLevel: values?.level,
+      description: values?.description,
+      field: { id: values?.field },
+      fullName: values?.fullname,
+      intendedLearner: values?.intendedLearner,
+      learningOutcome: values?.learningOutcome,
+      shortName: values?.shortname,
+      status: values?.status,
+      version: 0,
+    };
+
     updateCourse(updateParams, {
       onSuccess(data, variables, context) {
         openNotificationWithIcon("Update course sucessfully");
@@ -206,6 +240,7 @@ const CourseDetailPage = () => {
         openNotificationWithIconError(error?.response?.data?.message);
       },
     });
+
   };
 
   const left_profile_fields = [
@@ -221,7 +256,7 @@ const CourseDetailPage = () => {
           height: "50px",
           marginBottom: "3.5rem",
         },
-        onChange: (value: any) => {},
+        onChange: (value: any) => { },
       },
       cols: 12,
     },
@@ -237,7 +272,7 @@ const CourseDetailPage = () => {
           height: "50px",
           marginBottom: "3.5rem",
         },
-        onChange: (value: any) => {},
+        onChange: (value: any) => { },
       },
       cols: 12,
     },
@@ -251,7 +286,7 @@ const CourseDetailPage = () => {
         style: {
           marginBottom: "1.6rem",
         },
-        onChange: (value: any) => {},
+        onChange: (value: any) => { },
       },
       cols: 12,
     },
@@ -267,7 +302,7 @@ const CourseDetailPage = () => {
           height: "50px",
           marginBottom: "3.5rem",
         },
-        onChange: (value: any) => {},
+        onChange: (value: any) => { },
       },
       cols: 12,
     },
@@ -288,7 +323,7 @@ const CourseDetailPage = () => {
             height: "50px",
             marginBottom: "3.5rem",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -305,7 +340,7 @@ const CourseDetailPage = () => {
             height: "50px",
             marginBottom: "3.5rem",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -323,7 +358,7 @@ const CourseDetailPage = () => {
             height: "50px",
             marginBottom: "3.5rem",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -362,10 +397,10 @@ const CourseDetailPage = () => {
     ];
   }, [
     isUpdateCourseLoading ||
-      isFieldsLoading ||
-      isLevelLoading ||
-      isStatusLoading ||
-      isIntendedLearnerLoading,
+    isFieldsLoading ||
+    isLevelLoading ||
+    isStatusLoading ||
+    isIntendedLearnerLoading,
   ]);
 
   if (
@@ -412,8 +447,8 @@ const CourseDetailPage = () => {
             }}
           >
             {isUploadImageFirebaseLoading ||
-            isCourseImageLoading ||
-            isLoading ? (
+              isCourseImageLoading ||
+              isLoading ? (
               <Spin spinning={true} />
             ) : (
               <div className={styled["img-wrapper"]}>
@@ -457,6 +492,7 @@ const CourseDetailPage = () => {
       </div>
 
       <Form
+        id="course_detail"
         name="personal_detail"
         wrapperCol={{ span: 16 }}
         initialValues={{
@@ -485,7 +521,27 @@ const CourseDetailPage = () => {
           <EditAndUpdateForm fields={right_profile_fields} />
         </div>
       </Form>
-    </div>
+
+      <Modal
+        title="Warning"
+        centered
+        open={openModal}
+        onOk={() => setOpenModal(false)}
+        onCancel={() => setOpenModal(false)}
+        footer={[
+          <>
+            <Button  danger>
+              Confirm
+            </Button>
+            <Button form="course_detail" key="submit" htmlType="submit" danger type="primary">
+              Confirm
+            </Button>
+          </>
+        ]}
+      >
+        <p>Set status to <strong>"CLOSE"</strong> will permanently CLOSE the course. Do you want to continue?</p>
+      </Modal >
+    </div >
   );
 };
 

@@ -95,7 +95,7 @@ const LandingPage = () => {
       </div>
 
       <div className={styled["course-container"]}>
-        {sortCourseByPriority(courses, user)?.result.map((course, index) => (
+        {courses?.result.map((course, index) => (
           <CourseCard
             key={index}
             id={course.id}

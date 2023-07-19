@@ -39,7 +39,7 @@ export type GetUserResult = {
     year: number;
     bio: string;
     experience: string;
-    education: EDUCATION;
+    education: string;
   };
 };
 
