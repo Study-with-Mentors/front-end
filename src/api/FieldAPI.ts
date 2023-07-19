@@ -11,7 +11,7 @@ export type GetField = {
 export const FieldAPI = {
   getAll: async () => {
     try {
-      const res = await http.get("/field");
+      const res = await http.get("/fields");
       return res?.data;
     } catch (err: any) {
       throw err;

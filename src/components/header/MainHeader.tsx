@@ -88,21 +88,21 @@ const MainHeader = ({}: MainHeaderProps) => {
           </>
         ) : (
           <>
-            <Badge dot>
+            {/* <Badge>
               <NotificationsOutlinedIcon
                 style={{
                   cursor: "pointer",
                   fontSize: "28px",
                 }}
               />
-            </Badge>
-            <SettingsOutlinedIcon
+            </Badge> */}
+            {/* <SettingsOutlinedIcon
               style={{
                 fontSize: "28px",
                 margin: "0 12px",
                 cursor: "pointer",
               }}
-            />
+            /> */}
             {isLoading ? (
               <Skeleton.Avatar
                 active={true}
@@ -120,7 +120,7 @@ const MainHeader = ({}: MainHeaderProps) => {
                     marginLeft: "10px",
                     cursor: "pointer",
                   }}
-                  icon={<img src={image?.url} />}
+                  icon={<img src={image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"} />}
                 />
               </Dropdown>
             )}

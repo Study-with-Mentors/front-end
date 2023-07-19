@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CourseCard, { CourseCardProps } from "../../components/card/CourseCard";
 import styled from "./LandingPage.module.scss";
 import TutorCard from "../../components/card/TutorCard";
@@ -14,22 +14,31 @@ import { UseQueryResult, useQuery } from "react-query";
 import { GetCourse } from "../../types/Course.type";
 import { CourseAPI } from "../../api/CourseAPI";
 import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
-import { GetMentorResult } from "../../types/User.type";
+import { GetMentorResult, GetUserResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 import { useNavigate } from "react-router-dom";
 import { Typography, Button } from "antd";
 import { motion, useAnimation } from "framer-motion";
+import { JwtPayload } from "../../types/Jwt.type";
+import { decode } from "../../utils/jwt";
+import { sortCourseByPriority } from "../../utils/object";
 
 const { Title } = Typography;
 const LandingPage = () => {
   const navigate = useNavigate();
+  const access_token = localStorage.getItem("access_token");
+  var { uid }: JwtPayload = decode(access_token!);
+
+  //Courses
   const {
     data: courses,
     isLoading: isCoursesLoading,
   }: UseQueryResult<GetCourse, Error> = useQuery(
     ["courses"],
-    async () => await CourseAPI.getAll({})
+    async () => await CourseAPI.getVisible({})
   );
+
+  //Mentors
   const {
     data: mentors,
     isLoading: isMentorsLoading,
@@ -38,6 +47,17 @@ const LandingPage = () => {
     async () => await UserAPI.getMentorList()
   );
 
+  //Profile
+  const {
+    data: user,
+    isLoading: isProfileLoading,
+  }: UseQueryResult<GetUserResult, Error> = useQuery(
+    ["user", uid],
+    async () => await UserAPI.getByUserToken(),
+    {
+      enabled: !!uid && uid != "0",
+    }
+  );
   // if (isCoursesLoading || isMentorsLoading) return <LoadingSkeleton />;
 
   const exampleVariant = {
@@ -75,13 +95,13 @@ const LandingPage = () => {
       </div>
 
       <div className={styled["course-container"]}>
-        {courses?.result.map((course, index) => (
+        {sortCourseByPriority(courses, user)?.result.map((course, index) => (
           <CourseCard
             key={index}
             id={course.id}
             description={course.fullName}
             courseLevel={course.courseLevel}
-            image={course.image.url}
+            image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
             mentor={course.mentor}
             shortName={course.shortName}
           />
@@ -99,7 +119,7 @@ const LandingPage = () => {
           spaceBetween={80}
           navigation={true}
           modules={[Navigation]}
-          className={styled["slider"] + " " + "mySwiper"}
+          className={styled["slider"] + " mySwiper"}
           style={{}}
         >
           {mentors?.result.map((tutor) => (
@@ -118,7 +138,7 @@ const LandingPage = () => {
               }}
             >
               <TutorCard
-                avatar={tutor.profileImage.url}
+                avatar={tutor.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
                 description={tutor.mentor.bio}
                 name={tutor.lastName}
               />

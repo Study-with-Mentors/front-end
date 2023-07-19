@@ -17,7 +17,7 @@ export type GetCourseResult = {
   learningOutcome: string;
   status: string;
   courseLevel: string;
-  intendedLearner: string;
+  intendedLearner: INTENDEDLEARNER;
   field: GetField;
   mentor: Mentor;
   image: GetCourseImage;
@@ -26,5 +26,12 @@ export type GetCourseResult = {
 export type GetCourseImage = {
   id: string;
   version: 0;
-  url: string;
+  url: string | "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg";
 };
+
+export enum INTENDEDLEARNER {
+  STUDENT = "STUDENT",
+  FULLTIME = "FULLTIME",
+  PARTTIMEIME = "PARTTIME",
+  COLLEGE = "COLLEGE"
+}

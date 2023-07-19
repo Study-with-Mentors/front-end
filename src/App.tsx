@@ -5,7 +5,7 @@ import AppRoute from "./routes/AppRoute";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ConfigProvider } from "antd";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,7 +57,7 @@ function App() {
   });
 
   return (
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+    // <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
       <DataContext.Provider value={{ state, dispatch }}>
         <ConfigProvider
           theme={{
@@ -73,7 +73,7 @@ function App() {
           </BrowserRouter>
         </ConfigProvider>
       </DataContext.Provider>
-    </GoogleOAuthProvider>
+    // </GoogleOAuthProvider>
   );
 }
 

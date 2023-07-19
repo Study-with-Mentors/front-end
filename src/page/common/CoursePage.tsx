@@ -81,7 +81,7 @@ const CoursePage = () => {
                   style={{
                     borderRadius: "3%",
                   }}
-                  src={course?.image.url}
+                  src={course?.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
                 />
               )}
             </div>
@@ -94,7 +94,7 @@ const CoursePage = () => {
                     border: "1px solid #ccc",
                     margin: "0 .1rem 0 .2rem",
                   }}
-                  src={course?.mentor.profileImage.url}
+                  src={course?.mentor.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
                 />{" "}
                 <span>{course?.mentor.lastName}</span>
               </p>
@@ -133,13 +133,13 @@ const CoursePage = () => {
         </div>
         <div className={styled["sidebar"]}>
           <p className={styled["price"]}>
-            {course?.status == "DISABLE" ? "CLOSE" : "OPEN"}{" "}
+            {course?.status === "CLOSE" ? "CLOSED" : "OPEN"}{" "}
           </p>
           <Button
             type="primary"
             className={styled["button"]}
             onClick={showModal}
-            disabled={course?.status == "DISABLE" ? true : false}
+            disabled={course?.status === "CLOSE" ? true : false}
           >
             <ShoppingCartOutlinedIcon
               style={{

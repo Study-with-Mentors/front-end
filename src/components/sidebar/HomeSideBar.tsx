@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 import { Menu, Divider } from "antd";
 import type { MenuProps } from "antd";
 import { HomeFilled } from "@ant-design/icons";
@@ -7,9 +7,10 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import styled from "./HomeSideBar.module.scss";
 import LogoIcon from "../../assets/Logo.svg";
+import ClassIcon from '@mui/icons-material/Class';
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./HomeSideBar.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const items: MenuProps["items"] = [
   {
@@ -25,7 +26,7 @@ const items: MenuProps["items"] = [
   {
     label: "Classes",
     key: "/home/class",
-    icon: <CollectionsBookmarkIcon style={{ fontSize: "26px" }} />,
+    icon: <ClassIcon style={{ fontSize: "26px" }} />,
   },
   {
     label: "Courses",
@@ -53,9 +54,19 @@ const items: MenuProps["items"] = [
 ];
 
 const HomeSideBar = () => {
-  const [current, setCurrent] = useState("");
-  const navigate = useNavigate();
   const location = useLocation();
+  const [current, setCurrent] = useState(location.pathname || "");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location) {
+      items.forEach(item => {
+        if (location.pathname.includes(item?.key as string)) {
+          setCurrent(item?.key as string);
+        }
+      });
+    }
+  }, [location, current]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     if (e.key == "/home/logout") {
@@ -71,13 +82,14 @@ const HomeSideBar = () => {
     <div className={styled["container"]}>
       <div className={styled["logo-wrapper"]}>
         {/* <img className={styled["logo"]} src={LogoIcon} alt="" /> */}
-        <div className={styled["title"]}>STUDY WITH MENTOR</div>
+        <Link to={"/"} style={{textDecoration: 'none'}}><div className={styled["title"]}>STUDY WITH MENTOR</div></Link>
         <Divider />
       </div>
       <Menu
         className={styled["menu"]}
         onClick={onClick}
         defaultSelectedKeys={[`${location.pathname}`]}
+        selectedKeys={[current]}
         mode="inline"
         style={{
           fontSize: "15px",

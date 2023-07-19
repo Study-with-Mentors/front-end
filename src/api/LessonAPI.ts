@@ -15,7 +15,7 @@ export type CreateLessonParams = {
 
 export const LessionAPI = {
   getLessonByDate: async (params: GetLessonByDateParams) => {
-    const res = await http.get(`/student/lesson?${toQueryParams(params)}`, {
+    const res = await http.get(`/me/student/lessons?${toQueryParams(params)}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -23,7 +23,7 @@ export const LessionAPI = {
     return res.data;
   },
   getLessonByClassId: async (class_id: string) => {
-    const res = await http.get(`/clazz/${class_id}/lesson`);
+    const res = await http.get(`/classes/${class_id}/lessons`);
     return res.data;
   },
 };

@@ -35,7 +35,7 @@ export type SearchClassParams = {
 
 export const ClassAPI = {
   getClassByUserToken: async () => {
-    const res = await http.get(`/student/clazz`, {
+    const res = await http.get(`/me/student/classes`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -43,7 +43,7 @@ export const ClassAPI = {
     return res?.data;
   },
   getLessonByUserToken: async (params: DateTimeFilter) => {
-    const res = await http.get(`/student/lesson${toQueryParams(params)}`, {
+    const res = await http.get(`/me/students/lessons${toQueryParams(params)}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -51,25 +51,25 @@ export const ClassAPI = {
     return res?.data;
   },
   getClassByCourseId: async (courseId: string) => {
-    const res = await http.get(`/course/${courseId}/clazz`);
+    const res = await http.get(`/courses/${courseId}/classes`);
     return res?.data;
   },
   getClassByClassId: async (classId: string) => {
-    const res = await http.get(`/clazz/${classId}`);
+    const res = await http.get(`/classes/${classId}`);
     return res?.data;
   },
   searchClass: async (params: SearchClassParams) => {
     var url;
     if (Object.keys(params).length == 0) {
-      url = "/clazz";
+      url = "/classes";
     } else {
-      url = `/clazz?${toQueryParams(params).toString()}`;
+      url = `/classes?${toQueryParams(params).toString()}`;
     }
     const res = await http.get(url);
     return res?.data;
   },
   createClass: async (params: CreateClassParams) => {
-    const res = await http.post(`/clazz`, params, {
+    const res = await http.post(`/classes`, params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

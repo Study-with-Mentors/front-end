@@ -8,7 +8,7 @@ export type EnrollClassParams = {
 
 export const EnrollmentAPI = {
   enrollClass: async (params: EnrollClassParams) => {
-    const res = await http.post("/enrollment", params, {
+    const res = await http.post("/enrollments", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

@@ -15,13 +15,24 @@ const SignUpForm = () => {
   const { mutate: signup, isLoading, data } = useSignUpHook();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const onFinish = async (signupProps: SignupProps) => {
+  const onFinish = async (values: any) => {
+    const signupProps: SignupProps = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      confirm: values.confirm,
+      birthdate: values.birthday.add(1, "hour").toDate(),
+      gender: values.gender,
+    };
+    console.log(signupProps)
     if (signupProps.password !== signupProps.confirm) {
       messageApi.open({
         type: "error",
         content: "Passwords does not match!",
       });
     } else {
+
       await signup(signupProps, {
         onSuccess(data, variables, context) {
           messageApi.open({
@@ -141,6 +152,21 @@ const SignUpForm = () => {
         ],
         cols: 12,
       },
+    },
+    {
+      type: FIELD_TYPES.SELECTDATE,
+      fieldProps: {
+        name: "birthday",
+        placeholder: "Birthday",
+        rules: { required: true, message: "Birthday must not empty!" },
+        style: {
+          width: "500px",
+          height: "50px",
+          marginBottom: "60px",
+        },
+        onChange: (value: any) => { },
+      },
+      cols: 12,
     },
     {
       type: FIELD_TYPES.BUTTON,
