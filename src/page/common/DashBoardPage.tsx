@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { List, Avatar, Spin } from "antd";
 import styled from "./DashBoardPage.module.scss";
 import { GetCourse, GetCourseResult } from "../../types/Course.type";
@@ -19,6 +19,14 @@ import { GetIncomeResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 import { JwtPayload } from "../../types/Jwt.type";
 import { decode } from "../../utils/jwt";
+import {
+  CalculateDifferencesValues,
+  calculateMultipleDifferences,
+} from "../../utils/calculateStaticValue";
+import {
+  useGetClassStaticValueHook,
+  useGetReportIncomeStaticValueHook,
+} from "../../hooks/staticValueHook";
 
 const DashBoardPage = () => {
   const navigate = useNavigate();
@@ -33,32 +41,20 @@ const DashBoardPage = () => {
     async () => await CourseAPI.getAll({ mentorId: uid })
   );
 
-  const {
-    data: searchClass,
-    isLoading: isSearchClassLoading,
-  }: UseQueryResult<GetSearchClass, Error> = useQuery(
-    ["search-classes"],
-    async () => await ClassAPI.searchClass({ mentorId: uid })
-  );
+  const { data: searchClass, isLoading: isSearchClassLoading } =
+    useGetClassStaticValueHook();
 
+  // const {
+  //   data: searchEnrolledClasses,
+  //   isLoading: isSearchEnrolledClassesLoading,
+  // }: UseQueryResult<GetClassResult[], Error> = useQuery(
+  //   ["search-enrolled-classes"],
+  //   async () => await ClassAPI.getClassByUserToken()
+  // );
   const {
-    data: searchEnrolledClasses,
-    isLoading: isSearchEnrolledClassesLoading,
-  }: UseQueryResult<GetClassResult[], Error> = useQuery(
-    ["search-enrolled-classes"],
-    async () => await ClassAPI.getClassByUserToken()
-  );
-  const {
-    data: searchIncomeMentor,
-    isLoading: isSearchInComeMentorLoading,
-  }: UseQueryResult<GetIncomeResult, Error> = useQuery(
-    ["search-income-mentor"],
-    async () =>
-      await UserAPI.getMentorIncome({
-        startDate: dayjs().startOf("month").format("YYYY-MM-DD"),
-        endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
-      })
-  );
+    data: searchIncomeAndEnrollment,
+    isLoading: isSearchInComeAndEnrollmentLoading,
+  } = useGetReportIncomeStaticValueHook();
 
   const {
     data: lessons,
@@ -77,10 +73,19 @@ const DashBoardPage = () => {
         <Spin spinning={isSearchClassLoading}>
           <div className={styled["item-wrapper"]}>
             <p className={styled["title"]}>Created Classes</p>
-            <p className={styled["data"]}>{searchClass?.totalElements}</p>
+            <p className={styled["data"]}>
+              {searchClass?.numberOfClasses ?? 0}
+            </p>
             <div className={styled["extra-data"]}>
-              <p className={styled["value"]}>+45%</p>{" "}
-              <p className={styled["extra"]}>From 4.6%</p>
+              <p className={styled["value"]}>
+                {searchClass.staticValue.currentDiff > 0 ? "+ " : " "}
+                {searchClass.staticValue.currentDiff}
+              </p>{" "}
+              <p className={styled["extra"]}>
+                From
+                {searchClass.staticValue.pastDiff > 0 ? "+ " : " "}
+                {searchClass.staticValue.pastDiff}
+              </p>
             </div>
           </div>
         </Spin>
@@ -96,26 +101,50 @@ const DashBoardPage = () => {
           </div>
         </Spin>
 
-        <Spin spinning={isSearchEnrolledClassesLoading}>
+        <Spin spinning={isSearchInComeAndEnrollmentLoading}>
           <div className={styled["item-wrapper"]}>
             <p className={styled["title"]}>Enrolled Classes</p>
-            <p className={styled["data"]}>{searchEnrolledClasses?.length}</p>
+            <p className={styled["data"]}>
+              {searchIncomeAndEnrollment?.totalCurrentEnrollment}
+            </p>
             <div className={styled["extra-data"]}>
-              <p className={styled["value"]}>+45%</p>{" "}
-              <p className={styled["extra"]}>From 4.6%</p>
+              <p className={styled["value"]}>
+                {searchIncomeAndEnrollment.enrollmentStaticValue.currentDiff > 0
+                  ? "+ "
+                  : " "}
+                {searchIncomeAndEnrollment.enrollmentStaticValue.currentDiff}
+              </p>{" "}
+              <p className={styled["extra"]}>
+                From
+                {searchIncomeAndEnrollment.enrollmentStaticValue.pastDiff > 0
+                  ? "+ "
+                  : " "}
+                {searchIncomeAndEnrollment.enrollmentStaticValue.pastDiff}
+              </p>
             </div>
           </div>
         </Spin>
 
-        <Spin spinning={isSearchInComeMentorLoading}>
+        <Spin spinning={isSearchInComeAndEnrollmentLoading}>
           <div className={styled["item-wrapper"]}>
             <p className={styled["title"]}>Earn</p>
             <p className={styled["data"]}>
-              {searchIncomeMentor?.totalEarning} VND
+              {searchIncomeAndEnrollment?.totalCurrentEarning} VND
             </p>
             <div className={styled["extra-data"]}>
-              <p className={styled["value"]}>+45%</p>{" "}
-              <p className={styled["extra"]}>From 4.6%</p>
+              <p className={styled["value"]}>
+                {searchIncomeAndEnrollment.earningStaticValue.currentDiff > 0
+                  ? "+ "
+                  : " "}
+                {searchIncomeAndEnrollment.earningStaticValue.currentDiff}
+              </p>{" "}
+              <p className={styled["extra"]}>
+                From
+                {searchIncomeAndEnrollment.earningStaticValue.pastDiff > 0
+                  ? "+ "
+                  : " "}
+                {searchIncomeAndEnrollment.earningStaticValue.pastDiff}
+              </p>
             </div>
           </div>
         </Spin>

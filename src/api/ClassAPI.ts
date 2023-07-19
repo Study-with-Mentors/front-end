@@ -1,3 +1,4 @@
+import { GetSearchClass } from "../types/Class.type";
 import http, { toQueryParams } from "../utils/http";
 import { CreateLessonParams } from "./LessonAPI";
 
@@ -54,11 +55,19 @@ export const ClassAPI = {
     const res = await http.get(`/course/${courseId}/clazz`);
     return res?.data;
   },
+  getClassByCourseIdWithToken: async (courseId: string) => {
+    const res = await http.get(`/course/${courseId}/clazz`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
   getClassByClassId: async (classId: string) => {
     const res = await http.get(`/clazz/${classId}`);
     return res?.data;
   },
-  searchClass: async (params: SearchClassParams) => {
+  searchClass: async (params: SearchClassParams): Promise<GetSearchClass> => {
     var url;
     if (Object.keys(params).length == 0) {
       url = "/clazz";

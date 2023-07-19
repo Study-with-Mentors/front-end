@@ -52,13 +52,6 @@ const CourseCardHorizontal = ({
     setIsModalOpen(false);
   };
 
-  const {
-    data,
-    error,
-    isLoading,
-    mutate: getClassListByCourseId,
-  } = useGetClassByCourseId();
-
   const navigateToCourseDetail = () => {
     var url;
     if (type == CourseCardHorizontalType.EDIT) {
@@ -67,11 +60,6 @@ const CourseCardHorizontal = ({
       url = `/course/${id}`;
     }
     navigate(url);
-  };
-
-  const onClickShowClassList = () => {
-    showModal();
-    getClassListByCourseId(id!);
   };
 
   return (

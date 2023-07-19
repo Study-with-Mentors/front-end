@@ -4,17 +4,14 @@ import styled from "./LoginForm.module.scss";
 import FacebookIcon from "../../assets/facebook_icon.png";
 import GoogleIcon from "../../assets/google_icon.png";
 import MainIcon from "../../assets/main-logo.svg";
-import { LoginProps, UserAPI } from "../../api/UserAPI";
+import { LoginProps } from "../../api/UserAPI";
 import { useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../hooks/useLoginHook";
 import { decode } from "../../utils/jwt";
 import { JwtPayload } from "../../types/Jwt.type";
-import { useIsMutating } from "react-query";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
 import { useLoginGoogle } from "../../hooks/useLoginGoogle";
-import { access } from "fs";
 import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const { Text } = Typography;
 
@@ -59,8 +56,25 @@ const LoginForm = ({}: LoginFormProps) => {
     mutate: loginGoogle,
   } = useLoginGoogle();
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
+  const onLoginGoogle = useGoogleLogin({
+    onSuccess: async (token) => {
+      console.log(token);
+
+      loginGoogle(token.access_token, {
+        onSuccess(data, variables, context) {
+          console.log(data);
+        },
+      });
+
+      const userInfo = await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          // headers: { Authorization: `Bearer ${token.access_token}` },
+        })
+        .then((res) => console.log(res.data));
+    },
+    onError(errorResponse) {
+      console.log(errorResponse);
+    },
   });
 
   const handleCredentialResponse = (res: any) => {
@@ -145,7 +159,7 @@ const LoginForm = ({}: LoginFormProps) => {
           <div className={styled["button-wrapper"]}>
             <Button
               onClick={() => {
-                login();
+                onLoginGoogle();
               }}
               className={styled["btn"]}
             >

@@ -118,9 +118,9 @@ const LandingPage = () => {
               }}
             >
               <TutorCard
-                avatar={tutor.profileImage.url}
-                description={tutor.mentor.bio}
-                name={tutor.lastName}
+                avatar={tutor?.profileImage?.url}
+                description={tutor?.mentor?.bio}
+                name={tutor?.lastName}
               />
             </SwiperSlide>
           ))}

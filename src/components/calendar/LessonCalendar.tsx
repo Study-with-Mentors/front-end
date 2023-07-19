@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { BadgeProps } from "antd";
-import { Badge, Calendar, Spin } from "antd";
+import { Badge, Calendar, Spin, Modal } from "antd";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import styled from "./LessonCalendar.module.scss";
 import type { Dayjs } from "dayjs";
@@ -51,9 +51,21 @@ export const getLessonParams = (
 
 const LessonCalendar: React.FC = () => {
   const [value, setValue] = useState(() => dayjs(Date.now()));
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<Dayjs>(() =>
     dayjs(Date.now())
   );
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const { data: lessons, isLoading }: UseQueryResult<GetLessonResult[], Error> =
     useQuery(
@@ -78,6 +90,7 @@ const LessonCalendar: React.FC = () => {
   const onSelect = (newValue: Dayjs) => {
     setValue(newValue);
     setSelectedValue(newValue);
+    showModal();
   };
 
   const onPanelChange = (newValue: Dayjs) => {
@@ -124,14 +137,19 @@ const LessonCalendar: React.FC = () => {
 
   return (
     <>
-      <div className={styled["detail-container"]}>
-        <Spin spinning={isLoading}>
-          <DayTimeLine
-            lessonList={lessons}
-            date={selectedValue?.format("ddd DD-MM-YYYY")}
-          />
-        </Spin>
-      </div>
+      <Modal
+        title={selectedValue?.format("ddd DD-MM-YYYY")}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={1200}
+      >
+        <div className={styled["detail-container"]}>
+          <Spin spinning={isLoading}>
+            <DayTimeLine lessonList={lessons} />
+          </Spin>
+        </div>
+      </Modal>
 
       <div className={styled["calendar-container"]}>
         <Spin spinning={isLessonInMonthLoading}>

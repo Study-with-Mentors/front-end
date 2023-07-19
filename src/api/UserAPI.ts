@@ -1,5 +1,5 @@
-import { GENDER } from "../types/User.type";
-import http from "../utils/http";
+import { GENDER, GetIncomeResult } from "../types/User.type";
+import http, { toQueryParams } from "../utils/http";
 export type LoginProps = {
   email: string;
   password: string;
@@ -104,12 +104,17 @@ export const UserAPI = {
     const res = await http.get(`/mentor`);
     return res?.data;
   },
-  getMentorIncome: async (params: GetMentorIncomeParams) => {
-    const res = await http.get(`/mentor/course/enrollment/report`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
-      },
-    });
+  getMentorIncome: async (
+    params: GetMentorIncomeParams
+  ): Promise<GetIncomeResult> => {
+    const res = await http.get(
+      `/mentor/course/enrollment/report?${toQueryParams(params)}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
     return res?.data;
   },
   loginGoogle: async (params: string) => {
