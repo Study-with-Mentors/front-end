@@ -68,9 +68,9 @@ const CommonRoute = () => {
       children: [
         { path: "", element: <LoginPage />, index: true },
         { path: "signup", element: <SignUpPage /> },
-        { path: "signup/verify", element: <SignUpVerifyPage /> },
       ],
     },
+    { path: "signup/verify", element: <SignUpVerifyPage /> },
     {
       path: "home",
       element: <HomeLayout />,

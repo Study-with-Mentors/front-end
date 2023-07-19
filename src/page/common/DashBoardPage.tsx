@@ -159,7 +159,7 @@ const DashBoardPage = () => {
           renderItem={(item, index) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar size={40} src={`${item.image.url}`} />}
+                avatar={<Avatar size={40} src={`${item.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}`} />}
                 title={
                   <a onClick={() => navigate(`/home/course/edit/${item.id}`)}>
                     {item.fullName}

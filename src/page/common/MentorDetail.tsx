@@ -122,7 +122,7 @@ const MentorDetail = ({}: MentorDetailProps) => {
       <div className={styled["profile-container"]}>
         <div className={styled["avatar-wrapper"]}>
           <div className={styled["image-wrapper"]}>
-            <Image className={styled["image"]} src={data?.profileImage.url} />
+            <Image className={styled["image"]} src={data?.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"} />
           </div>
           <p className={styled["name"]}>{data?.lastName}</p>
           <p className={styled["desctiption"]}>Degree: {data?.mentor.degree}</p>
@@ -148,7 +148,7 @@ const MentorDetail = ({}: MentorDetailProps) => {
           <p className={styled["description"]}>{data?.mentor.bio}</p>
           <div className={styled["skill-wrapper"]}>
             {/* {skillList?.map((item, index) => ( */}
-            <span className={styled["skill"]}>{data?.mentor.field.name}</span>
+            <span className={styled["skill"]}>{data?.mentor.field?.name}</span>
             {/* ))} */}
           </div>
         </div>

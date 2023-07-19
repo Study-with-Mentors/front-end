@@ -49,9 +49,21 @@ export const CourseAPI = {
   getAll: async (searchCourseParams: SearchCourseParams) => {
     var url;
     if (Object.keys(searchCourseParams).length == 0) {
-      url = "/course";
+      url = "/courses";
     } else {
-      url = `/course?${toQueryParams(searchCourseParams).toString()}`;
+      url = `/courses?${toQueryParams(searchCourseParams).toString()}`;
+    }
+
+    const res = await http.get(url);
+    console.log(res.data);
+    return res.data;
+  },
+  getVisible: async (searchCourseParams: SearchCourseParams) => {
+    var url;
+    if (Object.keys(searchCourseParams).length == 0) {
+      url = "/courses/visible";
+    } else {
+      url = `/courses/visible?${toQueryParams(searchCourseParams).toString()}`;
     }
 
     const res = await http.get(url);
@@ -60,7 +72,7 @@ export const CourseAPI = {
   },
   getById: async (id: string) => {
     try {
-      const res = await http.get(`/course/${id}`);
+      const res = await http.get(`/courses/${id}`);
       return res.data;
     } catch (error) {
       throw error;
@@ -68,7 +80,7 @@ export const CourseAPI = {
   },
   getByIdWithToken: async (id: string) => {
     try {
-      const res = await http.get(`/course/${id}`, {
+      const res = await http.get(`/courses/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -79,7 +91,7 @@ export const CourseAPI = {
     }
   },
   createCourse: async (createCourseParams: CreateCourseParams) => {
-    const res = await http.post("/course", createCourseParams, {
+    const res = await http.post("/courses", createCourseParams, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -88,7 +100,7 @@ export const CourseAPI = {
     return res.data;
   },
   getCourseByMentorToken: async () => {
-    const res = await http.get("/mentor/course", {
+    const res = await http.get("/me/mentor/courses", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -97,7 +109,7 @@ export const CourseAPI = {
     return res.data;
   },
   updateCourse: async (params: UpdateCourseParams) => {
-    const res = await http.put(`/course/${params.id}`, params, {
+    const res = await http.put(`/courses/${params.id}`, params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -106,7 +118,7 @@ export const CourseAPI = {
   },
   updateCourseImage: async ({ courseId, url }: UpdateCourseImageParams) => {
     const res = await http.put(
-      `/course/${courseId}/image`,
+      `/courses/${courseId}/image`,
       {
         url,
       },

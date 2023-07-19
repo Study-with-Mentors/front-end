@@ -15,7 +15,6 @@ const SignUpVerifyPage = () => {
         console.log(verifyToken)
         debugger;
         if (verifyToken) {
-            //TODO: Fix eror here
             verifySignUp(verifyToken || '',
                 {
                     onSuccess() {

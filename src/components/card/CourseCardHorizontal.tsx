@@ -88,7 +88,7 @@ const CourseCardHorizontal = ({
         </div>
         <div className={styled["footer-wrapper"]}>
           <div className={styled["avatar-wrapper"]}>
-            <Avatar size={40} src={mentor.profileImage.url} />
+            <Avatar size={40} src={mentor.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"} />
             <p className={styled["name"]}>{mentor.lastName}</p>
           </div>
           <div className={styled["action-wrapper"]}>

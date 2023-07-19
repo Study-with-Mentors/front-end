@@ -49,7 +49,7 @@ const HomeHeader = ({}: HomeHeaderProps) => {
 
       <div className={styled["action-wrapper"]}>
         <>
-          <Badge dot>
+          <Badge>
             <NotificationsOutlinedIcon
               style={{
                 color: "rgba(95, 105, 128, 1)",
@@ -69,7 +69,7 @@ const HomeHeader = ({}: HomeHeaderProps) => {
                 cursor: "pointer",
                 // border: "none",
               }}
-              icon={<img src={image?.url} />}
+              icon={<img src={image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"} />}
             />
           </Dropdown>
         </>

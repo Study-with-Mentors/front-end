@@ -11,12 +11,12 @@ export type SignupProps = {
   email: string;
   password: string;
   confirm: string;
+  birthdate: Date;
   gender: GENDER;
 };
 
 export type UploadImageProfileProps = {
-  id: string;
-  version: number;
+  version?: number;
   url: string;
 };
 
@@ -80,7 +80,7 @@ export const UserAPI = {
     }
   },
   getByUserToken: async () => {
-    const res = await http.get("/user/profile", {
+    const res = await http.get("/me", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -88,33 +88,31 @@ export const UserAPI = {
     return res?.data;
   },
   getUserImageByToken: async () => {
-    const res = await http.get("/user/profile/image", {
+    const res = await http.get("/me/image", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     });
+    console.log(res?.data);
     return res?.data;
   },
   getMentorProfileById: async (id: string) => {
-    const res = await http.get(`/mentor/${id}`);
+    const res = await http.get(`/mentors/${id}`);
     return res?.data;
   },
 
   getMentorList: async () => {
-    const res = await http.get(`/mentor`);
+    const res = await http.get(`/mentors`);
+    console.log(res);
     return res?.data;
   },
-  getMentorIncome: async (
-    params: GetMentorIncomeParams
-  ): Promise<GetIncomeResult> => {
-    const res = await http.get(
-      `/mentor/course/enrollment/report?${toQueryParams(params)}`,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      }
-    );
+
+  getMentorIncome: async (params: GetMentorIncomeParams) => {
+    const res = await http.get(`/me/mentor/enrollments/report`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
     return res?.data;
   },
   loginGoogle: async (params: string) => {
@@ -122,7 +120,7 @@ export const UserAPI = {
     return res.data;
   },
   uploadImageProfile: async (params: UploadImageProfileProps) => {
-    const res = await http.put("/user/profile", params, {
+    const res = await http.put("/me", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -130,7 +128,7 @@ export const UserAPI = {
     return res?.data;
   },
   updateUser: async (params: UpdateUserParams) => {
-    const res = await http.put("/user/profile", params, {
+    const res = await http.put("/me", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -138,7 +136,7 @@ export const UserAPI = {
     return res?.data;
   },
   updateUserProfileStudent: async (params: UpdateUserProfileStudentParams) => {
-    const res = await http.put("/user/profile/student", params, {
+    const res = await http.put("/me/student", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -146,7 +144,7 @@ export const UserAPI = {
     return res?.data;
   },
   updateUserProfileMentor: async (params: UpdateUserProfileMentorParams) => {
-    const res = await http.put("/user/profile/mentor", params, {
+    const res = await http.put("/me/mentor", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
