@@ -16,8 +16,7 @@ export type SignupProps = {
 };
 
 export type UploadImageProfileProps = {
-  id: string;
-  version: number;
+  version?: number;
   url: string;
 };
 

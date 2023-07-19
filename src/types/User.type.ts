@@ -46,7 +46,7 @@ export type GetUserResult = {
 export type GetProfileImage = {
   id: string;
   version: number;
-  url: string;
+  url: string | "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg";
 };
 
 export type GetMentorResult = {

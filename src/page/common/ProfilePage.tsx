@@ -164,11 +164,12 @@ const ProfilePage = () => {
   };
   const onFinishMentor = async (values: any) => {
     const params: UpdateUserProfileMentorParams = {
+      //TODO: Fix this one as well
       bio: values?.bio,
       degree: values?.degree,
       field: { id: values?.field },
     };
-
+    console.log(params)
     mutateUpdateUserMentorProfile(params, {
       onSuccess(data, variables, context) {
         refetch();
@@ -441,8 +442,8 @@ const ProfilePage = () => {
                   var { uid }: JwtPayload = decode(access_token!);
                   mutate(
                     {
+                      //TODO: Fix this one
                       url: url,
-                      id: uid,
                       version: 0,
                     },
                     {

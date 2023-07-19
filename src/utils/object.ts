@@ -1,5 +1,5 @@
-import { GetCourse, GetCourseResult } from "../types/Course.type";
-import { GetUserResult } from "../types/User.type";
+import { GetCourse, GetCourseResult, INTENDEDLEARNER } from "../types/Course.type";
+import { EDUCATION, GetUserResult } from "../types/User.type";
 
 export const deepEqual = (x: any, y: any): boolean => {
   const ok = Object.keys,
@@ -17,10 +17,10 @@ export const sortCourseByPriority = (items: GetCourse | undefined, priority: Get
   }
   const coursesArr = items.result;
   const sortedItems = coursesArr.sort((a, b) => {
-    if (priority.student.education === "HIGH_SCHOOL") {
-      if (a.intendedLearner === "STUDENT" && b.intendedLearner !== "STUDENT") {
+    if (priority.student.education === EDUCATION.HIGH_SCHOOL) {
+      if (a.intendedLearner === INTENDEDLEARNER.STUDENT && b.intendedLearner !== INTENDEDLEARNER.STUDENT) {
         return -1; // Put a first
-      } else if (a.intendedLearner !== "STUDENT" && b.intendedLearner === "STUDENT") {
+      } else if (a.intendedLearner !== INTENDEDLEARNER.STUDENT && b.intendedLearner === INTENDEDLEARNER.STUDENT) {
         return 1; // Put b first
       } else if (a.intendedLearner !== b.intendedLearner) {
         return a.intendedLearner.localeCompare(b.intendedLearner);
@@ -28,11 +28,7 @@ export const sortCourseByPriority = (items: GetCourse | undefined, priority: Get
         return a.fullName.localeCompare(b.fullName);
       }
     } else {
-      if (a.intendedLearner === priority.student.education && b.intendedLearner !== priority.student.education) {
-        return -1; // Put a first
-      } else if (a.intendedLearner !== priority.student.education && b.intendedLearner === priority.student.education) {
-        return 1; // Put b first
-      } else if (a.intendedLearner !== b.intendedLearner) {
+      if (a.intendedLearner !== b.intendedLearner) {
         return a.intendedLearner.localeCompare(b.intendedLearner);
       } else {
         return a.fullName.localeCompare(b.fullName);

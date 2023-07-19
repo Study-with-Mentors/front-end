@@ -95,35 +95,17 @@ const LandingPage = () => {
       </div>
 
       <div className={styled["course-container"]}>
-        {!uid || uid == "0" ? (
-          <>
-            {courses?.result.map((course, index) => (
-              <CourseCard
-                key={index}
-                id={course.id}
-                description={course.fullName}
-                courseLevel={course.courseLevel}
-                image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
-                mentor={course.mentor}
-                shortName={course.shortName}
-              />
-            ))}
-          </>
-        ) : (
-          <>
-            {sortCourseByPriority(courses, user)?.result.map((course, index) => (
-              <CourseCard
-                key={index}
-                id={course.id}
-                description={course.fullName}
-                courseLevel={course.courseLevel}
-                image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
-                mentor={course.mentor}
-                shortName={course.shortName}
-              />
-            ))}
-          </>
-        )}
+        {sortCourseByPriority(courses, user)?.result.map((course, index) => (
+          <CourseCard
+            key={index}
+            id={course.id}
+            description={course.fullName}
+            courseLevel={course.courseLevel}
+            image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
+            mentor={course.mentor}
+            shortName={course.shortName}
+          />
+        ))}
       </div>
 
       <div className={styled["tutor-container"]}>
@@ -137,7 +119,7 @@ const LandingPage = () => {
           spaceBetween={80}
           navigation={true}
           modules={[Navigation]}
-          className={styled["slider"] + " " + "mySwiper"}
+          className={styled["slider"] + " mySwiper"}
           style={{}}
         >
           {mentors?.result.map((tutor) => (
