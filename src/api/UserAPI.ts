@@ -16,6 +16,7 @@ export type SignupProps = {
 };
 
 export type UploadImageProfileProps = {
+  id?: string;
   version?: number;
   url: string;
 };
@@ -95,6 +96,7 @@ export const UserAPI = {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     });
+    console.log(res?.data)
     return res?.data;
   },
   getUserImageByToken: async () => {
@@ -129,7 +131,7 @@ export const UserAPI = {
     return res.data;
   },
   uploadImageProfile: async (params: UploadImageProfileProps) => {
-    const res = await http.put("/me", params, {
+    const res = await http.put("/me/image", params, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

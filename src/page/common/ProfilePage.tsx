@@ -9,6 +9,7 @@ import {
   Form,
   Skeleton,
   SelectProps,
+  notification,
 } from "antd";
 import EditAndUpdateForm, {
   EDIT_FIELD_TYPES,
@@ -138,6 +139,9 @@ const ProfilePage = () => {
     };
     await mutateUpdateUser(params, {
       onSuccess(data, variables, context) {
+        notification.success({
+          message: "Profile update successful!"
+        })
         refetch();
       },
       onError(error, variables, context) {
@@ -155,6 +159,9 @@ const ProfilePage = () => {
 
     mutateUpdateUserStudentProfile(params, {
       onSuccess(data, variables, context) {
+        notification.success({
+          message: "Student profile update successful!"
+        })
         refetch();
       },
       onError(error, variables, context) {
@@ -172,6 +179,9 @@ const ProfilePage = () => {
     console.log(params)
     mutateUpdateUserMentorProfile(params, {
       onSuccess(data, variables, context) {
+        notification.success({
+          message: "Mentor profile update successful!"
+        })
         refetch();
       },
       onError(error, variables, context) {
@@ -194,7 +204,7 @@ const ProfilePage = () => {
             height: "50px",
             marginBottom: "60px",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -210,7 +220,7 @@ const ProfilePage = () => {
             height: "50px",
             marginBottom: "60px",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -225,7 +235,7 @@ const ProfilePage = () => {
             height: "50px",
             marginBottom: "60px",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -277,7 +287,7 @@ const ProfilePage = () => {
           style: {
             width: "800px",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -295,7 +305,7 @@ const ProfilePage = () => {
             height: "50px",
             marginBottom: "60px",
           },
-          onChange: (value: any): any => {},
+          onChange: (value: any): any => { },
         },
         cols: 12,
       },
@@ -309,7 +319,7 @@ const ProfilePage = () => {
           style: {
             width: "800px",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -327,7 +337,7 @@ const ProfilePage = () => {
             height: "50px",
             marginBottom: "3rem",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -394,7 +404,7 @@ const ProfilePage = () => {
             height: "50px",
             marginBottom: "3rem",
           },
-          onChange: (value: any) => {},
+          onChange: (value: any) => { },
         },
         cols: 12,
       },
@@ -440,18 +450,37 @@ const ProfilePage = () => {
                 if (url) {
                   var access_token = localStorage.getItem("access_token");
                   var { uid }: JwtPayload = decode(access_token!);
-                  mutate(
-                    {
-                      //TODO: Fix this one
-                      url: url,
-                      version: 0,
-                    },
-                    {
-                      onSuccess(data, variables, context) {
-                        refetch();
+                  //New user don't have avatar yet
+                  if (data?.profileImage == null) {
+                    console.log("nfdjnfj")
+                    mutate(
+                      {
+                        url: url,
+                        version: 0,
                       },
-                    }
-                  );
+                      {
+                        onSuccess(data, variables, context) {
+                          refetch();
+                        },
+                      }
+                    );
+                  } else {
+                    console.log(url)
+                    mutate(
+                      {
+                        url: url,
+                        version: data?.profileImage?.version,
+                      },
+                      {
+                        onSuccess(data, variables, context) {
+                          notification.success({
+                            message: "Upload successful!"
+                          })
+                          refetch();
+                        },
+                      }
+                    );
+                  }
                 }
               }}
             >
