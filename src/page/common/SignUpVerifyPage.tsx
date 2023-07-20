@@ -15,24 +15,24 @@ const SignUpVerifyPage = () => {
         console.log(verifyToken)
         debugger;
         if (verifyToken) {
-            // verifySignUp(verifyToken || '',
-            //     {
-            //         onSuccess() {
-            //             notification.success({
-            //                 message: 'Account activated!',
-            //                 description: 'You can now signin and enjoy the service'
-            //             })
-            //             navigate("/auth");
-            //         },
-            //         onError() {
-            //             notification.error({
-            //                 message: 'Verify failed',
-            //                 description: 'Please sign in for another activation link'
-            //             })
-            //             // navigate("/");
-            //         }
-            //     }
-            // )
+            verifySignUp(verifyToken || '',
+                {
+                    onSuccess() {
+                        notification.success({
+                            message: 'Account activated!',
+                            description: 'You can now signin and enjoy the service'
+                        })
+                        navigate("/auth");
+                    },
+                    onError() {
+                        notification.error({
+                            message: 'Verify failed',
+                            description: 'Please sign in for another activation link'
+                        })
+                        // navigate("/");
+                    }
+                }
+            )
         } else {
             notification.error({
                 message: 'Verify failed',

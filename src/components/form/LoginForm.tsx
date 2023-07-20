@@ -32,10 +32,6 @@ const LoginForm = ({ }: LoginFormProps) => {
 
   const loginError = () => {
     console.log(data)
-    messageApi.open({
-      type: "error",
-      content: "Incorrect email or password!",
-    });
   };
 
   const onFinish = async (loginProps: LoginProps) => {

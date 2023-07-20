@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import axios, { AxiosInstance } from "axios";
 
 class Http {
@@ -45,7 +46,7 @@ http.interceptors.response.use(
   (err) => {
     if (err.response.status == 400) {
       localStorage.clear();
-      window.location.href = "https://studywithmentor.id.vn/auth";
+      window.location.href = process.env.REACT_APP_CLIENT_LINK + "/auth" || "https://studywithmentor.id.vn/auth";
     }
     throw err;
   }
