@@ -101,7 +101,7 @@ const LandingPage = () => {
             id={course.id}
             description={course.fullName}
             courseLevel={course.courseLevel}
-            image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
+            image={course.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
             mentor={course.mentor}
             shortName={course.shortName}
           />

@@ -1,5 +1,11 @@
 import { GetField } from "./Field.type";
 
+export type GetUser = {
+  totalPages: number;
+  totalElements: number;
+  result: GetUserResult[];
+};
+
 export type UserDetail = {
   userId: string;
   email: string;

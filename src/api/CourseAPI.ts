@@ -22,6 +22,7 @@ export type SearchCourseParams = {
   level?: string;
   mentorId?: string;
   page?: string;
+  pageSize?: number;
   field?: string[];
   learner?: string;
   dir?: string;

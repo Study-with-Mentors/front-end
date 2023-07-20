@@ -1,5 +1,5 @@
 import { GENDER } from "../types/User.type";
-import http from "../utils/http";
+import http, { toQueryParams } from "../utils/http";
 export type LoginProps = {
   email: string;
   password: string;
@@ -13,6 +13,13 @@ export type SignupProps = {
   confirm: string;
   birthdate: Date,
   gender: GENDER;
+};
+
+export type SearchUserParams = {
+  orderBy?: string;
+  page?: string;
+  pageSize?: number;
+  dir?: string;
 };
 
 export type UploadImageProfileProps = {
@@ -89,6 +96,18 @@ export const UserAPI = {
     } catch (err: any) {
       throw err;
     }
+  },
+  getAll: async (SearchUserParams: SearchUserParams) => {
+    var url;
+    if (Object.keys(SearchUserParams).length == 0) {
+      url = "/users";
+    } else {
+      url = `/users?${toQueryParams(SearchUserParams).toString()}`;
+    }
+
+    const res = await http.get(url);
+    console.log(res.data);
+    return res.data;
   },
   getByUserToken: async () => {
     const res = await http.get("/me", {

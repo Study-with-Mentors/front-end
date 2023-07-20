@@ -45,7 +45,7 @@ const CourseTableDetail = ({ id, setId, setDetail }: PropsOption) => {
               style={{
                 borderRadius: "3%",
               }}
-              src={course?.image.url}
+              src={course?.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
             />
           )}
         </div>
