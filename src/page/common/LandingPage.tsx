@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CourseCard, { CourseCardProps } from "../../components/card/CourseCard";
 import styled from "./LandingPage.module.scss";
 import TutorCard from "../../components/card/TutorCard";
-
+import { LoadingOutlined } from "@ant-design/icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 
@@ -17,7 +17,7 @@ import LoadingSkeleton from "../../components/skeleton/LoadingSkeleton";
 import { GetMentorResult, GetUserResult } from "../../types/User.type";
 import { UserAPI } from "../../api/UserAPI";
 import { useNavigate } from "react-router-dom";
-import { Typography, Button } from "antd";
+import { Typography, Button, Spin } from "antd";
 import { motion, useAnimation } from "framer-motion";
 import { JwtPayload } from "../../types/Jwt.type";
 import { decode } from "../../utils/jwt";
@@ -95,17 +95,25 @@ const LandingPage = () => {
       </div>
 
       <div className={styled["course-container"]}>
-        {courses?.result.map((course, index) => (
-          <CourseCard
-            key={index}
-            id={course.id}
-            description={course.fullName}
-            courseLevel={course.courseLevel}
-            image={course.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
-            mentor={course.mentor}
-            shortName={course.shortName}
-          />
-        ))}
+        {isCoursesLoading ?
+          <div className={styled["loading-container"]}>
+            <Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} />
+          </div>
+          :
+          <>
+            {courses?.result.map((course, index) => (
+              <CourseCard
+                key={index}
+                id={course.id}
+                description={course.fullName}
+                courseLevel={course.courseLevel}
+                image={course.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
+                mentor={course.mentor}
+                shortName={course.shortName}
+              />
+            ))}
+          </>
+        }
       </div>
 
       <div className={styled["tutor-container"]}>
@@ -113,38 +121,42 @@ const LandingPage = () => {
           <p className={styled["title"]}>Trending Tutors</p>
           <p className={styled["body"]}>Get to know your tutors</p>
         </div>
-
-        <Swiper
-          slidesPerView={4}
-          spaceBetween={80}
-          navigation={true}
-          modules={[Navigation]}
-          className={styled["slider"] + " mySwiper"}
-          style={{}}
-        >
-          {mentors?.result.map((tutor) => (
-            <SwiperSlide
-              key={tutor.id}
-              onClick={() => navigate(`/mentor/${tutor.id}`)}
-              style={{
-                borderRadius: 10,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "1px solid rgb(0 0 0 /0.1)",
-                boxShadow:
-                  "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-                cursor: "pointer",
-              }}
-            >
-              <TutorCard
-                avatar={tutor.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
-                description={tutor.mentor.bio}
-                name={tutor.lastName}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {isMentorsLoading ?
+          <div className={styled["loading-container"]}>
+            <Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} />
+          </div> :
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={80}
+            navigation={true}
+            modules={[Navigation]}
+            className={styled["slider"] + " mySwiper"}
+            style={{}}
+          >
+            {mentors?.result.map((tutor) => (
+              <SwiperSlide
+                key={tutor.id}
+                onClick={() => navigate(`/mentor/${tutor.id}`)}
+                style={{
+                  borderRadius: 10,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "1px solid rgb(0 0 0 /0.1)",
+                  boxShadow:
+                    "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+                  cursor: "pointer",
+                }}
+              >
+                <TutorCard
+                  avatar={tutor.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
+                  description={tutor.mentor.bio}
+                  name={tutor.lastName}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        }
       </div>
     </div>
   );

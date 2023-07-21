@@ -28,29 +28,6 @@ type renderListCourseProps = {
   listCourse: GetCourseResult[];
 };
 
-const renderListCourse = ({ listCourse }: renderListCourseProps) => {
-  return (
-    <div
-      style={{
-        marginTop: "1rem",
-      }}
-    >
-      {listCourse && listCourse.length <= 0 ? (
-        <Empty />
-      ) : (
-        listCourse.map((course) => (
-          <CourseCardHorizontal
-            key={course.id}
-            {...course}
-            image={course.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
-            type={CourseCardHorizontalType.EDIT}
-          />
-        ))
-      )}
-    </div>
-  );
-};
-
 const CourseListPage: React.FC = () => {
   const navigate = useNavigate();
   var access_token = localStorage.getItem("access_token");
@@ -64,7 +41,32 @@ const CourseListPage: React.FC = () => {
         enabled: Boolean(uid),
       }
     );
-
+  const renderListCourse = ({ listCourse }: renderListCourseProps) => {
+    return (
+      <>
+        {isLoading ? <LoadingSkeleton /> :
+          <div
+            style={{
+              marginTop: "1rem",
+            }}
+          >
+            {listCourse && listCourse.length <= 0 ? (
+              <Empty />
+            ) : (
+              listCourse.map((course) => (
+                <CourseCardHorizontal
+                  key={course.id}
+                  {...course}
+                  image={course.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
+                  type={CourseCardHorizontalType.EDIT}
+                />
+              ))
+            )}
+          </div>
+        }
+      </>
+    );
+  };
   // const {
   //   data: courses,
   //   error,
@@ -90,7 +92,7 @@ const CourseListPage: React.FC = () => {
     ];
   }, [courses]);
 
-  if (isLoading) return <LoadingSkeleton />;
+  // if (isLoading) return <LoadingSkeleton />;
 
   return (
     <div className={styled["container"]}>

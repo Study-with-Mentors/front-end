@@ -218,7 +218,7 @@ const CreateCoursePage = () => {
     <div className={styled["container"]}>
       <div className={styled["background-container"]}>
         <Button
-          onClick={() => navigate("/home/courses")}
+          onClick={() => navigate("/home/course")}
           className={styled["button"]}
         >
           <ArrowBackIcon />
