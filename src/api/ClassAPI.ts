@@ -1,5 +1,12 @@
 import http, { toQueryParams } from "../utils/http";
 import { CreateLessonParams } from "./LessonAPI";
+import { GetClassResult } from "../types/Class.type";
+
+export type GetClass = {
+  totalPages: number;
+  totalElements: number;
+  result: GetClassResult[];
+};
 
 export type DateTimeFilter = {
   lowerTime: Date;
@@ -18,6 +25,7 @@ export type CreateClassParams = {
 export type SearchClassParams = {
   orderBy?: string;
   page?: number;
+  pageSize?: number;
   name?: string;
   mentorId?: string;
   lowerStartDate?: string;
@@ -60,7 +68,7 @@ export const ClassAPI = {
   },
   searchClass: async (params: SearchClassParams) => {
     var url;
-    if (Object.keys(params).length == 0) {
+    if (Object.keys(params).length === 0) {
       url = "/classes";
     } else {
       url = `/classes?${toQueryParams(params).toString()}`;

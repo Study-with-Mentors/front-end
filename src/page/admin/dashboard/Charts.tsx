@@ -12,6 +12,8 @@ import {
   ArcElement,
 } from "chart.js";
 import styled from "./AdminDashboard.module.scss";
+import { UseQueryResult, useQuery } from "react-query";
+import { ClassAPI, GetClass } from "../../../api/ClassAPI";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,10 +30,19 @@ const optionsBar = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      display: false
     },
   },
 };
+
+const optionPie = {
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "right" as const,
+    },
+  },
+}
 
 const labelsBar = ["2020", "2021", "2022", "2023"];
 
@@ -64,19 +75,29 @@ const dataPie = {
   ],
 };
 const Charts = () => {
+
+  const {
+    data: classes,
+    isLoading: classLoading
+  }: UseQueryResult<GetClass, Error> = useQuery(
+    ["classes"],
+    async () => await ClassAPI.searchClass({})
+  );
+
   return (
     <>
       <div className={styled["container"]}>
         <div className={styled["chart"]}>
           <div className={styled["item-wrapper"]}>
-            <div className={styled["title"]}>TOTAL USERS</div>
+            <div className={styled["title"]}><strong>NUMBER OF CLASSES STARTED</strong></div>
             <Line redraw data={dataBar} options={optionsBar} />
           </div>
 
           <div className={styled["item-wrapper"]}>
-            <div className={styled["title"]}>FIELDS</div>
+            <div className={styled["title"]}><strong>FIELDS</strong></div>
             <div className={styled["bar"]}>
-              <Pie redraw data={dataPie} />
+              <Pie redraw data={dataPie}
+                options={optionPie} />
             </div>
           </div>
         </div>

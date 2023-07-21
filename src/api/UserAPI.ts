@@ -17,7 +17,7 @@ export type SignupProps = {
 
 export type SearchUserParams = {
   orderBy?: string;
-  page?: string;
+  page?: number;
   pageSize?: number;
   dir?: string;
 };
