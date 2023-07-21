@@ -39,6 +39,11 @@ import { decode } from "../../utils/jwt";
 const dateFormat = "YYYY-MM-DD";
 var fieldOptions: SelectProps["options"] = [];
 var educationOptions: SelectProps["options"] = [];
+var degreeOptions: SelectProps["options"] = [
+  { value: "BACHELOR", label: "BACHELOR" },
+  { value: "MASTER", label: "MASTER" },
+  { value: "PROFESSOR", label: "PROFESSOR" },
+];
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -96,6 +101,7 @@ const ProfilePage = () => {
   const {
     data: fields,
     isLoading: isFieldsLoading,
+    refetch: refetchField,
   }: UseQueryResult<GetField[], Error> = useQuery(
     ["fields"],
     async () =>
@@ -170,11 +176,12 @@ const ProfilePage = () => {
     });
   };
   const onFinishMentor = async (values: any) => {
+    const field_id = values?.field == data?.mentor?.field?.name ? data?.mentor?.field?.id : values?.field;
     const params: UpdateUserProfileMentorParams = {
       //TODO: Fix this one as well
       bio: values?.bio,
       degree: values?.degree,
-      field: { id: values?.field },
+      field: { id: field_id },
     };
     console.log(params)
     mutateUpdateUserMentorProfile(params, {
@@ -182,6 +189,7 @@ const ProfilePage = () => {
         notification.success({
           message: "Mentor profile update successful!"
         })
+        refetchField();
         refetch();
       },
       onError(error, variables, context) {
@@ -367,7 +375,7 @@ const ProfilePage = () => {
           name: "degree",
           label: "Degree",
           rules: { required: true, message: "This field must not empty!" },
-          options: educationOptions,
+          options: degreeOptions,
           style: {
             width: "800px",
             height: "50px",
@@ -452,7 +460,6 @@ const ProfilePage = () => {
                   var { uid }: JwtPayload = decode(access_token!);
                   //New user don't have avatar yet
                   if (data?.profileImage == null) {
-                    console.log("nfdjnfj")
                     mutate(
                       {
                         url: url,
@@ -465,7 +472,6 @@ const ProfilePage = () => {
                       }
                     );
                   } else {
-                    console.log(url)
                     mutate(
                       {
                         url: url,
@@ -547,7 +553,7 @@ const ProfilePage = () => {
           initialValues={{
             ["degree"]: data?.mentor.degree,
             ["bio"]: data?.mentor.bio,
-            ["field"]: data?.mentor?.field?.id,
+            ["field"]: data?.mentor?.field?.name,
           }}
           layout="vertical"
           requiredMark="optional"

@@ -80,3 +80,9 @@ export enum EDUCATION {
   MASTER = "MASTER",
   PROFESSOR = "PROFESSOR",
 }
+
+export enum DEGREE {
+  BACHELOR = "BACHELOR",
+  MASTER = "MASTER",
+  PROFESSOR = "PROFESSOR",
+}
