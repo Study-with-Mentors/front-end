@@ -85,10 +85,10 @@ const Charts = () => {
   );
 
   const dataPie = {
-    labels: coursesData?.fieldList,
+    labels: coursesData?.fieldList || ["Sociology", "Philosophy", "Math", "	Computer science", "Physics"],
     datasets: [
       {
-        data: coursesData?.fieldValue,
+        data: coursesData?.fieldValue || [1, 2, 2, 1, 4],
         backgroundColor: [
           "rgba(255, 99, 132, 0.5)",
           "rgba(54, 162, 235, 0.5)",
