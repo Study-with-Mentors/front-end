@@ -1,6 +1,14 @@
 import React, { useEffect, useMemo, useState, useContext } from "react";
 import styled from "./SearchCourseResult.module.scss";
-import { Form, SelectProps, Divider, Button, Pagination, Empty } from "antd";
+import {
+  Form,
+  SelectProps,
+  Divider,
+  Button,
+  Pagination,
+  Empty,
+  Spin,
+} from "antd";
 import EditAndUpdateForm from "../../components/form/EditAndUpdateFrom";
 import { EDIT_FIELD_TYPES } from "../../components/form/EditAndUpdateFrom";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -35,6 +43,7 @@ const onFinish = (values: any) => {
 const SearchCourseResult = ({}: SearchCourseResultProps) => {
   const navigate = useNavigate();
   const { state, dispatch } = useContext(DataContext);
+  const [page, setPage] = useState<number>(0);
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
 
   const [form] = useForm();
@@ -51,12 +60,14 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     refetch,
     isFetching,
   }: UseQueryResult<GetCourse, Error> = useQuery(
-    ["courses", state?.data, level, field],
+    ["courses", state?.data, level, field, page],
     async () => {
       const params: SearchCourseParams = {
         ...(state?.data && { name: state?.data }),
         ...(level?.[0] && { level: level?.[0]! }),
         ...(field && { field }),
+        page,
+        pageSize: 6,
       };
       return await CourseAPI.getAll(params);
     }
@@ -169,8 +180,6 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
     ];
   }, [options, fieldOptions]);
 
-  console.log(level);
-
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
@@ -248,24 +257,30 @@ const SearchCourseResult = ({}: SearchCourseResultProps) => {
           ) : courses == undefined || courses?.result.length == 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
-            courses?.result.map((course) => (
-              <CourseCardHorizontal
-                key={course.id}
-                {...course}
-                image={course.image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
+            <>
+              {courses?.result.map((course) => (
+                <CourseCardHorizontal
+                  key={course.id}
+                  {...course}
+                  image={
+                    course.image?.url ||
+                    "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+                  }
+                />
+              ))}
+              <Pagination
+                style={{
+                  marginLeft: "auto",
+                  marginBottom: "200px",
+                }}
+                defaultCurrent={page + 1}
+                onChange={(value) => setPage(value - 1)}
+                total={(courses?.totalPages ?? 0) * 9}
               />
-            ))
+            </>
           )}
         </div>
       </div>
-      <Pagination
-        style={{
-          marginLeft: "auto",
-          marginBottom: "200px",
-        }}
-        defaultCurrent={1}
-        total={50}
-      />
     </div>
   );
 };

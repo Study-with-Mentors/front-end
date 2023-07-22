@@ -133,7 +133,6 @@ const LessonCalendar: React.FC = () => {
   };
 
   // if (isLoading) return <Spin />;
-  console.log(lessonsInMonth);
 
   return (
     <>

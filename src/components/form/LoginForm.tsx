@@ -4,13 +4,8 @@ import styled from "./LoginForm.module.scss";
 import FacebookIcon from "../../assets/facebook_icon.png";
 import GoogleIcon from "../../assets/google_icon.png";
 import MainIcon from "../../assets/main-logo.svg";
-<<<<<<< HEAD
-import { LoginProps } from "../../api/UserAPI";
-import { useNavigate } from "react-router-dom";
-=======
 import { LoginProps, UserAPI } from "../../api/UserAPI";
 import { Link, useNavigate } from "react-router-dom";
->>>>>>> c4410201605750f9f58878609849a6c2aa72b374
 import { useLoginUser } from "../../hooks/useLoginHook";
 import { decode } from "../../utils/jwt";
 import { JwtPayload } from "../../types/Jwt.type";
@@ -26,7 +21,7 @@ const onFinishFailed = (errorInfo: any) => {
 
 export type LoginFormProps = {};
 
-const LoginForm = ({ }: LoginFormProps) => {
+const LoginForm = ({}: LoginFormProps) => {
   const navigate = useNavigate();
   const { mutate: loginUser, isLoading, data } = useLoginUser();
   const [messageApi, contextHolder] = message.useMessage();
@@ -103,7 +98,7 @@ const LoginForm = ({ }: LoginFormProps) => {
           width: "500px",
           height: "50px",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },
@@ -117,7 +112,7 @@ const LoginForm = ({ }: LoginFormProps) => {
           width: "500px",
           height: "50px",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },
@@ -139,8 +134,12 @@ const LoginForm = ({ }: LoginFormProps) => {
     <div className={styled["container"]}>
       {contextHolder}
       <div className={styled["header"]}>
-        <Link to={"/"} style={{ textDecoration: 'none' }}><Image className={styled["image"]} src={MainIcon} preview={false} /></Link>
-        <Link to={"/"} style={{ textDecoration: 'none' }}><p className={styled["text"]}>Study with Mentor</p></Link>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Image className={styled["image"]} src={MainIcon} preview={false} />
+        </Link>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <p className={styled["text"]}>Study with Mentor</p>
+        </Link>
       </div>
       <Form
         name="basic"
@@ -162,16 +161,12 @@ const LoginForm = ({ }: LoginFormProps) => {
         <div className={styled["footer"]}>
           <Divider className={styled["divider"]}>Or Sign In</Divider>
           <div className={styled["button-wrapper"]}>
-<<<<<<< HEAD
             <Button
               onClick={() => {
                 onLoginGoogle();
               }}
               className={styled["btn"]}
             >
-=======
-            <Button onClick={() => { }} className={styled["btn"]}>
->>>>>>> c4410201605750f9f58878609849a6c2aa72b374
               <img className={styled["icon"]} src={GoogleIcon} alt="" /> Using
               Google
             </Button>

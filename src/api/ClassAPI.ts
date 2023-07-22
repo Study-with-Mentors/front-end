@@ -56,7 +56,7 @@ export const ClassAPI = {
     return res?.data;
   },
   getClassByCourseIdWithToken: async (courseId: string) => {
-    const res = await http.get(`/course/${courseId}/clazz`, {
+    const res = await http.get(`/courses/${courseId}/classes`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

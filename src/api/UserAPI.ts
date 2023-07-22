@@ -93,7 +93,6 @@ export const UserAPI = {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     });
-    console.log(res?.data);
     return res?.data;
   },
   getMentorProfileById: async (id: string) => {
@@ -103,7 +102,6 @@ export const UserAPI = {
 
   getMentorList: async () => {
     const res = await http.get(`/mentors`);
-    console.log(res);
     return res?.data;
   },
 
