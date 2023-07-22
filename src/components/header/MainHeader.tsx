@@ -120,7 +120,14 @@ const MainHeader = ({}: MainHeaderProps) => {
                     marginLeft: "10px",
                     cursor: "pointer",
                   }}
-                  icon={<img src={image?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"} />}
+                  icon={
+                    <img
+                      src={
+                        image?.url ||
+                        "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+                      }
+                    />
+                  }
                 />
               </Dropdown>
             )}

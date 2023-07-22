@@ -2,6 +2,7 @@ import React from "react";
 import styled from "./TutorCard.module.scss";
 import { Avatar } from "antd";
 import { Card } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 import "./TutorCard.css";
 const { Meta } = Card;
@@ -17,15 +18,36 @@ const TutorCard = ({ avatar, description, name }: TutorCardProps) => {
     <Card
       className={styled["container"]}
       cover={
-        <Avatar
-          style={{
-            width: "14rem",
-            height: "14rem",
-            marginTop: "2rem",
-            border: "1px solid #ccc",
-          }}
-          src={avatar}
-        />
+        avatar ? (
+          <Avatar
+            style={{
+              width: "14rem",
+              height: "14rem",
+              marginTop: "2rem",
+              border: "1px solid #ccc",
+            }}
+            src={avatar}
+          />
+        ) : (
+          <Avatar
+            style={{
+              width: "14rem",
+              height: "14rem",
+              marginTop: "2rem",
+              border: "1px solid #ccc",
+              display: "flex",
+              justifyContent: "center",
+            }}
+            icon={
+              <UserOutlined
+                style={{
+                  fontSize: "2em",
+                }}
+              />
+            }
+            alt="avatar"
+          />
+        )
       }
       bordered={false}
       style={{

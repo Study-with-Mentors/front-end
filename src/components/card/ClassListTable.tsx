@@ -50,7 +50,7 @@ const ClassListTable = ({ courseId, type }: ClassListTableProps) => {
   const { data, isLoading }: UseQueryResult<GetClassResult[], Error> = useQuery(
     ["classes", courseId],
     async () =>
-      await ClassAPI.getClassByCourseId(courseId).then((classes) => {
+      await ClassAPI.getClassByCourseIdWithToken(courseId).then((classes) => {
         dataItem = classes.map((item: GetClassResult) => {
           return {
             ...item,
