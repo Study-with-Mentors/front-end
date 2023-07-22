@@ -4,6 +4,7 @@
         @apply grid gap-12 grid-cols-4;
         .item-wrapper{
             @apply bg-white rounded-xl p-6;
+            min-height: 150px;
 
             .title{
                 @apply text-base font-normal mb-0;

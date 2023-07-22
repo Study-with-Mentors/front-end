@@ -51,6 +51,14 @@ export const ClassAPI = {
     });
     return res?.data;
   },
+  getClassByMentorToken: async () => {
+    const res = await http.get(`/me/mentor/classes`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    return res?.data;
+  },
   getLessonByUserToken: async (params: DateTimeFilter) => {
     const res = await http.get(`/me/students/lessons${toQueryParams(params)}`, {
       headers: {

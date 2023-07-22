@@ -52,15 +52,14 @@ const optionPie = {
   },
 }
 
-const labelsBar = ["2020", "2021", "2022", "2023"];
+const labelsBar = ["May 2023", "Jun 2023", "Jul 2023", "Aug 2023"];
 
 const dataBar = {
   responsive: true,
   labels: labelsBar,
   datasets: [
     {
-      label: "User",
-      data: [3, 12, 27, 20],
+      data: [1, 2, 4, 7],
       borderColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(255, 99, 132, 0.5)",
     },
@@ -124,7 +123,11 @@ const Charts = () => {
         <div className={styled["chart"]}>
           <div className={styled["item-wrapper"]}>
             <div className={styled["title"]}><strong>NUMBER OF CLASSES STARTED</strong></div>
-            {courseLoading ? <div style={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}><Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} /></div> :
+            {courseLoading ?
+              <div style={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}>
+                <Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} />
+              </div> 
+              :
               <Line redraw data={dataBar} options={optionsBar} />
             }
           </div>

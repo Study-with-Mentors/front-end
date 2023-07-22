@@ -41,8 +41,13 @@ const DashBoardPage = () => {
     async () => await CourseAPI.getAll({ mentorId: uid })
   );
 
-  const { data: searchClass, isLoading: isSearchClassLoading } =
-    useGetClassStaticValueHook();
+  const {
+    data: classes,
+    isLoading: isClassLoading
+  }: UseQueryResult<[GetClassResult], Error> = useQuery(
+    ["classes"],
+    async () => await ClassAPI.getClassByMentorToken()
+  );
 
   // const {
   //   data: searchEnrolledClasses,
@@ -70,34 +75,23 @@ const DashBoardPage = () => {
   return (
     <div className={styled["container"]}>
       <div className={styled["header"]}>
-        <Spin spinning={isSearchClassLoading}>
+        <Spin spinning={isClassLoading}>
           <div className={styled["item-wrapper"]}>
             <p className={styled["title"]}>Created Classes</p>
             <p className={styled["data"]}>
-              {searchClass?.numberOfClasses ?? 0}
+              {classes?.length ?? 0}
             </p>
-            <div className={styled["extra-data"]}>
-              <p className={styled["value"]}>
-                {searchClass.staticValue.currentDiff > 0 ? "+ " : " "}
-                {searchClass.staticValue.currentDiff}
-              </p>{" "}
-              <p className={styled["extra"]}>
-                From
-                {searchClass.staticValue.pastDiff > 0 ? "+ " : " "}
-                {searchClass.staticValue.pastDiff}
-              </p>
-            </div>
           </div>
         </Spin>
 
         <Spin spinning={isSearchCoursesLoading}>
           <div className={styled["item-wrapper"]}>
-            <p className={styled["title"]}>Courses</p>
-            <p className={styled["data"]}>{searchCourses?.totalElements}</p>
-            <div className={styled["extra-data"]}>
+            <p className={styled["title"]}>Your Courses</p>
+            <p className={styled["data"]}>{searchCourses?.totalElements ?? 0}</p>
+            {/* <div className={styled["extra-data"]}>
               <p className={styled["value"]}>+45%</p>{" "}
               <p className={styled["extra"]}>From 4.6%</p>
-            </div>
+            </div> */}
           </div>
         </Spin>
 
