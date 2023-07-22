@@ -15,7 +15,7 @@ const Stats = () => {
     isLoading: userLoading
   }: UseQueryResult<GetUser, Error> = useQuery(
     ["users"],
-    async () => await UserAPI.getAll({ pageSize: 1, page: 0  })
+    async () => await UserAPI.getAll({ pageSize: 1, page: 0 })
   );
 
   //Courses
@@ -77,12 +77,16 @@ const Stats = () => {
             }
           </div>
           <div className={styled["item-wrapper"]}>
-            <p className={styled["title"]}>Revenue</p>
-            <p className={styled["data"]}>100K VND</p>
-            <div className={styled["extra-data"]}>
-              <p className={styled["value-red"]}>-6%</p>{" "}
-              <p className={styled["extra"]}>From 4.6%</p>
-            </div>
+            {courseLoading ? <Spin className={styled["spin"]} indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} /> :
+              <>
+                <p className={styled["title"]}>Revenue</p>
+                <p className={styled["data"]}>100K VND</p>
+                <div className={styled["extra-data"]}>
+                  <p className={styled["value-red"]}>-6%</p>{" "}
+                  <p className={styled["extra"]}>From 4.6%</p>
+                </div>
+              </>
+            }
           </div>
         </div>
       </div>

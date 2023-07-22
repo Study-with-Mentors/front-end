@@ -14,6 +14,14 @@ import {
 import styled from "./AdminDashboard.module.scss";
 import { UseQueryResult, useQuery } from "react-query";
 import { ClassAPI, GetClass } from "../../../api/ClassAPI";
+import { GetCourse, GetCourseResult } from "../../../types/Course.type";
+import { CourseAPI } from "../../../api/CourseAPI";
+import { useState } from "react";
+import { count } from "console";
+import LoadingSkeleton from "../../../components/skeleton/LoadingSkeleton";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -59,22 +67,10 @@ const dataBar = {
   ],
 };
 
-const dataPie = {
-  labels: ["Sociology", "Philosophy", "Math", "	Computer science", "Physics"],
-  datasets: [
-    {
-      data: [2, 4, 5, 3, 2],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.5)",
-        "rgba(54, 162, 235, 0.5)",
-        "rgba(255, 206, 86, 0.5)",
-        "rgba(75, 192, 192, 0.5)",
-        "#EAA4FF",
-      ],
-    },
-  ],
-};
 const Charts = () => {
+
+  const [dataField, setDataField] = useState([]);
+  const [fieldList, setFieldList] = useState<string[]>([]);
 
   const {
     data: classes,
@@ -84,21 +80,63 @@ const Charts = () => {
     async () => await ClassAPI.searchClass({})
   );
 
+  const {
+    data: courses,
+    isLoading: courseLoading
+  }: UseQueryResult<GetCourse, Error> = useQuery(
+    ["courses"],
+    async () => {
+      await CourseAPI.getAll({ pageSize: 1, page: 0 })
+        .then((courses) => {
+          const countByField = courses.result.reduce((count: any, course: GetCourseResult) => {
+            if (!count[course.field.id]) {
+              count[course.field.id] = 1;
+            } else {
+              count[course.field.id]++;
+            }
+            return count;
+          }, {});
+          setDataField(countByField)
+          setFieldList(Object.keys(countByField));
+        })
+    }
+  );
+
+  const dataPie = {
+    labels: ["Sociology", "Philosophy", "Math", "	Computer science", "Physics"],
+    datasets: [
+      {
+        data: [2, 4, 5, 3, 2],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.5)",
+          "rgba(54, 162, 235, 0.5)",
+          "rgba(255, 206, 86, 0.5)",
+          "rgba(75, 192, 192, 0.5)",
+          "#EAA4FF",
+        ],
+      },
+    ],
+  };
+
   return (
     <>
       <div className={styled["container"]}>
         <div className={styled["chart"]}>
           <div className={styled["item-wrapper"]}>
             <div className={styled["title"]}><strong>NUMBER OF CLASSES STARTED</strong></div>
-            <Line redraw data={dataBar} options={optionsBar} />
+            {courseLoading ? <div style={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}><Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} /></div> :
+              <Line redraw data={dataBar} options={optionsBar} />
+            }
           </div>
 
           <div className={styled["item-wrapper"]}>
             <div className={styled["title"]}><strong>FIELDS</strong></div>
-            <div className={styled["bar"]}>
-              <Pie redraw data={dataPie}
-                options={optionPie} />
-            </div>
+            {courseLoading ? <div style={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}><Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} /></div> :
+              <div className={styled["bar"]}>
+                <Pie redraw data={dataPie}
+                  options={optionPie} />
+              </div>
+            }
           </div>
         </div>
       </div>
