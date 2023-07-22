@@ -9,13 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../hooks/useLoginHook";
 import { decode } from "../../utils/jwt";
 import { JwtPayload } from "../../types/Jwt.type";
-import { useIsMutating } from "react-query";
-// import { useGoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
 import { useLoginGoogle } from "../../hooks/useLoginGoogle";
-// import { GoogleLogin } from "react-google-login";
-import { access } from "fs";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const { Text } = Typography;
 
@@ -25,7 +21,7 @@ const onFinishFailed = (errorInfo: any) => {
 
 export type LoginFormProps = {};
 
-const LoginForm = ({ }: LoginFormProps) => {
+const LoginForm = ({}: LoginFormProps) => {
   const navigate = useNavigate();
   const { mutate: loginUser, isLoading, data } = useLoginUser();
   const [messageApi, contextHolder] = message.useMessage();
@@ -57,30 +53,26 @@ const LoginForm = ({ }: LoginFormProps) => {
     mutate: loginGoogle,
   } = useLoginGoogle();
 
-  // const onLoginGoogle = useGoogleLogin({
-  //   onSuccess: async (token) => {
-  //     console.log(token);
+  const onLoginGoogle = useGoogleLogin({
+    onSuccess: async (token) => {
+      console.log(token);
 
-  //     // loginGoogle(token.access_token, {
-  //     //   onSuccess(data, variables, context) {
-  //     //     console.log(data);
-  //     //   },
-  //     // }),
+      loginGoogle(token.access_token, {
+        onSuccess(data, variables, context) {
+          console.log(data);
+        },
+      });
 
-  //     // const userInfo = await axios
-  //     //   .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-  //     //     // headers: { Authorization: `Bearer ${token.access_token}` },
-  //     //   })
-  //     //   .then((res) => console.log(res.data));
-  //   },
-  //   onError(errorResponse) {
-  //     console.log(errorResponse);
-  //   },
-  // });
-
-  const onLoginGoogleFailed = (res: any) => {
-    console.log(res);
-  };
+      const userInfo = await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          // headers: { Authorization: `Bearer ${token.access_token}` },
+        })
+        .then((res) => console.log(res.data));
+    },
+    onError(errorResponse) {
+      console.log(errorResponse);
+    },
+  });
 
   const handleCredentialResponse = (res: any) => {
     console.log(res);
@@ -103,7 +95,7 @@ const LoginForm = ({ }: LoginFormProps) => {
           width: "500px",
           height: "50px",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },
@@ -117,7 +109,7 @@ const LoginForm = ({ }: LoginFormProps) => {
           width: "500px",
           height: "50px",
         },
-        onChange: (value: any) => { },
+        onChange: (value: any) => {},
       },
       cols: 12,
     },
@@ -139,8 +131,12 @@ const LoginForm = ({ }: LoginFormProps) => {
     <div className={styled["container"]}>
       {contextHolder}
       <div className={styled["header"]}>
-        <Link to={"/"} style={{ textDecoration: 'none' }}><Image className={styled["image"]} src={MainIcon} preview={false} /></Link>
-        <Link to={"/"} style={{ textDecoration: 'none' }}><p className={styled["text"]}>Study with Mentor</p></Link>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Image className={styled["image"]} src={MainIcon} preview={false} />
+        </Link>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <p className={styled["text"]}>Study with Mentor</p>
+        </Link>
       </div>
       <Form
         name="basic"
@@ -162,7 +158,12 @@ const LoginForm = ({ }: LoginFormProps) => {
         <div className={styled["footer"]}>
           <Divider className={styled["divider"]}>Or Sign In</Divider>
           <div className={styled["button-wrapper"]}>
-            <Button onClick={() => { }} className={styled["btn"]}>
+            <Button
+              onClick={() => {
+                onLoginGoogle();
+              }}
+              className={styled["btn"]}
+            >
               <img className={styled["icon"]} src={GoogleIcon} alt="" /> Using
               Google
             </Button>
@@ -174,11 +175,11 @@ const LoginForm = ({ }: LoginFormProps) => {
         </div>
       </Form>
 
-      {/* <div
+      <div
         id="g_id_onload"
         data-client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         data-callback="handleCredentialResponse"
-      ></div> */}
+      ></div>
     </div>
   );
 };

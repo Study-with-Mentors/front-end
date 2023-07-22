@@ -46,10 +46,12 @@ http.interceptors.response.use(
   (err) => {
     if (err.response.status == 400) {
       localStorage.clear();
-      window.location.href = process.env.REACT_APP_CLIENT_LINK + "/auth" || "https://studywithmentor.id.vn/auth";
+      window.location.href =
+        process.env.REACT_APP_CLIENT_LINK + "/auth" ||
+        "https://studywithmentor.id.vn/auth";
       notification.error({
-        message: "Your login session has expired. Please login again"
-      })
+        message: "Your login session has expired. Please login again",
+      });
     }
     throw err;
   }

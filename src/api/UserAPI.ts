@@ -1,4 +1,4 @@
-import { GENDER } from "../types/User.type";
+import { GENDER, GetIncomeResult } from "../types/User.type";
 import http, { toQueryParams } from "../utils/http";
 export type LoginProps = {
   email: string;
@@ -11,7 +11,7 @@ export type SignupProps = {
   email: string;
   password: string;
   confirm: string;
-  birthdate: Date,
+  birthdate: Date;
   gender: GENDER;
 };
 
@@ -115,7 +115,7 @@ export const UserAPI = {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     });
-    console.log(res?.data)
+    console.log(res?.data);
     return res?.data;
   },
   getUserImageByToken: async () => {
@@ -124,7 +124,6 @@ export const UserAPI = {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     });
-    console.log(res?.data)
     return res?.data;
   },
   getMentorProfileById: async (id: string) => {
@@ -134,9 +133,9 @@ export const UserAPI = {
 
   getMentorList: async () => {
     const res = await http.get(`/mentors`);
-    console.log(res)
     return res?.data;
   },
+
   getMentorIncome: async (params: GetMentorIncomeParams) => {
     const res = await http.get(`/me/mentor/enrollments/report`, {
       headers: {

@@ -22,10 +22,10 @@ export type SearchCourseParams = {
   level?: string;
   mentorId?: string;
   page?: number;
-  pageSize?: number;
   field?: string[];
   learner?: string;
   dir?: string;
+  pageSize?: number;
 };
 
 export type UpdateCourseParams = {
@@ -68,7 +68,6 @@ export const CourseAPI = {
     }
 
     const res = await http.get(url);
-    console.log(res.data);
     return res.data;
   },
   getById: async (id: string) => {

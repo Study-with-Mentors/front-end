@@ -95,25 +95,20 @@ const LandingPage = () => {
       </div>
 
       <div className={styled["course-container"]}>
-        {isCoursesLoading ?
-          <div className={styled["loading-container"]}>
-            <Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} />
-          </div>
-          :
-          <>
-            {courses?.result.map((course, index) => (
-              <CourseCard
-                key={index}
-                id={course.id}
-                description={course.fullName}
-                courseLevel={course.courseLevel}
-                image={course.image?.url || "https://placehold.co/1920x1080?text=No+Image+Found"}
-                mentor={course.mentor}
-                shortName={course.shortName}
-              />
-            ))}
-          </>
-        }
+        {sortCourseByPriority(courses, user)?.result.map((course, index) => (
+          <CourseCard
+            key={index}
+            id={course.id}
+            description={course.fullName}
+            courseLevel={course.courseLevel}
+            image={
+              course.image?.url ||
+              "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+            }
+            mentor={course.mentor}
+            shortName={course.shortName}
+          />
+        ))}
       </div>
 
       <div className={styled["tutor-container"]}>
@@ -121,10 +116,13 @@ const LandingPage = () => {
           <p className={styled["title"]}>Trending Tutors</p>
           <p className={styled["body"]}>Get to know your tutors</p>
         </div>
-        {isMentorsLoading ?
+        {isMentorsLoading ? (
           <div className={styled["loading-container"]}>
-            <Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} />
-          </div> :
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />}
+            />
+          </div>
+        ) : (
           <Swiper
             slidesPerView={4}
             spaceBetween={80}
@@ -149,14 +147,17 @@ const LandingPage = () => {
                 }}
               >
                 <TutorCard
-                  avatar={tutor.profileImage?.url || "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"}
+                  avatar={
+                    tutor.profileImage?.url ||
+                    "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+                  }
                   description={tutor.mentor.bio}
                   name={tutor.lastName}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
-        }
+        )}
       </div>
     </div>
   );

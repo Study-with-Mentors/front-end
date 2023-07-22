@@ -6,7 +6,7 @@ export const useGetClassByCourseId = () => {
   const { mutate, isLoading, error, data } = useMutation({
     mutationKey: "getClassByCourseId",
     mutationFn: async (course_id: string) => {
-      return await ClassAPI.getClassByCourseId(course_id);
+      return await ClassAPI.getClassByCourseIdWithToken(course_id);
     },
   });
 

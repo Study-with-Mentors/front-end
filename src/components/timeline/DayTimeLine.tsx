@@ -86,11 +86,10 @@ export const LineBox = ({
 };
 
 type DateTimeLineProps = {
-  date: string;
   lessonList?: GetLessonResult[];
 };
 
-const DayTimeLine = ({ date, lessonList }: DateTimeLineProps) => {
+const DayTimeLine = ({ lessonList }: DateTimeLineProps) => {
   const timelineItems = lessonList?.map((lesson: GetLessonResult) => {
     return {
       children: <LineBox {...lesson} />,
@@ -98,14 +97,7 @@ const DayTimeLine = ({ date, lessonList }: DateTimeLineProps) => {
   });
 
   return (
-    <div style={{ marginTop: "20px", padding: "2rem 0 .8rem 1rem " }}>
-      <h3
-        style={{
-          margin: "0 0 1.5rem 0",
-        }}
-      >
-        {date}
-      </h3>
+    <div style={{ marginTop: "20px", padding: "2rem 0 0rem 1rem " }}>
       <Timeline mode={"left"} items={timelineItems} />
     </div>
   );
