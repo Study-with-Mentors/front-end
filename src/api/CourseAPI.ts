@@ -1,3 +1,4 @@
+import { GetCourseResult } from "../types/Course.type";
 import http, { toQueryParams } from "../utils/http";
 
 export type CreateCourseParams = {
@@ -46,6 +47,11 @@ export type UpdateCourseImageParams = {
   url: string;
 };
 
+export type CourseChartData = {
+  fieldList: [string];
+  fieldValue: [number];
+}
+
 export const CourseAPI = {
   getAll: async (searchCourseParams: SearchCourseParams) => {
     var url;
@@ -56,8 +62,24 @@ export const CourseAPI = {
     }
 
     const res = await http.get(url);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
+  },
+  getAllChart: async () => {
+    const res = await http.get("/courses");
+    const countByField = res.data.result.reduce((count: any, course: GetCourseResult) => {
+      if (!count[course.field.name]) {
+        count[course.field.name] = 1;
+      } else {
+        count[course.field.name] += 1;
+      }
+      return count;
+    }, {});
+    const dataReturn = {
+      fieldValue: Object.values(countByField),
+      fieldList: Object.keys(countByField)
+    }
+    return dataReturn;
   },
   getVisible: async (searchCourseParams: SearchCourseParams) => {
     var url;

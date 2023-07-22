@@ -106,7 +106,7 @@ export const UserAPI = {
     }
 
     const res = await http.get(url);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   },
   getByUserToken: async () => {

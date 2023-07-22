@@ -15,7 +15,7 @@ import styled from "./AdminDashboard.module.scss";
 import { UseQueryResult, useQuery } from "react-query";
 import { ClassAPI, GetClass } from "../../../api/ClassAPI";
 import { GetCourse, GetCourseResult } from "../../../types/Course.type";
-import { CourseAPI } from "../../../api/CourseAPI";
+import { CourseAPI, CourseChartData } from "../../../api/CourseAPI";
 import { useState } from "react";
 import { count } from "console";
 import LoadingSkeleton from "../../../components/skeleton/LoadingSkeleton";
@@ -68,9 +68,6 @@ const dataBar = {
 
 const Charts = () => {
 
-  const [dataField, setDataField] = useState([]);
-  const [fieldList, setFieldList] = useState<string[]>([]);
-
   const {
     data: classes,
     isLoading: classLoading
@@ -80,32 +77,18 @@ const Charts = () => {
   );
 
   const {
-    data: courses,
-    isLoading: courseLoading
-  }: UseQueryResult<GetCourse, Error> = useQuery(
+    data: coursesData,
+    isLoading: courseLoading,
+  }: UseQueryResult<CourseChartData, Error> = useQuery(
     ["courses"],
-    async () => {
-      await CourseAPI.getAll({ pageSize: 1, page: 0 })
-        .then((courses) => {
-          const countByField = courses.result.reduce((count: any, course: GetCourseResult) => {
-            if (!count[course.field.id]) {
-              count[course.field.id] = 1;
-            } else {
-              count[course.field.id]++;
-            }
-            return count;
-          }, {});
-          setDataField(countByField)
-          setFieldList(Object.keys(countByField));
-        })
-    }
+    async () => await CourseAPI.getAllChart()
   );
 
   const dataPie = {
-    labels: ["Sociology", "Philosophy", "Math", "	Computer science", "Physics"],
+    labels: coursesData?.fieldList,
     datasets: [
       {
-        data: [2, 4, 5, 3, 2],
+        data: coursesData?.fieldValue,
         backgroundColor: [
           "rgba(255, 99, 132, 0.5)",
           "rgba(54, 162, 235, 0.5)",
@@ -126,7 +109,7 @@ const Charts = () => {
             {courseLoading ?
               <div style={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Spin indicator={<LoadingOutlined style={{ fontSize: 56 }} spin />} />
-              </div> 
+              </div>
               :
               <Line redraw data={dataBar} options={optionsBar} />
             }
